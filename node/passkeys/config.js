@@ -1,6 +1,6 @@
 // Base configuration
 let config = {
-	"port": 3000,
+	"port": 3001,
 	"origin": "https://authenticate.hasenhuettl.cc",
 	"rpId": "authenticate.hasenhuettl.cc",
 	"rpName": "Webauthn Skeleton",
