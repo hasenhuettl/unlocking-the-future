@@ -14,4 +14,13 @@
   padding:10px 0px 10px 0px;
 }
 
+body {
+  display: flex;
+  flex-direction: column;
+}
 
+.center{
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}

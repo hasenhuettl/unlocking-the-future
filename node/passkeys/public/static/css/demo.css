@@ -3,14 +3,10 @@ body {
   flex-direction: column;
 }
 
-#header {
+.center{
   display: flex;
   justify-content: center;
-}
-
-#registerContainer {
-  display: flex;
-  justify-content: center;
+  margin-top: 10px;
 }
 
 #username {

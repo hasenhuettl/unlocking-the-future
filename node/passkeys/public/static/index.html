@@ -3,24 +3,27 @@
 <head>
     <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/dark.css">
-    <link rel="stylesheet" href="css/demo.css">
+    <link rel="stylesheet" href="/css/dark.css">
     <link rel="stylesheet" href="/css/funcs.css">
+    <link rel="stylesheet" href="css/demo.css">
 </head>
 <body>
 
-    <div id="header">
+    <div class="center" id="header">
         <h1>Passkeys and FIDO keys</h1>
     </div>
 
     <!-- View when logged out -->
-    <div id="registerContainer">
+    <div class="center" id="registerContainer">
         <div class="right-column fl">
             <!-- h2><i class="fas fa-user-ninja"></i>&nbsp;Enter username</h2 -->
             <input type="text" class="full" id="username" value="default" maxlength="25">
             <button class="button-primary fl half" id="button-register">Register</button>
             <button class="button-primary fl half" id="button-login">Login</button>
         </div>
+    </div>
+    <div class="center">
+        <a class="button-primary" href="/" >Go back</a>
     </div>
 
     <!-- View when logged in -->
