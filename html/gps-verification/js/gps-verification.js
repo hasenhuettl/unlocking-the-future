@@ -7,28 +7,31 @@ window.onload = function(){
     }
 }
 
-function isLocationInAustria(latitude, longitude) {
-    // Define the bounding box for Austria (approximate)
-    const austriaBounds = {
-        north: 49.02,
-        south: 46.37,
-        west: 9.53,
-        east: 17.16
-    };
-
-    return (
-        latitude >= austriaBounds.south &&
-        latitude <= austriaBounds.north &&
-        longitude >= austriaBounds.west &&
-        longitude <= austriaBounds.east
-    );
+async function checkLocationWithAPI(latitude, longitude) {
+    try {
+        const response = await fetch(`/gps-verification/api?lat=${latitude}&lon=${longitude}`);
+        if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+        }
+        const data = await response.json();
+        const results = data.features;
+        if (results.length > 0) {
+            const country = results[0].properties.country_code;
+            return country && country.toUpperCase() === 'AT'; // 'AT' is the ISO country code for Austria
+        }
+        return false;
+    } catch (error) {
+        console.error('Error fetching location data:', error);
+        return false;
+    }
 }
 
-function handleLocationSuccess(position) {
+async function handleLocationSuccess(position) {
     const latitude = position.coords.latitude;
     const longitude = position.coords.longitude;
 
-    if (isLocationInAustria(latitude, longitude)) {
+    const inAustria = await checkLocationWithAPI(latitude, longitude);
+    if (inAustria) {
         window.location.href = '/success';
     } else {
         window.location.href = '/gps-verification/403.html';
