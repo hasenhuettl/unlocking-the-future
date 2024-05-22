@@ -82,10 +82,10 @@ function register (username, additional) {
 			if(response.status === "ok") {
 				loadMainContainer();   
 			} else {
-				alert(`Server responed with error. The message is: ${response.message}`);
+				showError(`Server responed with error. The message is: ${response.message}`);
 			}
 		})
-		.catch((error) => alert(error));
+		.catch((error) => showError(error));
 }
 
 /* Handler for login form submission */
@@ -103,8 +103,8 @@ function login(username) {
 			if(response.status === "ok") {
 				loadMainContainer();   
 			} else {
-				alert(`Server responed with error. The message is: ${response.message}`);
+				showError(`Server responed with error. The message is: ${response.message}`);
 			}
 		})
-		.catch((error) => alert(error));
+		.catch((error) => showError(error));
 }

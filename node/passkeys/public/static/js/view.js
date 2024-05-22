@@ -29,7 +29,7 @@ const loadMainContainer = () => {
 //			if(response.status === "ok") {
 //				renderMainContainer(response);
 //			} else {
-//				alert(`Error! ${response.message}`);
+//				showError(`Error! ${response.message}`);
 //			}
 //		});
 };
@@ -70,7 +70,7 @@ let generateToken = () => {
 			if(response.status === "ok") {
 				showTokenPopup(response);
 			} else {
-				alert(`Error! ${response.message}`);
+				showError(`Error! ${response.message}`);
 			}
 		});
 };
@@ -102,7 +102,7 @@ $("#button-add-credential").click(() => {
 $("#button-register").click(() => {
 	const username = $("#username")[0].value;
 	if(!username) {
-		alert("Username is missing!");
+		showError("Username is missing!");
 	} else {
 		register(username);
 	}
@@ -111,7 +111,7 @@ $("#button-register").click(() => {
 $("#button-login").click(() => {   
 	const username = $("#username")[0].value;
 	if(!username) {
-		alert("Username is missing!");
+		showError("Username is missing!");
 	} else {
 		login(username);
 	}
