@@ -8,7 +8,7 @@ const app = express();
 const https = require("https");
 const fs = require("fs");
 
-const PORT = 3003;
+const PORT = 3004;
 
 const options = {
     key: fs.readFileSync('/etc/letsencrypt/live/authenticate.hasenhuettl.cc/privkey.pem'),
@@ -31,15 +31,11 @@ https.createServer(options, app).listen(PORT, () => {
 
 const SECRET_KEY = '1234567890987654321'; // Change to a secure key
 
-function validatePassword(password) {
-    const minLength = 10;
-    const hasLowerCase = /[a-z]/.test(password);
-    const hasUpperCase = /[A-Z]/.test(password);
-    const hasNumber = /\d/.test(password);
-    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+function validatePin(pin) {
+    const minLength = 4;
 
-    if (password.length < minLength || !hasLowerCase || !hasUpperCase || !hasNumber || !hasSpecialChar) {
-        return 'Password must be at least 10 characters long and include at least one lower case letter, one upper case letter, one number, and one special character.';
+    if (pin.length < minLength) {
+        return 'Pin must be 4 characters long.';
     }
     return null;
 }
@@ -53,36 +49,36 @@ function validateUsername(username) {
 }
 
 app.post('/signup', async (req, res) => {
-    const { username, password } = req.body;
+    const { username, pin } = req.body;
     
     const usernameError = validateUsername(username);
     if (usernameError) {
         return res.status(400).json({ error: usernameError });
     }
 
-    const passwordError = validatePassword(password);
-    if (passwordError) {
-        return res.status(400).json({ error: passwordError });
+    const pinError = validatePin(pin);
+    if (pinError) {
+        return res.status(400).json({ error: pinError });
     }
 
     if (users[username]) {
         return res.status(400).json({ error: 'User already exists' });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-    users[username] = { password: hashedPassword };
+    const hashedPin = await bcrypt.hash(pin, 10);
+    users[username] = { pin: hashedPin };
     res.json({ message: 'User created successfully' });
 });
 
 app.post('/login', async (req, res) => {
-    const { username, password } = req.body;
+    const { username, pin } = req.body;
     const user = users[username];
     if (!user) {
-        return res.status(400).json({ error: 'Invalid username or password' });
+        return res.status(400).json({ error: 'User could not be found' });
     }
-    const validPassword = await bcrypt.compare(password, user.password);
-    if (!validPassword) {
-        return res.status(400).json({ error: 'Invalid username or password' });
+    const validPin = await bcrypt.compare(pin, user.pin);
+    if (!validPin) {
+        return res.status(400).json({ error: 'Invalid pin' });
     }
     const token = jwt.sign({ username }, SECRET_KEY, { expiresIn: '1h' });
     res.cookie('auth', token);
