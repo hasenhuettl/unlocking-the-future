@@ -15,8 +15,12 @@ ln -s /var/www/html/gps-verification/gps-verification.conf /etc/nginx/sites-avai
 ln -s /var/www/auth.conf /etc/nginx/sites-available/auth.conf
 ln -s /etc/nginx/sites-available/auth.conf /etc/nginx/sites-enabled/auth.conf
 
+systemctl daemon-reload
+
 # Create Systemd services out of node apps (Refer to https://stackoverflow.com/a/29042953)
 ln -s /var/www/systemd/* /etc/systemd/system/
-systemctl start passkeys usb-keys facial-recognition-api scripts
-systemctl enable passkeys usb-keys facial-recognition-api scripts
+for filename in /var/www/systemd/*.service; do
+    systemctl start "$(basename "$filename" .service)"
+    systemctl enable "$(basename "$filename" .service)"
+done
 

@@ -78,11 +78,11 @@ app.post('/login', async (req, res) => {
     const { username, password } = req.body;
     const user = users[username];
     if (!user) {
-        return res.status(400).json({ error: 'Invalid username or password' });
+        return res.status(400).json({ error: 'User could not be found' });
     }
     const validPassword = await bcrypt.compare(password, user.password);
     if (!validPassword) {
-        return res.status(400).json({ error: 'Invalid username or password' });
+        return res.status(400).json({ error: 'Invalid password' });
     }
     const token = jwt.sign({ username }, SECRET_KEY, { expiresIn: '1h' });
     res.cookie('auth', token);
