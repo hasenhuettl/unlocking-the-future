@@ -114,6 +114,9 @@ const captureAndUpload = async (endpoint, filename) => {
                     }
                 }
             }
+            showSuccess("Please move closer to the camera.");
+        } else {
+            showError("No face detected.");
         }
         // Restart face detection after a short delay
         setTimeout(detectFace, 500);
