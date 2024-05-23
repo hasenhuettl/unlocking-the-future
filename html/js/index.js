@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function() {
           if (responseData.success) {
               showSuccess(responseData.message);
           } else {
-              alert('Error: ' + responseData.message);
+              showError(responseData.message);
           }
       } catch (error) {
           console.error('Error:', error);
