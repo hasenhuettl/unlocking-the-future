@@ -15,6 +15,7 @@ systemctl restart password-authentication
 systemctl restart pin-authentication
 systemctl restart security-question-authentication
 systemctl restart facial-recognition-api
+systemctl restart sms-authentication
 #systemctl restart scripts
 #systemctl restart nginx
 

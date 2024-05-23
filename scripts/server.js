@@ -14,7 +14,7 @@ const executeCommand = (cmd, res) => {
             console.error(`Error executing script: ${error}`);
             res.statusCode = 500;
             res.setHeader('Content-Type', 'application/json');
-            res.end(JSON.stringify({ success: false, message: 'Error executing script' }));
+            res.end(JSON.stringify({ success: false, message: error.toString() }));
         } else {
             console.log(`Script output: ${stdout}`);
             res.statusCode = 200;
