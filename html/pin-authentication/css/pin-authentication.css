@@ -1,0 +1,40 @@
+button {
+  border-radius: 15px;
+  width: 200px;
+}
+
+#login-form {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+}
+
+#username,
+#pin {
+  text-align: center;
+}
+
+#login {
+  box-shadow: 0 0 0 2px #0096bfab;
+  background-color: #ffffffbb;
+  color: #000;
+}
+
+#login:hover {
+  box-shadow: 0 0 0 2px #ffffff;
+  background-color: transparent;
+  color: #fff;
+}
+
+#signup {
+  box-shadow: 0 0 0 2px #000000bb;
+  background-color: #00c8ffcc;
+  color: #fff;
+}
+
+#signup:hover {
+  box-shadow: 0 0 0 2px #00c8ffcc;
+  background-color: transparent;
+  color: #fff;
+}
+

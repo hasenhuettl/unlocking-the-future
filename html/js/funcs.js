@@ -14,3 +14,12 @@ function showError( message ) {
     );
 }
 
+function showMain() {
+    $(".loader").hide();
+    $("main").show();
+}
+
+function showLoad() {
+    $(".loader").show(); // show loading
+    $("main").hide();
+}

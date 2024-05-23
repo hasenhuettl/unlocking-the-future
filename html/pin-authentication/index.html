@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pin Authentication</title>
+    <link rel="stylesheet" href="/css/dark.css">
+    <link rel="stylesheet" href="/css/funcs.css">
+    <link rel="stylesheet" href="css/pin-authentication.css">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/funcs.js"></script>
+    <script src="js/pin-authentication.js"></script>
+</head>
+<body>
+    <div class="center">
+        <h1>Pin Authentication</h1>
+    </div>
+    <div class="center">
+      <input value="12345678" type="text" id="username" placeholder="Username" required="">
+    </div>
+    <div class="center">
+      <input type="number" id="pin" placeholder="0000" name="pin" pattern="[0-9]{4}" maxlength="4" />
+    </div>
+    <div class="center">
+      <button class="center" id="signup" type="button">Sign Up</button>
+    </div>
+    <div class="center">
+      <button class="center" id="login" type="button">Login</button>
+    </div>
+    <div class="center">
+        <a class="button-primary" href="/">Go back</a>
+    </div>
+
+</body>
+</html>
+

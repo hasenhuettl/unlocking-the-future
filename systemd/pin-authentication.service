@@ -1,0 +1,15 @@
+[Unit]
+Description=Pin Authentication
+
+[Service]
+ExecStart=/usr/bin/node /var/www/node/pin-authentication-api/server.js
+Restart=always
+# Note Debian/Ubuntu uses 'nogroup', RHEL/Fedora uses 'nobody'
+Group=nogroup
+Environment=PATH=/usr/bin:/usr/local/bin
+Environment=NODE_ENV=production
+WorkingDirectory=/var/www/node/pin-authentication-api
+
+[Install]
+WantedBy=multi-user.target
+
