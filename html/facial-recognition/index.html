@@ -8,20 +8,28 @@
     <link rel="stylesheet" href="/css/funcs.css">
     <link rel="stylesheet" href="css/facial-recognition.css">
     <script src="/js/jquery.min.js"></script>
+    <script src="/js/funcs.js"></script>
     <script defer src="js/face-api.min.js"></script>
     <script defer src="js/facial-recognition.js"></script>
 </head>
 <body>
   <main>
-    <h1>Facial Recognition</h1>
-    <button id="registerBtn">Register</button>
-    <button id="loginBtn">Login</button>
+    <div class="center">
+        <h1>Facial Recognition</h1>
+    </div>
+    <div class="center">
+        <button id="registerBtn">Sign Up</button>
+        <button id="loginBtn">Login</button>
+    </div>
     <div class="center">
         <a class="button-primary" href="/">Go back</a>
     </div>
-    <video id="video" width="1280" height="720" autoplay style="display: none;"></video>
-    <canvas id="canvas" width="1280" height="720" style="display: none;"></canvas>
   </main>
+  <div class="container" id="container">
+      <video  id="video"  width="800" height="600" autoplay ></video>
+      <canvas id="canvas" width="800" height="600" ></canvas>
+      <div class="oval"></div>
+  </div>
   <div class="loader"></div>
 </body>
 </html>

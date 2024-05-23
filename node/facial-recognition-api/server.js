@@ -36,7 +36,7 @@ app.post('/login', upload.single('file'), (req, res) => {
         exec(cmd, (error, stdout, stderr) => {
             if (error) {
                 console.error(`Error executing script: ${error}`);
-                res.status(500).json({ success: false, message: 'Error executing script' });
+                res.status(500).json({ success: false, message: 'Face did not match the recorded image' });
             } else {
                 const output = stdout.trim();
                 if (output === 'True') {
