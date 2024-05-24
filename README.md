@@ -21,9 +21,9 @@ curl -sL https://deb.nodesource.com/setup_22.x | sudo -E bash -\nsudo apt-get in
 
 ## Installation
 
-clone repo content to /var/www/ (Example: `/var/www/install.sh`)
+clone repo content to /var/www/ (Example file path: `/var/www/install.sh`)
 
-Run install.sh
+Run `install.sh`
 
 Install certbot and replace keyfile paths as well as domainname references in `/var/www/node` projects
 
@@ -32,6 +32,7 @@ Make sure default config is disabled:
 rm /etc/nginx/sites-enabled/default
 ```
 
-Replace API key in '/var/www/html/gps-verification/gps-verification.conf'
+Replace API key in `/var/www/html/gps-verification/gps-verification.conf`
+Replace API key in `/var/www/html/sms-verification/credentials.env`
 
 
