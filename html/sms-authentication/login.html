@@ -15,12 +15,20 @@
     <div class="center">
         <h1>SMS Authentication</h1>
     </div>
+    <form id="login-form">
+        <div class="center"> <input value="12345678" class="center" type="text" id="username" placeholder="Username" required> </div>
+        <div class="center">
+          <button class="center" id="send" type="button">Send Code</button>
+        </div>
+        <div class="center">
+          <input class="center" type="code" id="code" placeholder="Code" required>
+        </div>
+        <div class="center">
+          <button class="center" id="login" type="button">Login</button>
+        </div>
+    </form>
     <div class="center">
-      <button class="button-primary center" onclick="location.href = 'signup.html';" type="button">Sign Up</button>
-      <button class="button-primary center" onclick="location.href = 'login.html';" type="button">Login</button>
-    </div>
-    <div class="center">
-        <a class="button-primary" href="/">Go back</a>
+        <a class="button-primary" href="index.html">Go back</a>
     </div>
 
 </body>

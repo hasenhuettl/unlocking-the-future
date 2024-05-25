@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMS Authentication</title>
+    <link rel="stylesheet" href="/css/dark.css">
+    <link rel="stylesheet" href="/css/funcs.css">
+    <link rel="stylesheet" href="css/sms-authentication.css">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/funcs.js"></script>
+    <script src="js/sms-authentication.js"></script>
+</head>
+<body>
+    <div class="center">
+        <h1>SMS Authentication</h1>
+    </div>
+    <form id="login-form">
+        <div class="center"> <input value="12345678" class="center" type="text" id="username" placeholder="Username" required> </div>
+        <div class="center">
+          <label for="phone">Enter your phone number:</label>
+        </div>
+        <div class="center">
+          <input type="tel" id="number" name="number" placeholder="+43 660 0000000" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}">
+        </div>
+        <div class="center">
+          <button class="center" id="signup" type="button">Save number</button>
+        </div>
+    </form>
+    <div class="center">
+        <a class="button-primary" href="index.html">Go back</a>
+    </div>
+
+</body>
+</html>
+

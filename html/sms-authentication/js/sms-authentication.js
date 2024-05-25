@@ -1,48 +1,62 @@
-const apiUrl = 'https://authenticate.hasenhuettl.cc/password-authentication-api';
-
-async function login() {
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-    try {
-        const response = await fetch(apiUrl + '/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, password })
-        });
-        const result = await response.json();
-        if (response.ok) {
-            window.location.href = '/success';
-        } else {
-            showError(result.error);
-        }
-    } catch (error) {
-        showError('Network error');
-    }
-}
-
-async function signup() {
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-    try {
-        const response = await fetch(apiUrl + '/signup', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, password })
-        });
-        const result = await response.json();
-        if (response.ok) {
-            //showSuccess(result.message);
-            window.location.href = '/success';
-        } else {
-            showError(result.error);
-        }
-    } catch (error) {
-        showError('Network error');
-    }
-}
+const apiUrl = 'https://authenticate.hasenhuettl.cc/sms-authentication-api';
 
 window.onload = function(){
-  $("#login").on("click", function(){ login(); });
-  $("#signup").on("click", function(){ signup(); });
+    $("#signup").on("click", function(){ signup(); });
+    $("#send").on("click", function(){ send_sms(); });
+    $("#login").on("click", function(){ login(); });
+}
+
+function signup() {
+    const url = apiUrl + '/signup';
+    const username = $('#username').val();
+    const number = $('#number').val();
+    const redirect = true;
+
+    const body = JSON.stringify({ username, number });
+
+    post_request(url, body, redirect);
+}
+
+function send_sms() {
+    const url = apiUrl + '/sms';
+    const username = $('#username').val();
+    const redirect = false;
+
+    const body = JSON.stringify({ username });
+
+    post_request(url, body, redirect);
+}
+
+function login() {
+    const url = apiUrl + '/login';
+    const username = $('#username').val();
+    const code = $('#code').val();
+    const redirect = true;
+
+    const body = JSON.stringify({ username, code });
+
+    post_request(url, body, redirect);
+}
+
+async function post_request(url, body, redirect) {
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: body
+        });
+        const result = await response.json();
+        if (response.ok) {
+            if (redirect) {
+                window.location.href = '/success';
+            } else {
+                showSuccess('Request successful');
+            }
+        } else {
+            showError(result.error);
+        }
+    } catch (error) {
+        showError('Network error');
+    }
 }
 
