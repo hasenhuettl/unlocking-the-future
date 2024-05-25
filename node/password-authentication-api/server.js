@@ -18,6 +18,9 @@ const options = {
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
+app.use(express.json());
+
+const DATABASE_FILE = 'myDatabase.json';
 
 const users = {}; // Temporary storage for users
 
@@ -52,6 +55,28 @@ function validateUsername(username) {
     return null;
 }
 
+// Function to load user data from the JSON file
+const loadUserData = () => {
+    try {
+        const data = fs.readFileSync(DATABASE_FILE, 'utf-8');
+        users = JSON.parse(data);
+    } catch (err) {
+        console.error('Error reading user data:', err);
+    }
+};
+
+// Function to save user data to the JSON file
+const saveUserData = () => {
+    try {
+        fs.writeFileSync(DATABASE_FILE, JSON.stringify(users, null, 2));
+    } catch (err) {
+        console.error('Error saving user data:', err);
+    }
+};
+
+// Load user data when the application starts
+loadUserData();
+
 app.post('/signup', async (req, res) => {
     const { username, password } = req.body;
     
@@ -70,7 +95,10 @@ app.post('/signup', async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
+
     users[username] = { password: hashedPassword };
+    saveUserData();
+
     res.json({ message: 'User created successfully' });
 });
 
