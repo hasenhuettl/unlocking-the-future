@@ -14,6 +14,16 @@ body {
   margin: 150px auto;
 }
 
+a {
+  text-decoration: none;
+  color: #41adff !important;
+  color: var(--links);
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
 .checkmark {
   width: 100px;
   height: 100px;

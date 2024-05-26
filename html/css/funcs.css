@@ -28,8 +28,14 @@ body {
   flex-direction: column;
 }
 
-.center{
+.center {
   display: flex;
   justify-content: center;
   margin-top: 10px;
 }
+
+#home {
+  width: 30px;
+  height: 30px;
+}
+
