@@ -19,19 +19,18 @@ const renderMainContainer = (response) => {
 };
 
 const loadMainContainer = () => {
-	fetch("logout", {credentials: "include"});
+//	fetch("logout", {credentials: "include"});
+//  window.location.href = 'https://authenticate.hasenhuettl.cc/success';
 
-  window.location.href = 'https://authenticate.hasenhuettl.cc/success';
-
-//	return fetch("personalInfo", {credentials: "include"})
-//		.then((response) => response.json())
-//		.then((response) => {
-//			if(response.status === "ok") {
-//				renderMainContainer(response);
-//			} else {
-//				showError(`Error! ${response.message}`);
-//			}
-//		});
+	return fetch("personalInfo", {credentials: "include"})
+		.then((response) => response.json())
+		.then((response) => {
+			if(response.status === "ok") {
+				renderMainContainer(response);
+			} else {
+				showError(`Error! ${response.message}`);
+			}
+		});
 };
 
 let hideTokenWindowTimer = undefined;
