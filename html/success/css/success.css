@@ -5,28 +5,37 @@ body {
   flex-direction: column;
 }
 
+.success-animation {
+  margin: 50px;
+}
+
 .button {
+  color: #fff;
   display: flex;
   justify-content: center;
-}
-
-.success-animation {
-  margin: 150px auto;
-}
-
-a {
+  box-shadow: 0 0 0 2px #4bb71b;
+  border: none;
   text-decoration: none;
-  color: #41adff !important;
-  color: var(--links);
+  font-size: 70px;
+  max-width: 300px;
+  background-color: transparent;
+  -webkit-text-fill-color: #4bb71b;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
 }
 
-a:hover {
-  text-decoration: underline;
+.button:hover {
+  text-decoration: none;
+  box-shadow: 0 0 5px 5px #4bb71b;
+  background-color: transparent;
+  -webkit-text-fill-color: #4bb71b;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
 }
 
 .checkmark {
-  width: 100px;
-  height: 100px;
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
   display: block;
   stroke-width: 2;
