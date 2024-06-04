@@ -1,49 +1,54 @@
 {
-  "name": "webauthn-skeleton",
-  "version": "0.9.9",
-  "description": "Skeleton for a Node.js powered Web Authentication API enabled website",
-  "main": "app.js",
+  "name": "passkeys-codelab",
+  "version": "1.0.0",
+  "description": "Passkeys Codelab",
+  "main": "server.mjs",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint ./**/*.js",
-    "lint:fix": "eslint --fix  ./**/*.js",
-    "start": "node app.js"
+    "build": "webpack",
+    "start": "node server.mjs"
   },
+  "dependencies": {
+    "@babel/core": "^7.21.0",
+    "@material/mwc-button": "^0.27.0",
+    "@material/mwc-fab": "^0.27.0",
+    "@material/mwc-icon-button": "^0.27.0",
+    "@material/mwc-linear-progress": "^0.27.0",
+    "@material/mwc-list": "^0.27.0",
+    "@material/mwc-textfield": "^0.27.0",
+    "@material/mwc-top-app-bar-fixed": "^0.27.0",
+    "@simplewebauthn/server": "^7.0.1",
+    "babel-loader": "^9.1.2",
+    "babel-preset-env": "^0.0.0",
+    "base64url": "^3.0.1",
+    "css-loader": "^6.7.3",
+    "dotenv": "^16.4.5",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "express-useragent": "^1.0.15",
+    "extract-loader": "^4.0.3",
+    "file-loader": "^6.2.0",
+    "hbs": "^4.2.0",
+    "lit": "^2.6.1",
+    "lowdb": "^5.1.0",
+    "material-components-web": "^14.0.0",
+    "sass": "^1.59.3",
+    "sass-loader": "^13.1.0",
+    "webpack": "^5.76.0",
+    "webpack-cli": "^5.0.1"
+  },
+  "engines": {
+    "node": ">=16.x"
+  },
+  "repository": {
+    "url": "https://github.com/googlecodelabs/fido2-codelab"
+  },
+  "license": "Apache-2.0",
   "keywords": [
+    "node",
+    "express",
     "webauthn",
     "fido2",
-    "security key",
-    "u2f",
-    "yubikey",
-    "hello",
-    "windows hello",
-    "passwordless",
-    "assword",
-    "koa",
-    "koajs"
-  ],
-  "author": "Hexagon <hexagon@56k.guru>",
-  "contributors": [
-    "Pinta365@GitHub"
-  ],
-  "bugs": {
-    "url": "https://github.com/hexagon/webauthn-skeleton/issues"
-  },
-  "homepage": "https://github.com/hexagon/webauthn-skeleton#readme",
-  "license": "MIT",
-  "dependencies": {
-    "@hexagon/base64": "^1.0.20",
-    "@koa/router": "^10.1.1",
-    "fido2-lib": "~3.2.4",
-    "koa": "^2.13.4",
-    "koa-bodyparser": "^4.3.0",
-    "koa-mount": "^4.0.0",
-    "koa-router": "^12.0.1",
-    "koa-session": "^6.2.0",
-    "koa-static": "^5.0.0",
-    "node-json-db": "^1.5.0"
-  },
-  "devDependencies": {
-    "eslint": "^8.18.0"
-  }
+    "passkey"
+  ]
 }

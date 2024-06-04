@@ -1,0 +1,235 @@
+<!--
+ Copyright 2023 Google Inc.
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>{{title}}</title>
+    <meta name="description" content="{{title}}" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/passkeys/bundle.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" />
+    <link rel="stylesheet" href="/css/dark.css">
+    <link rel="stylesheet" href="/css/funcs.css">
+    <link rel="stylesheet" href="passkeys.css">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/funcs.js"></script>
+    <script src="components-bundle.js"></script>
+  </head>
+  <body class="mdc-typography">
+    <main class="content center">
+      <div class="center">
+        <a href="/"><img id="home" src="/favicon.ico"></a>
+      </div>
+      <div class="center">
+        <h1>Passkeys</h1>
+      </div>
+      <h2 class="hidden" >Welcome, {{displayName}}!</h2>
+      <section>
+        <h3 class="hidden">Your name:</h3>
+        <div class="hidden" id="display-name"></div>
+      </section>
+      <!-- TODO: Add an ability to create a passkey: Add a placeholder HTML. -->
+      <section>
+        <h3 class="hidden mdc-typography mdc-typography--headline6">
+          Your registered passkeys:
+        </h3>
+        <div id="list"></div>
+      </section>
+      <p id="message" class="instructions"></p>
+      <button id="create-passkey" class="!not-hidden!" icon="fingerprint" raised >Create a passkey</button>
+      <a class="hidden button" href="/passkeys/auth/signout">Sign out</a>
+    </main>
+    <script src="https://unpkg.com/material-components-web@13.0.0/dist/material-components-web.min.js"></script>
+    <script type="module">
+      // TODO: Add an ability to create a passkey: Create and register a passkey.
+      import {
+        $,
+        _fetch,
+        updateCredential,
+        unregisterCredential,
+        registerCredential,
+      } from "/passkeys/client.js";
+      import {
+        html,
+        render,
+      } from "https://unpkg.com/lit-html@2.6.1/lit-html.js?module";
+
+      async function changeDisplayName(e) {
+        const newName = prompt(
+          "Enter a new display name",
+          e.target.dataset.displayName
+        );
+        if (newName) {
+          await _fetch("/passkeys/auth/updateDisplayName", { newName });
+          renderDisplayName();
+        }
+      }
+
+      async function renderDisplayName() {
+        const res = await _fetch("/passkeys/auth/userinfo");
+        render(
+          html` <mwc-list>
+            <mwc-list-item>
+              <div class="list-item">
+                <div class="entity-name">
+                  <span>${res.displayName || res.username}</span>
+                </div>
+                <div class="buttons">
+                  <mwc-icon-button
+                    data-display-name="${res.displayName || res.username}"
+                    @click="${changeDisplayName}"
+                    title="Edit your display name"
+                    icon="edit"
+                  ></mwc-icon-button>
+                </div>
+              </div>
+            </mwc-list-item>
+            <mwc-list></mwc-list
+          ></mwc-list>`,
+          $("#display-name")
+        );
+      }
+
+      renderDisplayName();
+
+      async function rename(e) {
+        const { credId, name } = e.target.dataset;
+        const newName = prompt("Enter a new credential name.", name);
+        if (newName.length === 0) return;
+        try {
+          await updateCredential(credId, newName);
+          renderCredentials();
+        } catch (e) {
+          console.error(e);
+          showError(e.message);
+        }
+      }
+
+      async function remove(e) {
+        if (!confirm("Do you really want to remove this credential?")) return;
+
+        try {
+          await unregisterCredential(e.target.dataset.credId);
+          renderCredentials();
+        } catch (e) {
+          console.error(e);
+          showError(e.message);
+        }
+      }
+
+      // TODO: Add an ability to create a passkey: Check for passkey support.
+      const createPasskey = $("#create-passkey");
+
+      // Feature detections
+      if (
+        window.PublicKeyCredential &&
+        PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable &&
+        PublicKeyCredential.isConditionalMediationAvailable
+      ) {
+        try {
+          const results = await Promise.all([
+            // Is platform authenticator available in this browser?
+            PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable(),
+
+            // Is conditional UI available in this browser?
+            PublicKeyCredential.isConditionalMediationAvailable(),
+          ]);
+          if (results.every((r) => r === true)) {
+            // If conditional UI is available, reveal the Create a passkey button.
+            createPasskey.classList.remove("hidden");
+          } else {
+            // If conditional UI isn't available, show a message.
+            showError("This device does not support passkeys!");
+          }
+        } catch (e) {
+          console.error(e);
+        }
+      } else {
+        // If WebAuthn isn't available, show a message.
+        showError("This device does not support passkeys!");
+      }
+
+      // TODO: Add an ability to create a passkey: Render registered passkeys in a list.
+      async function renderCredentials() {
+        const res = await _fetch("/passkeys/auth/getKeys");
+        const list = $("#list");
+        const creds = html`${res.length > 0
+          ? html` <mwc-list>
+              ${res.map(
+                (cred) => html` <mwc-list-item>
+                  <div class="list-item">
+                    <div class="entity-name">
+                      <span>${cred.name || "Unnamed"}</span>
+                    </div>
+                    <div class="buttons">
+                      <mwc-icon-button
+                        data-cred-id="${cred.id}"
+                        data-name="${cred.name || "Unnamed"}"
+                        @click="${rename}"
+                        icon="edit"
+                      ></mwc-icon-button>
+                      <mwc-icon-button
+                        data-cred-id="${cred.id}"
+                        @click="${remove}"
+                        icon="delete"
+                      ></mwc-icon-button>
+                    </div>
+                  </div>
+                </mwc-list-item>`
+              )}
+            </mwc-list>`
+          : html` <mwc-list>
+              <mwc-list-item>No credentials found.</mwc-list-item>
+            </mwc-list>`}`;
+        render(creds, list);
+      }
+
+      renderCredentials();
+
+      async function register() {
+        try {
+          // Start creating a passkey.
+          await registerCredential();
+
+          // Render the updated passkey list.
+          renderCredentials();
+
+          // Redirect to success page
+          window.location.href = "/success";
+
+        } catch (e) {
+          // An InvalidStateError indicates that a passkey already exists on the device.
+          if (e.name === "InvalidStateError") {
+            showError("A passkey already exists for this device.");
+
+            // A NotAllowedError indicates that the user canceled the operation.
+          } else if (e.name === "NotAllowedError") {
+            showError("User canceled the operation.");
+
+            // Show other errors in an showError.
+          } else {
+            showError(e.message);
+            console.error(e);
+          }
+        }
+      }
+      createPasskey.addEventListener("click", register);
+    </script>
+  </body>
+</html>
