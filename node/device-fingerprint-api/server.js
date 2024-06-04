@@ -61,16 +61,17 @@ loadUserData();
 app.post('/signup', async (req, res) => {
     const { username, visitorId } = req.body;
     
-    const usernameError = validateUsername(username);
-    if (usernameError) {
-        return res.status(400).json({ error: usernameError });
-    }
-
-    if (users[username]) {
-        return res.status(400).json({ error: 'User already exists' });
-    }
-
-    users[username] = { visitorId: visitorId };
+//    const usernameError = validateUsername(username);
+//    if (usernameError) {
+//        return res.status(400).json({ error: usernameError });
+//    }
+//
+//    if (users[username]) {
+//        return res.status(400).json({ error: 'User already exists' });
+//    }
+//
+//    users[username] = { visitorId: visitorId };
+    users[visitorId] = { created: true };
     saveUserData();
 
     res.json({ message: 'User created successfully.' });
@@ -78,13 +79,17 @@ app.post('/signup', async (req, res) => {
 
 app.post('/login', async (req, res) => {
     const { username, visitorId } = req.body;
-    const user = users[username];
+//    const user = users[username];
+//    if (!user) {
+//        return res.status(400).json({ error: 'User could not be found' });
+//    }
+//
+//    const validAnswer = (visitorId === user.visitorId);
+//    if (!validAnswer) {
+//        return res.status(400).json({ error: 'Device is not registered!' });
+//    }
+    const user = users[visitorId];
     if (!user) {
-        return res.status(400).json({ error: 'User could not be found' });
-    }
-
-    const validAnswer = (visitorId === user.visitorId);
-    if (!validAnswer) {
         return res.status(400).json({ error: 'Device is not registered!' });
     }
 
