@@ -18,7 +18,7 @@ const
 	app = new Koa();
 
 // Static files (./static)
-app.use(serve(path.join(__dirname, "public/static")));
+app.use(serve(path.join(__dirname, "public/static/")));
 
 // Session
 app.keys = [crypto.randomBytes(32).toString("hex")];
