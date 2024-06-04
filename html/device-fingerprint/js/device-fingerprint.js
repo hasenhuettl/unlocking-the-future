@@ -1,38 +1,41 @@
 const apiUrl = 'https://authenticate.hasenhuettl.cc/device-fingerprint-api';
 
 window.onload = function(){
-    $("#signup").on("click", function(){ signup(); });
-    $("#login").on("click", function(){ login(); });
+    $("#signup").on("click", function(){ get_fingerprint( signup ); });
+    $("#login").on("click", function(){ get_fingerprint( login ); });
 }
 
-function signup() {
+function get_fingerprint(callback) {
+    const fpPromise = import('/device-fingerprint/api')
+      .then(FingerprintJS => FingerprintJS.load())
+  
+    fpPromise
+      .then(fp => fp.get())
+      .then(result => {
+          console.log(result.visitorId);
+          // Call the callback function with resolved visitorId parameter
+          callback(result.visitorId);
+      });
+}
+
+function signup(visitorId) {
     const url = apiUrl + '/signup';
     const username = $('#username').val();
-    const number = $('#number').val();
     const redirect = true;
 
-    const body = JSON.stringify({ username, number });
+    console.log(visitorId);
+
+    const body = JSON.stringify({ username, visitorId });
 
     post_request(url, body, redirect);
 }
 
-function send_sms() {
-    const url = apiUrl + '/sms';
-    const username = $('#username').val();
-    const redirect = false;
-
-    const body = JSON.stringify({ username });
-
-    post_request(url, body, redirect);
-}
-
-function login() {
+function login(visitorId) {
     const url = apiUrl + '/login';
     const username = $('#username').val();
-    const code = $('#code').val();
     const redirect = true;
 
-    const body = JSON.stringify({ username, code });
+    const body = JSON.stringify({ username, visitorId });
 
     post_request(url, body, redirect);
 }
