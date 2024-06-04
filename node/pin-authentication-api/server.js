@@ -22,7 +22,7 @@ app.use(express.json());
 
 const DATABASE_FILE = 'myDatabase.json';
 
-const users = {}; // Temporary storage for users
+var users = {}; // Temporary storage for users
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));

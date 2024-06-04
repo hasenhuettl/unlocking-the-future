@@ -20,7 +20,7 @@ app.use(cookieParser());
 app.use(express.json());
 
 const DATABASE_FILE = 'myDatabase.json';
-const usernames = {}; // Temporary storage for usernames
+var usernames = {}; // Temporary storage for usernames
 
 https.createServer(options, app).listen(PORT, () => {
     console.log(`Server running at https://localhost:${PORT}/`);
