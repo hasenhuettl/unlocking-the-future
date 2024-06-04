@@ -2,7 +2,7 @@
 Description=Passkeys
 
 [Service]
-ExecStart=/usr/bin/node /var/www/node/passkeys/app.js
+ExecStart=/usr/bin/node /var/www/node/passkeys/server.mjs
 Restart=always
 # Note Debian/Ubuntu uses 'nogroup', RHEL/Fedora uses 'nobody'
 Group=nogroup

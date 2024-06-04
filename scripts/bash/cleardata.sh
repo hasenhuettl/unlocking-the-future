@@ -2,7 +2,7 @@
 
 set -e
 
-rm -f /var/www/node/passkeys/myDataBase.json
+rm -f /var/www/node/passkeys/.data/db.json
 rm -f /var/www/node/usb-keys/myDataBase.json
 rm -f /var/www/node/password-authentication-api/myDatabase.json
 rm -f /var/www/node/pin-authentication-api/myDatabase.json
