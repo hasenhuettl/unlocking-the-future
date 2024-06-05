@@ -52,7 +52,6 @@ function validatePassword() {
   };
   for (const key in requirements) {
     const requirement = requirements[key];
-    console.log(requirement.element.text());
     if (requirement.regex.test(password)) {
       requirement.element.attr('status', 'success');
     } else {
