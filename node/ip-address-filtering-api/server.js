@@ -74,7 +74,7 @@ app.post('/current-ip', (req, res) => {
 
     writeAllowedIps(allowedIps);
 
-    setTimeout(function (){ res.redirect('/ip-address-filtering/login/'); }, 100);
+    setTimeout(function (){ res.redirect('/ip-address-filtering/login/'); }, 1000);
 });
 
 app.post('/update', (req, res) => {
@@ -87,7 +87,7 @@ app.post('/update', (req, res) => {
 
     writeAllowedIps(allowedIps);
 
-    setTimeout(function (){ res.redirect('/ip-address-filtering/login/'); }, 100);
+    setTimeout(function (){ res.redirect('/ip-address-filtering/login/'); }, 1000);
 });
 
 app.post('/reset', (req, res) => {

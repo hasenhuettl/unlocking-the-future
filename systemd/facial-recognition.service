@@ -1,5 +1,5 @@
 [Unit]
-Description=Scripts
+Description=Facial Recognition
 
 [Service]
 ExecStart=/usr/bin/node /var/www/node/facial-recognition-api/server.js

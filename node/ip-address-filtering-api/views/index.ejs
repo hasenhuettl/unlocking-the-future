@@ -35,11 +35,9 @@
     </div>
 
     <div class="center">
-        <ul>
-            <% allowedIps.forEach(function(ip) { %>
-                <li><%= ip %></li>
-            <% }); %>
-        </ul>
+        <% allowedIps.forEach(function(ip) { %>
+            <li><%= ip %></li>
+        <% }); %>
     </div>
 
     <form class="center-table" action="/ip-address-filtering-api/reset" method="post">

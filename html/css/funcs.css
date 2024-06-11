@@ -48,13 +48,12 @@
 body {
   display: flex;
   flex-direction: column;
+  text-align: center;
+  justify-content: center;
 }
 
 .center {
-  display: flex;
-  justify-content: center;
   margin-top: 10px;
-  text-align: center;
 }
 
 #home {
