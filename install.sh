@@ -12,7 +12,6 @@ for d in */ ; do
     npm install
 done
 
-ln -s /var/www/html/ip-address-filtering/ip-address-filtering.conf /etc/nginx/sites-available/ip-address-filtering.conf
 ln -s /var/www/html/gps-verification/gps-verification.conf /etc/nginx/sites-available/gps-verification.conf
 ln -s /var/www/html/device-fingerprint/device-fingerprint.conf /etc/nginx/sites-available/device-fingerprint.conf
 ln -s /var/www/html/device-certificates/device-fingerprint.conf /etc/nginx/sites-available/device-certificates.conf

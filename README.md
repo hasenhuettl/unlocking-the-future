@@ -35,5 +35,6 @@ rm /etc/nginx/sites-enabled/default
 Replace API key in `/var/www/html/gps-verification/gps-verification.conf`
 Replace API key in `/var/www/html/device-fingerprint/device-fingerprint.conf`
 Replace API key in `/var/www/html/sms-verification/credentials.env`
+Replace RootCA password in `/var/www/credentials.env`
 
 
