@@ -23,6 +23,7 @@ systemctl restart security-question-authentication
 systemctl restart facial-recognition-api
 systemctl restart sms-authentication
 systemctl restart device-fingerprint
+systemctl restart ip-address-filtering
 #systemctl restart scripts
 #systemctl restart nginx
 
