@@ -1,0 +1,40 @@
+button {
+  border-radius: 15px;
+  width: 200px;
+}
+
+input {
+  text-align: center;
+}
+
+.button-primary {
+  box-shadow: 0 0 0 2px #000000bb;
+  background-color: #00c8ffcc;
+  color: #fff;
+}
+
+.button-primary:hover {
+  box-shadow: 0 0 0 2px #00c8ffcc;
+  background-color: transparent;
+  color: #fff;
+}
+
+.button-secondary {
+  box-shadow: 0 0 0 2px #0096bfab;
+  background-color: #ffffffbb;
+  color: #000;
+}
+
+.button-secondary:hover {
+  box-shadow: 0 0 0 2px #ffffff;
+  background-color: transparent;
+  color: #fff;
+}
+
+.center-table {
+  display: flex;
+  margin-top: 10px;
+  flex-direction: column;
+  align-items: center;
+}
+

@@ -1,0 +1,16 @@
+[Unit]
+Description=GPS Verification
+
+[Service]
+ExecStart=/usr/bin/node /var/www/node/gps-verification-api/server.js
+Restart=always
+# Note Debian/Ubuntu uses 'nogroup', RHEL/Fedora uses 'nobody'
+User=root
+Group=root
+Environment=PATH=/usr/bin:/usr/local/bin
+Environment=NODE_ENV=production
+WorkingDirectory=/var/www/node/gps-verification-api
+
+[Install]
+WantedBy=multi-user.target
+
