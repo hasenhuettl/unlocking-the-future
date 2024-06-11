@@ -6,17 +6,22 @@ window.onload = function(){
 }
 
 function get_fingerprint(callback) {
-    const fpPromise = import('/device-fingerprint/api')
-      .then(FingerprintJS => FingerprintJS.load())
-  
-    fpPromise
-      .then(fp => fp.get())
-      .then(result => {
-          console.log(result.visitorId);
-          // Call the callback function with resolved visitorId parameter
-          callback(result.visitorId);
-      });
+    showLoad();
+
+    import('/device-fingerprint/api')
+        .then(FingerprintJS => FingerprintJS.load())
+        .then(fp => fp.get())
+        .then(result => {
+            console.log(result.visitorId);
+            callback(result.visitorId);
+        })
+        .catch(error => {
+            console.error(error);
+            showError(error);
+            showMain();
+        });
 }
+
 
 function signup(visitorId) {
     const url = apiUrl + '/signup';
@@ -58,6 +63,7 @@ async function post_request(url, body, redirect) {
             showError(result.error);
         }
     } catch (error) {
+        showMain();
         showError('Network error');
     }
 }
