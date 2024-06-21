@@ -61,7 +61,7 @@ app.use(session({
   }
 }));
 
-const RP_NAME = 'Passkeys';
+const RP_NAME = 'USB Keys';
 
 // http://expressjs.com/en/starter/basic-routing.html
 app.get('/', (req, res) => {
