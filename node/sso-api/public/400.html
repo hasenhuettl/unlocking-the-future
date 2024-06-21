@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error</title>
+    <link rel="stylesheet" href="https://authenticate.hasenhuettl.cc/css/dark.css">
+    <link rel="stylesheet" href="https://authenticate.hasenhuettl.cc/css/funcs.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        h1 {
+            font-size: 48px;
+            color: #ff0000;
+        }
+        p {
+            font-size: 24px;
+            margin: 20px 0;
+        }
+        a {
+            text-decoration: none;
+            color: #007bff;
+            font-size: 18px;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const message = urlParams.get('message');
+            if (message) {
+                document.getElementById('myerror').textContent = message;
+            } else {
+                document.getElementById('myerror').textContent = "No additional information provided.";
+            }
+        });
+    </script>
+</head>
+<body>
+    <h1>Error</h1>
+    <div class="center">
+        <p id="myerror"></p>
+    </div>
+    <p><a href="/">Go Back</a></p>
+</body>
+</html>
+

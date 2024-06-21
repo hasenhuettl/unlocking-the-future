@@ -12,6 +12,7 @@ rm -f /var/www/node/sms-authentication-api/myDatabase.json
 rm -f /var/www/node/device-fingerprint-api/myDatabase.json
 rm -f /var/www/node/gps-verification-api/myDatabase.json
 rm -f /var/www/node/authenticator-apps-api/myDatabase.json
+rm -f /var/www/node/sso-api/myDatabase.json
 
 rm -f /var/www/node/facial-recognition-api/uploads/*
 rm -f /var/www/node/voice-authentication-api/uploads/*
@@ -36,6 +37,7 @@ systemctl restart gps-verification
 systemctl restart authenticator-apps
 systemctl restart voice-authentication
 systemctl restart voice-authentication-python
+systemctl restart sso
 #systemctl restart scripts
 #systemctl restart nginx
 
