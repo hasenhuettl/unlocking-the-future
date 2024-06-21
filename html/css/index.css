@@ -15,26 +15,33 @@ a[disabled]:hover {
 
 .category {
   background-color: #f0f0f0;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  margin-bottom: 40px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-bottom: 30px;
   margin-left: 10%;
   margin-right: 10%;
+  border-radius: 50px;
+  border-color: rgb(39, 64, 60);
+  border-width: 20px;
+  border-style: double;
 }
 
 .category h2 {
-  margin-top: 0;
+  margin: 0;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   text-align: center;
+  color: white;
+  font-size: 30px;
 }
 
 .buttons {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
   text-align: center;
+  justify-content: center;
+  flex-direction: row;
 }
 
 .button {
@@ -53,6 +60,7 @@ a[disabled]:hover {
   background-repeat: no-repeat;
   background-position: 5% 50%;
   background-size: 50px 50px;
+  /* flex: 0 20%; */
 }
 
 .button:hover {
@@ -168,4 +176,5 @@ button {
 button:hover {
   box-shadow: 0 0 15px 10px #ffffff60;
 }
+
 

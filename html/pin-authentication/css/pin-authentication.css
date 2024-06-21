@@ -3,10 +3,15 @@ button {
   width: 200px;
 }
 
+body {
+  align-items: center;
+}
+
 #login-form {
   display: flex;
   flex-direction: column;
   align-content: center;
+  flex-wrap: wrap;
 }
 
 #username,

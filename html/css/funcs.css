@@ -54,10 +54,41 @@ body {
 
 .center {
   margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
 }
 
 #home {
   width: 60px;
   height: 60px;
+}
+
+.button-primary {
+  box-shadow: 0 0 0 2px #000000bb;
+  background-color: #00c8ffcc;
+  color: #fff;
+  font-size: 16px;
+}
+
+.button-primary:hover {
+  box-shadow: 0 0 0 2px #00c8ffcc;
+  background-color: transparent;
+  color: #fff;
+}
+
+.button-secondary {
+  box-shadow: 0 0 0 2px #0096bfab;
+  background-color: #ffffffbb;
+  color: #000;
+  font-size: 16px;
+}
+
+.button-secondary:hover {
+  box-shadow: 0 0 0 2px #ffffff;
+  background-color: transparent;
+  color: #fff;
 }
 

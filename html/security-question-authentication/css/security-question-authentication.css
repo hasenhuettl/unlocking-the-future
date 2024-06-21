@@ -1,3 +1,7 @@
+body {
+  align-items: center;
+}
+
 button {
   border-radius: 15px;
   width: 200px;
@@ -7,6 +11,7 @@ button {
   display: flex;
   flex-direction: column;
   align-content: center;
+  flex-wrap: wrap;
 }
 
 #username,
