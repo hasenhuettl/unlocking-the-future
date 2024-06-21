@@ -1,14 +1,14 @@
 [Unit]
-Description=USB-Keys
+Description=Authenticator Apps
 
 [Service]
-ExecStart=/usr/bin/node /var/www/node/usb-keys/server.mjs
+ExecStart=/usr/bin/node /var/www/node/authenticator-apps-api/server.js
 Restart=always
 # Note Debian/Ubuntu uses 'nogroup', RHEL/Fedora uses 'nobody'
 Group=nogroup
 Environment=PATH=/usr/bin:/usr/local/bin
 Environment=NODE_ENV=production
-WorkingDirectory=/var/www/node/usb-keys
+WorkingDirectory=/var/www/node/authenticator-apps-api
 
 [Install]
 WantedBy=multi-user.target
