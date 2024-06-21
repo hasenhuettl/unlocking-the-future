@@ -78,15 +78,13 @@ class Loading {
 
 export const loading = new Loading();
 
-// TODO: Add an ability to create a passkey: Create the registerCredential() function.
+// Create the registerCredential() function.
 export async function registerCredential() {
 
-  // TODO: Add an ability to create a passkey: Obtain the challenge and other options from server endpoint.
+  // Obtain the challenge and other options from server endpoint.
   const options = await _fetch('/passkeys/auth/registerRequest');
   
-  // TODO: Add an ability to create a passkey: Create a credential.
-  // Base64URL decode some values.
-
+  // Create a credential.
   options.user.id = base64url.decode(options.user.id);
   options.challenge = base64url.decode(options.challenge);
 
@@ -98,8 +96,8 @@ export async function registerCredential() {
 
   // Use platform authenticator and discoverable credential.
   options.authenticatorSelection = {
-    //authenticatorAttachment: 'platform',
-    authenticatorAttachment: ['platform', 'cross-platform'],
+    authenticatorAttachment: 'platform',
+    //authenticatorAttachment: ['platform', 'cross-platform'],
     requireResidentKey: true
   }
 
@@ -108,7 +106,7 @@ export async function registerCredential() {
     publicKey: options,
   });
 
-  // TODO: Add an ability to create a passkey: Register the credential to the server endpoint.
+  // Register the credential to the server endpoint.
   const credential = {};
   credential.id = cred.id;
   credential.rawId = cred.id; // Pass a Base64URL encoded ID string.
@@ -137,25 +135,32 @@ export async function registerCredential() {
   return await _fetch('/passkeys/auth/registerResponse', credential);
 };
 
-// TODO: Add an ability to authenticate with a passkey: Create the authenticate() function.
+// Create the authenticate() function.
 export async function authenticate() {
 
-  // TODO: Add an ability to authenticate with a passkey: Obtain the challenge and other options from the server endpoint.
+  // Obtain the challenge and other options from the server endpoint.
   const options = await _fetch('/passkeys/auth/signinRequest');
 
-  // TODO: Add an ability to authenticate with a passkey: Locally verify the user and get a credential.
+  // Locally verify the user and get a credential.
   // Base64URL decode the challenge.
   options.challenge = base64url.decode(options.challenge);
 
   // The empty allowCredentials array invokes an account selector by discoverable credentials.
   options.allowCredentials = [];
 
+  // Use platform authenticator and discoverable credential.
+  options.authenticatorSelection = {
+    authenticatorAttachment: 'platform',
+    //authenticatorAttachment: ['platform', 'cross-platform'],
+    requireResidentKey: true
+  }
+
   // Invoke the WebAuthn get() function.
   const cred = await navigator.credentials.get({
     publicKey: options
   });
 
-  // TODO: Add an ability to authenticate with a passkey: Verify the credential.
+  // Verify the credential.
   const credential = {};
   credential.id = cred.id;
   credential.rawId = cred.id; // Pass a Base64URL encoded ID string.
@@ -266,7 +271,6 @@ export async function loginPasskey() {
     // Is a conditional UI available in this browser?
     const cma =  await PublicKeyCredential.isConditionalMediationAvailable();
     if (true) {
-//TODO:
 //    if (cma) {
       // If a conditional UI is available, invoke the authenticate() function.
       const user = await authenticate();

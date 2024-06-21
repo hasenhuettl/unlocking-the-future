@@ -245,8 +245,8 @@ router.post('/registerRequest', csrfCheck, sessionCheck, async (req, res) => {
     // Specify the type of authenticator you will allow.
     // Methods allowed for credentials.create
     const authenticatorSelection = {
-      authenticatorAttachment: ['platform', 'cross-platform'],
-//      authenticatorAttachment: 'platform',
+//      authenticatorAttachment: ['platform', 'cross-platform'],
+      authenticatorAttachment: 'platform',
       requireResidentKey: true
     }
     // Leave attestation `"none"`
