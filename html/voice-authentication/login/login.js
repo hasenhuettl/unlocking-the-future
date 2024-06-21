@@ -1,0 +1,86 @@
+let stream;
+let chunks = [];
+let isRecording = false;
+
+$( document ).ready(function() {
+
+    const category = "";
+    $.ajax({
+        method: 'GET',
+        url: 'https://api.quotable.io/quotes/random?' + category,
+        contentType: 'application/json',
+        success: function(result) {
+            $('#quote').text(result[0].content);
+        },
+        error: function ajaxError(jqXHR) {
+            console.error('Error: ', jqXHR.responseText);
+        }
+    });
+
+    $( "#login" ).on( "click", function() {
+        
+        const username = $('#username').val();
+        let file = $('#files')[0].files[0]
+
+        let formData = new FormData();
+        formData.append('userId', username);
+        formData.append('voice', file);
+
+        $.ajax({
+            url: '/voice-authentication-api/login',
+            method: 'POST',
+            contentType: 'application/json',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                window.location.href = "/success";
+                // showSuccess(response.message);
+            },
+            error: function(xhr, ajaxOptions, error) {
+                showError( xhr.responseText );
+            }
+        });
+    });
+
+    $('#recordVoice').on('click', function() {
+        if (!isRecording) {
+            navigator.mediaDevices.getUserMedia({ audio: true })
+                .then(function(audioStream) {
+                    stream = audioStream;
+                    startRecording();
+                    isRecording = true;
+                    $('#recordVoice').text('Stop Recording').addClass("recording");
+                })
+                .catch(function(err) {
+                    showError('Error: ' + err);
+                });
+        } else {
+            stream.getTracks().forEach(track => track.stop());
+            isRecording = false;
+            $('#recordVoice').text('Record Voice').removeClass("recording");
+        }
+    });
+
+});
+
+function startRecording() {
+    let recorder = new MediaRecorder(stream);
+
+    recorder.ondataavailable = function(e) {
+        chunks.push(e.data);
+    };
+
+    recorder.onstop = function(e) {
+        let blob = new Blob(chunks, { 'type' : 'audio/ogg; codecs=opus' });
+        chunks = []; // Clear chunks for next recording
+        let fileInput = $('#files')[0];
+        let file = new File([blob], 'voice_sample.ogg', { type: 'audio/ogg' });
+        let dataTransfer = new DataTransfer();
+        dataTransfer.items.add(file);
+        fileInput.files = dataTransfer.files;
+    };
+
+    recorder.start();
+}
+
