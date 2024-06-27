@@ -1,3 +1,4 @@
+node_modules
 # exclude everything
 uploads/*
 
