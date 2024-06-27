@@ -1,10 +1,10 @@
 const pokemons = [
     ["bulbasaur.png", "charmander.png", "squirtle.png"], // Generation 1
-    ["chikorita.png", "cyndaquil.png", "totodile.png"], // Generation 2
-    ["treecko.png", "torchic.png", "mudkip.png"], // Generation 3
-    ["turtwig.png", "chimchar.png", "piplup.png"], // Generation 4
-    ["snivy.png", "tepig.png", "oshawott.png"], // Generation 5
-    ["chespin.png", "fennekin.png", "froakie.png"] // Generation 6
+    ["chikorita.png", "cyndaquil.png",  "totodile.png"], // Generation 2
+    ["treecko.png",   "torchic.png",    "mudkip.png"],   // Generation 3
+    ["turtwig.png",   "chimchar.png",   "piplup.png"],   // Generation 4
+    ["snivy.png",     "tepig.png",      "oshawott.png"], // Generation 5
+    ["chespin.png",   "fennekin.png",   "froakie.png"]   // Generation 6
 ]
 
 const apiUrl = 'https://authenticate.hasenhuettl.cc/game-based-authentication-api';
@@ -20,6 +20,11 @@ window.onload = function(){
         $('#password').val(myVal);
         if (event.key >= '1' && event.key <= '3') {
             handleSelection(parseInt(event.key));
+        } else if (event.key === 'Backspace' ) {
+            currentStep--;
+            myVal = $('#password').val().slice(0, -1);
+            $('#password').val(myVal);
+            displayGeneration();
         } else {
             showError("Please use values between 1 to 3");
         }
