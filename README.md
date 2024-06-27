@@ -14,6 +14,7 @@ sudo certbot certonly --standalone -d authenticate.hasenhuettl.cc
 sudo certbot certonly --standalone -d device-certificates.hasenhuettl.cc
 sudo certbot certonly --standalone -d usb-keys.hasenhuettl.cc
 sudo certbot certonly --standalone -d smart-cards.hasenhuettl.cc
+sudo certbot certonly --standalone -d sso.hasenhuettl.cc
 ```
 
 ### If current node.js version is not installed:
@@ -36,9 +37,15 @@ rm /etc/nginx/sites-enabled/default
 ```
 
 Replace API key in `/var/www/html/gps-verification/gps-verification.conf`
+
 Replace API key in `/var/www/html/device-fingerprint/device-fingerprint.conf`
+
 Replace API key in `/var/www/html/sms-verification/credentials.env`
+
 Replace API key in `/var/www/node/sms-verification-api/.env`
+
+Replace API key in `/var/www/node/sso-api/.env`
+
 Replace RootCA password in `/var/www/credentials.env`
 
 
