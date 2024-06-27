@@ -1,0 +1,55 @@
+button {
+  border-radius: 15px;
+  width: 200px;
+}
+
+#login-form {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  flex-wrap: wrap;
+}
+
+#username,
+#password {
+  text-align: center;
+}
+
+.requirements {
+  text-align: center;
+  display: block;
+}
+
+.requires {
+  margin: 2px;
+}
+
+p[status="fail"] {
+  color: #f0473e;
+}
+
+p[status="success"] {
+  color: #6dc5a6;
+}
+
+.game-area {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.pokemon-button {
+    width: 150px;
+    height: 150px;
+    margin: 10px;
+    cursor: pointer;
+}
+
+#startGame {
+  box-shadow: 0 0 0 2px #0096bfab;
+  background-color: #ffffffbb;
+  color: #000;
+}
+
