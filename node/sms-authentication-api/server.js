@@ -86,10 +86,6 @@ app.post('/signup', async (req, res) => {
         return res.status(400).json({ error: numberError });
     }
 
-    if (usernames[username]) {
-        return res.status(400).json({ error: 'User already exists' });
-    }
-
     usernames[username] = { number: number };
 
     saveUserData();

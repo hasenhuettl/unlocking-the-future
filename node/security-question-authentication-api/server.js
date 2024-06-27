@@ -32,7 +32,7 @@ https.createServer(options, app).listen(PORT, () => {
     console.log(`Server running at https://localhost:${PORT}/`);
 });
 
-const SECRET_KEY = '1234567890987654321'; // Change to a secure key
+const SECRET_KEY = 'lazy dog'; // Change to a secure key
 
 function validateAnswer(answer) {
 
@@ -83,10 +83,6 @@ app.post('/signup', async (req, res) => {
     const answerError = validateAnswer(answer);
     if (answerError) {
         return res.status(400).json({ error: answerError });
-    }
-
-    if (users[username]) {
-        return res.status(400).json({ error: 'User already exists' });
     }
 
     const hashedAnswer = await bcrypt.hash(question + answer, 10);

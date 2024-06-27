@@ -32,7 +32,7 @@ https.createServer(options, app).listen(PORT, () => {
     console.log(`Server running at https://localhost:${PORT}/`);
 });
 
-const SECRET_KEY = 'silly egg'; // Change to a secure key
+const SECRET_KEY = 'lazy dog'; // Change to a secure key
 
 function calculateMeanDifference(signupTimes, loginTimes) {
     if (signupTimes.length !== loginTimes.length) {

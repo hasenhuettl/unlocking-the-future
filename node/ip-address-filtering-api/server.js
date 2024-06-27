@@ -65,7 +65,7 @@ app.get('/', (req, res) => {
 });
 
 app.post('/current-ip', (req, res) => {
-    const addIp = req.header('X-REMOTE-IP') + "/32";
+    const addIp = req.header('X-REMOTE-IP');
     const allowedIps = readAllowedIps();
 
     if (addIp && !allowedIps.includes(addIp)) {

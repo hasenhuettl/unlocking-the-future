@@ -27,7 +27,7 @@ https.createServer(options, app).listen(PORT, () => {
     console.log(`Server running at https://localhost:${PORT}/`);
 });
 
-const SECRET_KEY = '1234567890987654321'; // Change to a secure key
+const SECRET_KEY = 'lazy dog'; // Change to a secure key
 
 function validateUsername(username) {
     const minLength = 8;

@@ -4,13 +4,16 @@ This is the private repository for the implementation part of the master thesis 
 ## Pre-Requisites:
 ```
 sudo apt-get install nginx
-pip install deepface tf-keras TensorRT
+pip install deepface tf-keras TensorRT flask librosa numpy scipy scikit-learn
 ```
 
 ### Get SSL certificates, e.g. implement certbot
 ```
 apt install certbot
 sudo certbot certonly --standalone -d authenticate.hasenhuettl.cc
+sudo certbot certonly --standalone -d device-certificates.hasenhuettl.cc
+sudo certbot certonly --standalone -d usb-keys.hasenhuettl.cc
+sudo certbot certonly --standalone -d smart-cards.hasenhuettl.cc
 ```
 
 ### If current node.js version is not installed:
@@ -35,6 +38,7 @@ rm /etc/nginx/sites-enabled/default
 Replace API key in `/var/www/html/gps-verification/gps-verification.conf`
 Replace API key in `/var/www/html/device-fingerprint/device-fingerprint.conf`
 Replace API key in `/var/www/html/sms-verification/credentials.env`
+Replace API key in `/var/www/node/sms-verification-api/.env`
 Replace RootCA password in `/var/www/credentials.env`
 
 

@@ -32,7 +32,7 @@ https.createServer(options, app).listen(PORT, () => {
     console.log(`Server running at https://localhost:${PORT}/`);
 });
 
-const SECRET_KEY = '1234567890987654321'; // Change to a secure key
+const SECRET_KEY = 'lazy dog'; // Change to a secure key
 
 function validatePin(pin) {
     const minLength = 4;
@@ -83,10 +83,6 @@ app.post('/signup', async (req, res) => {
     const pinError = validatePin(pin);
     if (pinError) {
         return res.status(400).json({ error: pinError });
-    }
-
-    if (users[username]) {
-        return res.status(400).json({ error: 'User already exists' });
     }
 
     const hashedPin = await bcrypt.hash(pin, 10);
