@@ -8,8 +8,8 @@ async function getCoords() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position => {
         const coords = {
-          lat: position.coords.latitude.toFixed(3),
-          lon: position.coords.longitude.toFixed(3)
+          lat: position.coords.latitude,
+          lon: position.coords.longitude
         };
         resolve(coords);
       }, reject);
@@ -29,8 +29,16 @@ async function signup() {
       },
       body: JSON.stringify(coords)
     });
-    const result = await response.json();
-    window.location.href = "/success";
+    if ( response.ok ) {
+      window.location.href = "/success";
+    } else {
+      const result = await response.json();
+      if ( result ) {
+        showError( result.message );
+      } else {
+        showError( response.status + ": " + response.statusText );
+      }
+    }
   } catch (error) {
     showError(error.message);
   }
@@ -46,8 +54,16 @@ async function login() {
       },
       body: JSON.stringify(coords)
     });
-    const result = await response.json();
-    window.location.href = "/success";
+    if ( response.ok ) {
+      window.location.href = "/success";
+    } else {
+      const result = await response.json();
+      if ( result ) {
+        showError( result.message );
+      } else {
+        showError( response.status + ": " + response.statusText );
+      }
+    }
   } catch (error) {
     showError(error.message);
   }

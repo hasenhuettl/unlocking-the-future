@@ -7,7 +7,7 @@ $( document ).ready(function() {
     const category = "";
     $.ajax({
         method: 'GET',
-        url: 'https://api.quotable.io/quotes/random?' + category,
+        url: '/random-quote?' + category,
         contentType: 'application/json',
         success: function(result) {
             $('#quote').text(result[0].content);
