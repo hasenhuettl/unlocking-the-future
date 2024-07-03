@@ -3,7 +3,8 @@ This is the private repository for the implementation part of the master thesis 
 
 ## Pre-Requisites:
 ```
-sudo apt-get install nginx
+sudo apt-get update
+sudo apt-get install nginx postgresql
 pip install deepface tf-keras TensorRT flask librosa numpy scipy scikit-learn
 ```
 
@@ -46,6 +47,7 @@ Replace API key in `/var/www/node/sms-verification-api/.env`
 
 Replace API key in `/var/www/node/sso-api/.env`
 
-Replace RootCA password in `/var/www/credentials.env`
+Replace environment vars in `/var/www/credentials.env` (can be any string)
+
 
 

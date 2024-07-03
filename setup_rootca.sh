@@ -7,7 +7,9 @@ ROOTCA=RootCA
 CLIENT=client
 dns="device-certificates.hasenhuettl.cc"
 
-grep ^PASSWORD= ./.credentials.env | . /dev/stdin
+# Get $PASSWORD
+__dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source ${__dir}/.credentials.env
 
 ip=`dig +short $dns @resolver1.opendns.com`
 
