@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+# Exit on error
 set -e
 
 rm -f /var/www/node/passkeys/.data/db.json
@@ -42,8 +43,13 @@ systemctl restart voice-authentication-python
 systemctl restart sso
 systemctl restart behavioral-biometrics
 systemctl restart game-based-authentication
-#systemctl restart scripts
-#systemctl restart nginx
+
+# Restarting the following services would result in
+# no possible way to return 200 success to client,
+# therefore timeout of the client post request:
+
+# systemctl restart scripts
+# systemctl restart nginx
 
 
 
