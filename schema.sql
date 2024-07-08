@@ -10,8 +10,10 @@ CREATE TABLE users (
 CREATE TABLE devices (
     device_id SERIAL PRIMARY KEY,
     user_id INT NOT NULL,
-    os VARCHAR(50) NOT NULL,  -- products-identification-data-browserDetails-os
-    browser VARCHAR(50) NOT NULL,  -- products-identification-data-browserDetails-browserName
+    visitor_id VARCHAR(50) NOT NULL,
+    os VARCHAR(50) NOT NULL,
+    browser VARCHAR(50) NOT NULL,
+    UNIQUE (user_id, visitor_id),
     CONSTRAINT fk_user
       FOREIGN KEY(user_id) 
       REFERENCES users(user_id)
@@ -21,7 +23,7 @@ CREATE TABLE devices (
 CREATE TABLE measurements (
     id SERIAL PRIMARY KEY,
     device_id INT NOT NULL,
-    auth_method_name VARCHAR(50) NOT NULL,  -- passwords, pins, etc
+    auth_method_name VARCHAR(50) NOT NULL,
     action VARCHAR(10) NOT NULL,  -- 'Signup' or 'Login'
     time_ms INT NOT NULL,  -- Time in milliseconds
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
