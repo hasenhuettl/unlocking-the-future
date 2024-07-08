@@ -19,21 +19,11 @@
         <h1>Password Authentication</h1>
     </div>
     <form id="login-form">
-        <input value="12345678" class="center" type="text" id="username" placeholder="Username" required>
-        <input class="center" type="password" id="password" placeholder="Password" required>
-        <div class="requirements">
-            <strong><u>Requires:</u></strong>
-            <p id="requirement-lowercase" status="fail" class="requires">Lower case letter</p>
-            <p id="requirement-uppercase" status="fail" class="requires">Upper case letter</p>
-            <p id="requirement-number" status="fail" class="requires">Number</p>
-            <p id="requirement-special" status="fail" class="requires">Special character</p>
-            <p id="requirement-characters" status="fail" class="requires">10+ characters</p>
+        <div class="center">
+          <button class="button-primary center" onclick="location.href = 'signup.html';" type="button">Sign Up</button>
         </div>
         <div class="center">
-          <button class="button-primary center" id="signup" type="button">Sign Up</button>
-        </div>
-        <div class="center">
-          <button class="button-secondary center" id="login" type="button">Login</button>
+          <button class="button-secondary center" onclick="location.href = 'signup.html';" type="button">Login</button>
         </div>
     </form>
 

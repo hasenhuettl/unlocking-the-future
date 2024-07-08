@@ -7,6 +7,16 @@ window.onload = function(){
     $("#login").on("click", function(){ login(); });
     $("#signup").on("click", function(){ signup(); });
 
+    $("#password").on('keypress', function(e) {
+      if (e.which === 13) { // Enter key pressed
+        if ($("#login").length) {
+          $("#login").click();
+        } else if ($("#signup").length) {
+          $("#signup").click();
+        }
+      }
+    });
+
     $('#password').on('keydown', function(event) {
         const validKeys = /^[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]$/;
         const currentTime = Date.now();

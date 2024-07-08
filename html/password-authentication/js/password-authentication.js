@@ -1,8 +1,14 @@
 const apiUrl = 'https://authenticate.hasenhuettl.cc/password-authentication-api';
+const authMethod = document.title;
+let startTime;
 
 async function login() {
     const username = $("#username").val();
     const password = $("#password").val();
+    const action = 'login';
+    const readyTime = new Date().getTime();
+    const timeMs = readyTime - startTime;
+
     try {
         const response = await fetch(apiUrl + '/login', {
             method: 'POST',
@@ -11,7 +17,8 @@ async function login() {
         });
         const result = await response.json();
         if (response.ok) {
-            window.location.href = '/success';
+            const params = new URLSearchParams({ authMethod, action, timeMs }).toString();
+            window.location.href = '/success?' + params;
         } else {
             showError(result.error);
         }
@@ -23,6 +30,10 @@ async function login() {
 async function signup() {
     const username = $("#username").val();
     const password = $("#password").val();
+    const action = 'signup';
+    const readyTime = new Date().getTime();
+    const timeMs = readyTime - startTime;
+
     try {
         const response = await fetch(apiUrl + '/signup', {
             method: 'POST',
@@ -31,8 +42,8 @@ async function signup() {
         });
         const result = await response.json();
         if (response.ok) {
-            //showSuccess(result.message);
-            window.location.href = '/success';
+            const params = new URLSearchParams({ authMethod, action, timeMs }).toString();
+            window.location.href = '/success?' + params;
         } else {
             showError(result.error);
         }
@@ -60,10 +71,22 @@ function validatePassword() {
   }
 }
 
+$(document).ready(function() {
 
-window.onload = function(){
+  startTime = new Date().getTime();
+
   $("#login").on("click", function(){ login(); });
   $("#signup").on("click", function(){ signup(); });
   $("#password").on('change paste keyup input', function() { validatePassword() })
-}
+
+  $("#password").on('keypress', function(e) {
+    if (e.which === 13) { // Enter key pressed
+      if ($("#login").length) {
+        $("#login").click();
+      } else if ($("#signup").length) {
+        $("#signup").click();
+      }
+    }
+  });
+});
 

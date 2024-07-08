@@ -12,7 +12,6 @@ function get_fingerprint(callback) {
         .then(FingerprintJS => FingerprintJS.load())
         .then(fp => fp.get())
         .then(result => {
-            console.log(result.visitorId);
             callback(result.visitorId);
         })
         .catch(error => {

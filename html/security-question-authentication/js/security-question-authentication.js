@@ -46,5 +46,15 @@ async function signup() {
 window.onload = function(){
   $("#login").on("click", function(){ login(); });
   $("#signup").on("click", function(){ signup(); });
+
+  $("#security-questions").on('keypress', function(e) {
+    if (e.which === 13) { // Enter key pressed
+      if ($("#login").length) {
+        $("#login").click();
+      } else if ($("#signup").length) {
+        $("#signup").click();
+      }
+    }
+  });
 }
 
