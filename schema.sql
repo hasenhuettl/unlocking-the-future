@@ -38,3 +38,20 @@ CREATE INDEX idx_devices_user_id ON devices(user_id);
 CREATE INDEX idx_measurements_device_id ON measurements(device_id);
 CREATE INDEX idx_measurements_auth_method_action ON measurements(auth_method_name, action);
 
+CREATE VIEW user_device_measurements AS
+SELECT 
+    u.username,
+    d.visitor_id,
+    d.os,
+    d.browser,
+    m.auth_method_name,
+    m.action,
+    m.time_ms,
+    m.timestamp
+FROM 
+    users u
+JOIN 
+    devices d ON u.user_id = d.user_id
+JOIN 
+    measurements m ON d.device_id = m.device_id;
+
