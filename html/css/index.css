@@ -13,6 +13,23 @@ a[disabled]:hover {
   box-shadow: 0px 0px 0px 0px;
 }
 
+button {
+  flex-grow: 1;
+  width: 100%;
+  max-width: 200px;
+  padding: 10px 20px;
+  text-decoration: none;
+  color: white;
+  background-color: #04AA6D;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  box-shadow: 0 0 15px 10px #ffffff60;
+}
+
 .category {
   background-color: #f0f0f0;
   padding-top: 10px;
@@ -118,11 +135,11 @@ header nav ul {
   display: flex;
   flex-wrap: wrap;
   gap: 1%;
-	margin: 0;
-	padding: 0;
-	overflow: hidden;
-	background-color: #1b2e2b;
-  height: 50px;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #1b2e2b;
+  height: 60px;
   justify-content: center;
 }
 
@@ -133,48 +150,8 @@ header nav li {
   align-items: center;
 }
 
-header nav li span {
-	display: block;
-	color: white;
-	align-items: center;
-	text-decoration: none;
-}
-
-header nav li p {
-  align-items: center;
-  margin: 0px;
-	display: inline-flex;
-	color: white;
-	text-decoration: none;
-	font-weight: bold;
-}
-
-header nav li a:hover {
-	background-color: #fbf315;
-	color: black;
-	text-decoration: none;
-	font-weight: bold;
-}
-
 #separator {
   border-right: 2px dashed #ffffff80;
-}
-
-button {
-  flex-grow: 1;
-  width: 100%;
-  max-width: 200px;
-  padding: 10px 20px;
-  text-decoration: none;
-  color: white;
-  background-color: #04AA6D;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-button:hover {
-  box-shadow: 0 0 15px 10px #ffffff60;
 }
 
 
