@@ -8,6 +8,8 @@ function signup() {
 }
 
 function login() {
-    window.location.href = "/ip-address-filtering/login/";
+    const startTime = new Date().getTime();
+    const params = new URLSearchParams({ startTime }).toString();
+    window.location.href = "/ip-address-filtering/login/index.html?" + params;
 }
 

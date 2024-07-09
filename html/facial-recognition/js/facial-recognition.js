@@ -23,7 +23,6 @@ const captureAndUpload = async (endpoint, filename) => {
     showLoad();
     try {
 
-        const action = 'signup';
         const readyTime = new Date().getTime();
         const timeMs = readyTime - startTime;
 
@@ -90,7 +89,7 @@ const captureAndUpload = async (endpoint, filename) => {
                         console.log("Face is within the oval, not tilted, and looking into the camera.");
         
                         const parts = endpoint.split('/');
-                        const action = `/${parts.pop()}`; // Return /login or /signup from url
+                        const action = parts.pop(); // Return login or signup from url
                         const readyTime = new Date().getTime();
                         const timeMs = readyTime - startTime;
 

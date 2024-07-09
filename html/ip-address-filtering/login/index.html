@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <link rel="stylesheet" href="/css/dark.css">
         <link rel="stylesheet" href="/css/funcs.css">
-        <title>Ip Adress Filtering</title>
+        <title>IP Address Filtering</title>
     </head>
     <body>
         If you are not redirected automatically, please <a href='.'>refresh the page</a>.
@@ -12,7 +12,8 @@
 <script>
 
     const authMethod = document.title;
-    const startTime = new Date().getTime();
+    const urlParams = new URLSearchParams(window.location.search);
+    const startTime = urlParams.get('startTime');
     const action = 'login';
     const readyTime = new Date().getTime();
     const timeMs = readyTime - startTime;

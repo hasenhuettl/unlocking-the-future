@@ -1,8 +1,16 @@
 const apiUrl = 'https://authenticate.hasenhuettl.cc/scripts';
 const authMethod = document.title;
+let latency;
 
 window.onload = function(){
     startTime = new Date().getTime();
+
+    let start = new Date().getTime();
+    $('#junk').on('error', function (e) {
+        const now = new Date().getTime();
+        latency = now - start;
+    }).attr('src', '/invalid.jpg?d=' + new Date().getTime());
+
     $("#register").on("click", function(){ get_fingerprint( register ); });
 }
 
@@ -36,8 +44,8 @@ function register(fingerprint) {
 
     // Set new cookie with infinite expiration date (year 9999), browsers usually reduce this to 400 days or lower
     document.cookie = `visitorId=${visitorId}; expires=Sun, 1 Jan 9999 00:00:00 UTC; path=/`
-
-    const body = JSON.stringify({ username, visitorId, os, browser });
+console.log(latency);
+    const body = JSON.stringify({ username, visitorId, os, browser, latency });
 
     post_request(url, body, redirect);
 }

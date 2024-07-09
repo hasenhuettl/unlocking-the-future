@@ -23,7 +23,15 @@ window.onload = function(){
     $("#signup").on("click", function(){ signup(); });
 
     $('#password').on('keyup', function(event) {
-        $('#password').val(myVal);
+
+        if ( $(this).val().length > $(this).attr("maxlength") ) {
+            console.log("Input exceeded maxlength");
+            $(this).val( $(this).val().substring(0, $(this).attr("maxlength")) );
+            return;
+        }
+
+        $(this).val(myVal);
+
         if (event.key >= '1' && event.key <= '3') {
             handleSelection(parseInt(event.key));
         } else if (event.key === 'Backspace' ) {
@@ -31,6 +39,12 @@ window.onload = function(){
             myVal = $('#password').val().slice(0, -1);
             $('#password').val(myVal);
             displayGeneration();
+        } else if (event.key === 'Enter' ) {
+            if ($("#login").length) {
+                $("#login").click();
+            } else if ($("#signup").length) {
+                $("#signup").click();
+            } 
         } else {
             showError("Please use values between 1 to 3");
         }

@@ -13,6 +13,7 @@ CREATE TABLE devices (
     visitor_id VARCHAR(50) NOT NULL,
     os VARCHAR(50) NOT NULL,
     browser VARCHAR(50) NOT NULL,
+    latency INT NOT NULL,
     UNIQUE (user_id, visitor_id),
     CONSTRAINT fk_user
       FOREIGN KEY(user_id) 
