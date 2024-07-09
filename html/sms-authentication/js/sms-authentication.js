@@ -9,6 +9,18 @@ window.onload = function(){
     $("#signup").on("click", function(){ signup(); });
     $("#send").on("click", function(){ send_sms(); });
     $("#login").on("click", function(){ login(); });
+
+    $("#number").on('keypress', function(e) {
+      if (e.which === 13) { // Enter key pressed
+        $("#signup").click();
+      }
+    });
+
+    $("#code").on('keypress', function(e) {
+      if (e.which === 13) { // Enter key pressed
+        $("#login").click();
+      }
+    });
 }
 
 function signup() {
@@ -46,7 +58,7 @@ function login() {
 async function post_request(url, body, redirect) {
 
     const parts = url.split('/');
-    const action = `/${parts.pop()}`; // Return /login or /signup from url
+    const action = parts.pop(); // Return /login or /signup from url
     const readyTime = new Date().getTime();
     const timeMs = readyTime - startTime;
 

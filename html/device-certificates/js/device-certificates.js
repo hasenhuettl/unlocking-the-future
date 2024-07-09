@@ -9,6 +9,9 @@ function signup() {
 }
 
 function login() {
-    window.location.href = "https://device-certificates.hasenhuettl.cc/";
+    let startTime = new Date().getTime();
+    const action = 'login';
+    const params = new URLSearchParams({ action, startTime }).toString();
+    window.location.href = "https://device-certificates.hasenhuettl.cc/index.html?" + params;
 }
 

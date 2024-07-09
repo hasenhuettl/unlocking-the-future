@@ -24,7 +24,7 @@ CREATE TABLE measurements (
     id SERIAL PRIMARY KEY,
     device_id INT NOT NULL,
     auth_method_name VARCHAR(50) NOT NULL,
-    action VARCHAR(10) NOT NULL,  -- 'Signup' or 'Login'
+    action VARCHAR(10) NOT NULL,  -- 'Signup', 'Login' or saveDevice
     time_ms INT NOT NULL,  -- Time in milliseconds
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_device

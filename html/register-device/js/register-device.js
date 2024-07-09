@@ -44,7 +44,7 @@ function register(fingerprint) {
 
 async function post_request(url, body, redirect) {
     const parts = url.split('/');
-    const action = '/' + parts[parts.length - 1]; // returns /login or /signup
+    const action = parts[parts.length - 1]; // returns /login or /signup
     const readyTime = new Date().getTime();
     const timeMs = readyTime - startTime;
     try {

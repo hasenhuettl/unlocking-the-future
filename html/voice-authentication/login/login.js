@@ -2,7 +2,11 @@ let stream;
 let chunks = [];
 let isRecording = false;
 
+const authMethod = document.title;
+let startTime;
+
 $( document ).ready(function() {
+    startTime = new Date().getTime();
 
     const category = "";
     $.ajax({
@@ -18,6 +22,9 @@ $( document ).ready(function() {
     });
 
     $( "#login" ).on( "click", function() {
+        const action = 'login';
+        const readyTime = new Date().getTime();
+        const timeMs = readyTime - startTime;
         
         const username = $('#username').val();
         let file = $('#files')[0].files[0]
@@ -34,7 +41,8 @@ $( document ).ready(function() {
             contentType: false,
             processData: false,
             success: function(response) {
-                window.location.href = "/success";
+                const params = new URLSearchParams({ authMethod, action, timeMs }).toString();
+                window.location.href = '/success?' + params
                 // showSuccess(response.message);
             },
             error: function(xhr, ajaxOptions, error) {

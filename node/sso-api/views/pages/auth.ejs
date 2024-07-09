@@ -27,12 +27,32 @@
       </div>
 
       <div class="center">
-          <button class="button-primary button" onclick="location.href='/auth/google?redirect=/signup'" id="button-register">Sign Up</button>
+          <button class="button-primary button" id="button-register">Sign Up</button>
       </div>
       <div class="center">
-          <button class="button-secondary button" onclick="location.href='/auth/google?redirect=/login'" id="button-login">Login</button>
+          <button class="button-secondary button" id="button-login">Login</button>
       </div>
 
     </main>
   </body>
+<script>
+    const authMethod = document.title;
+    let startTime = new Date().getTime();
+
+    window.onload = function(){
+        $("#button-register").on("click", function(){ redirectToAuth('signup'); });
+        $("#button-login").on("click", function(){ redirectToAuth('login'); });
+    }
+
+    function redirectToAuth(endpoint) {
+        const params = new URLSearchParams({
+            redirect: '/' + endpoint,
+            action: endpoint,
+            authMethod: authMethod,
+            startTime: startTime
+        }).toString();
+
+        location.href = '/auth/google?' + params;
+    }
+</script>
 </html>

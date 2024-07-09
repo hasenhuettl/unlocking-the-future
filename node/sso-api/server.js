@@ -13,6 +13,11 @@ const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const REDIRECT_URI = process.env.REDIRECT_URI;
 
+let redirect;
+let action;
+let authMethod;
+let startTime;
+
 const PORT = 3013;
 
 const options = {
@@ -77,16 +82,22 @@ app.get('/signup', (req, res) => {
     users[userProfile] = {};
     saveUserData();
 
-    return res.redirect('https://authenticate.hasenhuettl.cc/success');
+    const readyTime = new Date().getTime();
+    const timeMs = readyTime - startTime;
+    const params = new URLSearchParams({ authMethod, action, timeMs }).toString();
+    return res.redirect('https://authenticate.hasenhuettl.cc/success/index.html?' + params);
 });
 
 app.get('/login', (req, res) => {
 
-    if (users[userProfile]) {
-        return res.redirect('https://authenticate.hasenhuettl.cc/success');
+    if (!users[userProfile]) {
+        return res.redirect('/400.html?message=User not found.');
     }
 
-    return res.redirect('/400.html?message=User not found.');
+    const readyTime = new Date().getTime();
+    const timeMs = readyTime - startTime;
+    const params = new URLSearchParams({ authMethod, action, timeMs }).toString();
+    return res.redirect('https://authenticate.hasenhuettl.cc/success/index.html?' + params);
 });
 /*  PASSPORT SETUP  */
 
@@ -121,21 +132,24 @@ passport.use(new GoogleStrategy({
   }
 ));
 
-let redirect;
-
 app.get('/auth/google', (req, res, next) => {
   redirect = req.query.redirect;
+  action = req.query.action;
+  authMethod = req.query.authMethod;
+  startTime = req.query.startTime;
   if (redirect) {
     req.session.redirectTo = redirect;
+    passport.authenticate('google', { scope: ['profile', 'email'] })(req, res, next);
+  } else {
+    return res.status(400).json({ error: "No redirect parameter provided!" });
   }
-  passport.authenticate('google', { scope: ['profile', 'email'] })(req, res, next);
 });
 
 app.get('/auth/google/callback', 
   passport.authenticate('google', { failureRedirect: '/error' }),
   function(req, res) {
     // Successful authentication, redirect to the specified route
-    const redirectTo = redirect || '/success';
+    const redirectTo = redirect || '/error';
     redirect = null; // Clear the redirect after using it
     res.redirect(redirectTo);
   }

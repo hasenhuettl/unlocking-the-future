@@ -49,7 +49,7 @@ function login(visitorId) {
 
 async function post_request(url, body, redirect) {
     const parts = url.split('/');
-    const action = `/${parts.pop()}`; // Return /login or /signup from url
+    const action = parts.pop(); // Return /login or /signup from url
     const readyTime = new Date().getTime();
     const timeMs = readyTime - startTime;
     try {

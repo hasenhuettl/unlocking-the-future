@@ -34,6 +34,9 @@
   </main>
   <div class="loader"></div>
 <script>
+  let startTime = new Date().getTime();
+  const action = 'signup';
+  const params = new URLSearchParams({ action, startTime }).toString();
   const certFile = "client.p12";
   window.onload = function() {
     $("#download").on("click", function(){ 
@@ -52,7 +55,7 @@
       xhr.send();
     });
 
-    $("#continue").on("click", function(){ window.location.href = "https://device-certificates.hasenhuettl.cc/"; });
+    $("#continue").on("click", function(){ window.location.href = "https://device-certificates.hasenhuettl.cc/index.html?" + params; });
   };
 </script>
 </body>
