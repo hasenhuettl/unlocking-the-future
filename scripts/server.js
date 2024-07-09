@@ -77,10 +77,10 @@ app.post('/saveDevice', async (req, res) => {
     // Insert device info
     result = await pool.query('INSERT INTO devices (user_id, visitor_id, os, browser) VALUES ($1, $2, $3, $4)', [userId, visitorId, os, browser]);
 
-    res.status(200).json({ message: 'Device saved successfully' });
+    return res.status(200).json({ message: 'Device saved successfully' });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: err.detail });
+    return res.status(500).json({ message: err.detail });
   }
 });
 
@@ -93,8 +93,8 @@ app.post('/saveMeasurement', async (req, res) => {
     let deviceId;
 
     if (result.rows.length === 0) {
-      // Device does not exist
-      res.status(500).json({ message: 'Internal server error' });
+      console.error("Device with visitor_id: " + visitorId + " does not exist!");
+      return res.status(500).json({ message: 'Internal server error' });
     } else {
       deviceId = result.rows[0].device_id;
     }
@@ -102,10 +102,10 @@ app.post('/saveMeasurement', async (req, res) => {
     // Insert measurement
     await pool.query('INSERT INTO measurements (device_id, auth_method_name, action, time_ms) VALUES ($1, $2, $3, $4)', [deviceId, authMethod, action, timeMs]);
 
-    res.status(200).json({ message: 'Measurement saved successfully' });
+    return res.status(200).json({ message: 'Measurement saved successfully' });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: 'Internal server error' });
+    return res.status(500).json({ message: 'Internal server error' });
   }
 });
 
