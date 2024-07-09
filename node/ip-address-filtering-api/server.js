@@ -74,7 +74,8 @@ app.post('/current-ip', (req, res) => {
 
     writeAllowedIps(allowedIps);
 
-    setTimeout(function (){ res.redirect('/ip-address-filtering/login/'); }, 1000);
+    setTimeout(function (){ return res.json({ message: 'IP has been added successfully.' }); }, 1000);
+    // setTimeout(function (){ res.redirect('/ip-address-filtering/login/'); }, 1000);
 });
 
 app.post('/update', (req, res) => {
@@ -87,7 +88,8 @@ app.post('/update', (req, res) => {
 
     writeAllowedIps(allowedIps);
 
-    setTimeout(function (){ res.redirect('/ip-address-filtering/login/'); }, 1000);
+    setTimeout(function (){ return res.json({ message: 'IP has been added successfully.' }); }, 1000);
+    // setTimeout(function (){ res.redirect('/ip-address-filtering/login/'); }, 1000);
 });
 
 app.post('/reset', (req, res) => {
@@ -95,6 +97,6 @@ app.post('/reset', (req, res) => {
 
     writeAllowedIps(allowedIps);
 
-    res.redirect('/ip-address-filtering-api/');
+    return res.redirect('/ip-address-filtering-api/');
 });
 

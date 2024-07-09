@@ -1,3 +1,6 @@
+const authMethod = document.title;
+let startTime;
+
 const pokemons = [
     ["bulbasaur.png", "charmander.png", "squirtle.png"], // Generation 1
     ["chikorita.png", "cyndaquil.png",  "totodile.png"], // Generation 2
@@ -12,6 +15,9 @@ let currentStep = 0;
 var myVal = "";
 
 window.onload = function(){
+
+    startTime = new Date().getTime();
+
     $('#game').hide();
     $("#login").on("click", function(){ login(); });
     $("#signup").on("click", function(){ signup(); });
@@ -81,6 +87,10 @@ function handleSelection(selection) {
 }
 
 async function login() {
+    const action = 'login';
+    const readyTime = new Date().getTime();
+    const timeMs = readyTime - startTime;
+
     const username = $("#username").val();
     const password = $("#password").val();
     try {
@@ -91,7 +101,8 @@ async function login() {
         });
         const result = await response.json();
         if (response.ok) {
-            window.location.href = '/success';
+            const params = new URLSearchParams({ authMethod, action, timeMs }).toString();
+            window.location.href = '/success?' + params;
         } else {
             showError(result.error);
             startGame()
@@ -103,6 +114,10 @@ async function login() {
 }
 
 async function signup() {
+    const action = 'signup';
+    const readyTime = new Date().getTime();
+    const timeMs = readyTime - startTime;
+
     const username = $("#username").val();
     const password = $("#password").val();
     try {
@@ -113,7 +128,8 @@ async function signup() {
         });
         const result = await response.json();
         if (response.ok) {
-            window.location.href = '/success';
+            const params = new URLSearchParams({ authMethod, action, timeMs }).toString();
+            window.location.href = '/success?' + params;
         } else {
             showError(result.error);
             startGame()

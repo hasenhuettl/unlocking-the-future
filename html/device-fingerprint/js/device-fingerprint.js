@@ -1,6 +1,9 @@
 const apiUrl = 'https://authenticate.hasenhuettl.cc/device-fingerprint-api';
+const authMethod = document.title;
+let startTime;
 
 window.onload = function(){
+    startTime = new Date().getTime();
     $("#signup").on("click", function(){ get_fingerprint( signup ); });
     $("#login").on("click", function(){ get_fingerprint( login ); });
 }
@@ -45,6 +48,10 @@ function login(visitorId) {
 }
 
 async function post_request(url, body, redirect) {
+    const parts = url.split('/');
+    const action = `/${parts.pop()}`; // Return /login or /signup from url
+    const readyTime = new Date().getTime();
+    const timeMs = readyTime - startTime;
     try {
         const response = await fetch(url, {
             method: 'POST',
@@ -54,7 +61,8 @@ async function post_request(url, body, redirect) {
         const result = await response.json();
         if (response.ok) {
             if (redirect) {
-                window.location.href = '/success';
+                const params = new URLSearchParams({ authMethod, action, timeMs }).toString();
+                window.location.href = '/success?' + params;
             } else {
                 showSuccess('Request successful');
             }

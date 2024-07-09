@@ -1,6 +1,13 @@
 const apiUrl = 'https://authenticate.hasenhuettl.cc/security-question-authentication-api';
 
+const authMethod = document.title;
+let startTime;
+
 async function login() {
+    const action = 'login';
+    const readyTime = new Date().getTime();
+    const timeMs = readyTime - startTime;
+
     const username = document.getElementById('username').value;
     const question = document.getElementById('security-questions').value;
     const answer   = document.getElementById('answer').value;
@@ -12,7 +19,8 @@ async function login() {
         });
         const result = await response.json();
         if (response.ok) {
-            window.location.href = '/success';
+            const params = new URLSearchParams({ authMethod, action, timeMs }).toString();
+            window.location.href = '/success?' + params;
         } else {
             showError(result.error);
         }
@@ -22,6 +30,10 @@ async function login() {
 }
 
 async function signup() {
+    const action = 'signup';
+    const readyTime = new Date().getTime();
+    const timeMs = readyTime - startTime;
+
     const username = document.getElementById('username').value;
     const question = document.getElementById('security-questions').value;
     const answer   = document.getElementById('answer').value;
@@ -34,7 +46,8 @@ async function signup() {
         const result = await response.json();
         if (response.ok) {
             //showSuccess(result.message);
-            window.location.href = '/success';
+            const params = new URLSearchParams({ authMethod, action, timeMs }).toString();
+            window.location.href = '/success?' + params;
         } else {
             showError(result.error);
         }
@@ -44,6 +57,9 @@ async function signup() {
 }
 
 window.onload = function(){
+
+  startTime = new Date().getTime();
+
   $("#login").on("click", function(){ login(); });
   $("#signup").on("click", function(){ signup(); });
 

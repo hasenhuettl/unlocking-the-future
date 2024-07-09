@@ -268,23 +268,24 @@ export async function registerPasskey() {
     }
   }
 }
+
 export async function loginPasskey() {
+
+  const authMethod = document.title;
+  let startTime = new Date().getTime();
+
   try {
-    // Is a conditional UI available in this browser?
-    const cma =  await PublicKeyCredential.isConditionalMediationAvailable();
-    if (true) {
-//    if (cma) {
-      // If a conditional UI is available, invoke the authenticate() function.
-      const user = await authenticate();
-      if (user) {
-        // Proceed only when authentication succeeds.
-        $("#username").value = user.username;
-        location.href = "https://authenticate.hasenhuettl.cc/success";
-      } else {
-        throw new Error("User not found.");
-      }
+    const user = await authenticate();
+    if (user) {
+      // Proceed only when authentication succeeds.
+      $("#username").value = user.username;
+      const action = 'login';
+      const readyTime = new Date().getTime();
+      const timeMs = readyTime - startTime;
+      const params = new URLSearchParams({ authMethod, action, timeMs }).toString();
+      location.href = "https://authenticate.hasenhuettl.cc/success?" + params;
     } else {
-      throw new Error("Device does not support passkeys!");
+      throw new Error("User not found.");
     }
   } catch (e) {
     // A NotAllowedError indicates that the user canceled the operation.
@@ -296,5 +297,4 @@ export async function loginPasskey() {
     }
   }
 } 
-
 

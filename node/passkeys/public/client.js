@@ -266,7 +266,12 @@ export async function registerPasskey() {
     }
   }
 }
+
 export async function loginPasskey() {
+
+  const authMethod = document.title;
+  let startTime = new Date().getTime();
+
   try {
     // Is a conditional UI available in this browser?
     const cma =  await PublicKeyCredential.isConditionalMediationAvailable();
@@ -277,7 +282,11 @@ export async function loginPasskey() {
       if (user) {
         // Proceed only when authentication succeeds.
         $("#username").value = user.username;
-        location.href = "/success";
+        const action = 'login';
+        const readyTime = new Date().getTime();
+        const timeMs = readyTime - startTime;
+        const params = new URLSearchParams({ authMethod, action, timeMs }).toString();
+        location.href = '/success?' + params;
       } else {
         throw new Error("User not found.");
       }

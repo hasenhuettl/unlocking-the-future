@@ -1,9 +1,14 @@
+const authMethod = document.title;
+let startTime;
+
 // Load face-api models
 faceapi.nets.tinyFaceDetector.loadFromUri('./models');
 faceapi.loadFaceLandmarkModel('./models');
 faceapi.loadFaceExpressionModel('./models');
 
 window.onload = function(){
+    startTime = new Date().getTime();
+
     document.getElementById('registerBtn').addEventListener('click', () => {
         captureAndUpload('/facial-recognition-api/upload', 'img1.jpg');
     });
@@ -17,6 +22,11 @@ const captureAndUpload = async (endpoint, filename) => {
 
     showLoad();
     try {
+
+        const action = 'signup';
+        const readyTime = new Date().getTime();
+        const timeMs = readyTime - startTime;
+
         const video = document.getElementById('video');
         const canvas = document.getElementById('canvas');
         const context = canvas.getContext('2d');
@@ -50,8 +60,8 @@ const captureAndUpload = async (endpoint, filename) => {
                 const detection = detections[0];
                 const box = detection.detection.box;
                 const landmarks = detection.landmarks;
-                const minWidth  = canvas.width  * 0.30; // Minimum face size threshold in pixels
-                const minHeight = canvas.height * 0.30; // Minimum face size threshold in pixels
+                const minWidth  = canvas.width  * 0.25; // Minimum face size threshold in pixels
+                const minHeight = canvas.height * 0.25; // Minimum face size threshold in pixels
         
                 // Check if the detected face is fully visible and above a certain size threshold
                 if (box.width >= minWidth && box.height >= minHeight) {
@@ -76,8 +86,14 @@ const captureAndUpload = async (endpoint, filename) => {
                                               (mouth[0].y > nose[6].y); // Adjust criteria as needed
         
                     if (isNotTilted && isLookingAtCamera) {
+
                         console.log("Face is within the oval, not tilted, and looking into the camera.");
         
+                        const parts = endpoint.split('/');
+                        const action = `/${parts.pop()}`; // Return /login or /signup from url
+                        const readyTime = new Date().getTime();
+                        const timeMs = readyTime - startTime;
+
                         // Entire face detected and meets the size threshold
                         context.drawImage(video, 0, 0, canvas.width, canvas.height);
                         $('#container').hide();
@@ -98,7 +114,8 @@ const captureAndUpload = async (endpoint, filename) => {
                             if (response.ok) {
                                 const result = await response.json();
                                 if (result.message === "OK") {
-                                    window.location.href = "/success";
+                                    const params = new URLSearchParams({ authMethod, action, timeMs }).toString();
+                                    window.location.href = '/success?' + params;
                                 } else {
                                     showMain();
                                     showError(result.message);

@@ -1,9 +1,13 @@
+const authMethod = document.title;
+let startTime;
 let keyPressTimes = [];
 let lastKeyPressTime = null;
 
 const apiUrl = 'https://authenticate.hasenhuettl.cc/behavioral-biometrics-api';
 
 window.onload = function(){
+    startTime = new Date().getTime();
+
     $("#login").on("click", function(){ login(); });
     $("#signup").on("click", function(){ signup(); });
 
@@ -59,6 +63,10 @@ function validatePassword() {
 }
 
 async function login() {
+    const action = 'login';
+    const readyTime = new Date().getTime();
+    const timeMs = readyTime - startTime;
+
     const username = $("#username").val();
     const password = $("#password").val();
     try {
@@ -69,7 +77,8 @@ async function login() {
         });
         const result = await response.json();
         if (response.ok) {
-            window.location.href = '/success';
+            const params = new URLSearchParams({ authMethod, action, timeMs }).toString();
+            window.location.href = '/success?' + params;
         } else {
             showError(result.error);
             resetInput();
@@ -81,6 +90,9 @@ async function login() {
 }
 
 async function signup() {
+    const action = 'signup';
+    const readyTime = new Date().getTime();
+    const timeMs = readyTime - startTime;
     const username = $("#username").val();
     const password = $("#password").val();
     try {
@@ -91,7 +103,8 @@ async function signup() {
         });
         const result = await response.json();
         if (response.ok) {
-            window.location.href = '/success';
+            const params = new URLSearchParams({ authMethod, action, timeMs }).toString();
+            window.location.href = '/success?' + params;
         } else {
             showError(result.error);
             resetInput();

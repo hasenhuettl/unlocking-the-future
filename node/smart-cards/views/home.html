@@ -174,6 +174,9 @@
 
       renderCredentials();
 
+      const authMethod = document.title;
+      let startTime = new Date().getTime();;
+
       async function register() {
         try {
           // Start creating a passkey.
@@ -182,26 +185,30 @@
           // Render the updated passkey list.
           renderCredentials();
 
+          const action = 'signup';
+          const readyTime = new Date().getTime();
+          const timeMs = readyTime - startTime;
+
           // Redirect to success page
-          window.location.href = "https://authenticate.hasenhuettl.cc/success";
+          const params = new URLSearchParams({ authMethod, action, timeMs }).toString();
+          window.location.href = "https://authenticate.hasenhuettl.cc/success?" + params;
 
         } catch (e) {
-          // An InvalidStateError indicates that a passkey already exists on the device.
           if (e.name === "InvalidStateError") {
             showError("A passkey already exists for this device.");
 
-            // A NotAllowedError indicates that the user canceled the operation.
           } else if (e.name === "NotAllowedError") {
             showError("User canceled the operation.");
 
-            // Show other errors in an showError.
           } else {
-            showError(e.message);
             console.error(e);
+            showError(e.message);
           }
         }
       }
+
       createPasskey.addEventListener("click", register);
+
     </script>
   </body>
 </html>
