@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Authentication Methods</title>
+    <title data-i18n="Authentication_Methods"></title>
     <link rel="stylesheet" href="/css/funcs.css">
     <link rel="stylesheet" href="css/index.css">
     <script src="/js/jquery.min.js"></script>
@@ -14,52 +14,58 @@
 <header>
   <nav>
     <ul>
-      <li><a href="/forms" class="button button-link" id="forms" >Link to form</a></li>
-      <li><a href="/register-device" class="button" id="register-device" >Register new device</a></li>
-      <li><button id="clearData" class="button button-delete" >CLEAR DATA</button></li>
+      <li><a href="/register-device" class="button" id="register-device" data-i18n="Register_new_device"></a></li>
+      <li><a href="/forms" class="button button-link" id="forms" data-i18n="Link_to_form"></a></li>
+      <li><button id="clearData" class="button button-delete" data-i18n="CLEAR_DATA"></button></li>
     </ul>
   </nav>
 </header>
 
 <body>
-
+<main id="indexmain">
 <div class="category know">
-    <h2>Something You Know</h2>
+    <h2 data-i18n="Something_You_Know"></h2>
     <div class="buttons">
-        <a href="/password-authentication" class="button password">Passwords</a>
-        <a href="/pin-authentication" class="button pin">PINs</a>
-        <a href="/security-question-authentication" class="button security-question">Security Questions</a>
-        <a href="/game-based-authentication" class="button game-based-auth">Game-Based Auth</a>
+        <a href="/password-authentication" class="button password" data-i18n="Passwords"></a>
+        <a href="/pin-authentication" class="button pin" data-i18n="PINs"></a>
+        <a href="/security-question-authentication" class="button security-question" data-i18n="Security_Questions"></a>
+        <a href="/game-based-authentication" class="button game-based-auth" data-i18n="Game_Based_Auth"></a>
     </div>
 </div>
 <div class="category have">
-    <h2>Something You Have</h2>
+    <h2 data-i18n="Something_You_Have"></h2>
     <div class="buttons">
-        <a href="/sms-authentication" class="button sms">SMS</a>
-        <a href="/device-fingerprint" class="button device-fingerprint">Device Fingerprint</a>
-        <a href="/device-certificates" class="button device-certificates">Device Certificates</a>
-        <a href="/authenticator-apps" class="button authenticator-apps">Authenticator Apps</a>
-        <a href="https://smart-cards.hasenhuettl.cc/" class="button smart-cards">Smart Cards</a>
-        <a href="https://usb-keys.hasenhuettl.cc/" class="button usb-keys">USB Keys</a>
-        <a href="/passkeys" class="button passkeys">Passkeys</a>
-        <a href="https://sso.hasenhuettl.cc/logout" class="button sso">SSO</a>
+        <a href="/sms-authentication" class="button sms" data-i18n="SMS"></a>
+        <a href="/device-fingerprint" class="button device-fingerprint" data-i18n="Device_Fingerprint"></a>
+        <a href="/device-certificates" class="button device-certificates" data-i18n="Device_Certificates"></a>
+        <a href="/authenticator-apps" class="button authenticator-apps" data-i18n="Authenticator_Apps"></a>
+        <a href="/passkeys" class="button passkeys" data-i18n="Passkeys"></a>
+        <a href="https://smart-cards.hasenhuettl.cc/" class="button smart-cards" data-i18n="Smart_Cards"></a>
+        <a href="https://usb-keys.hasenhuettl.cc/" class="button usb-keys" data-i18n="USB_Keys"></a>
+        <a href="https://sso.hasenhuettl.cc/logout" class="button sso" data-i18n="SSO"></a>
     </div>
 </div>
 <div class="category are">
-    <h2>Something You Are</h2>
+    <h2 data-i18n="Something_You_Are"></h2>
     <div class="buttons">
-        <a href="/facial-recognition" class="button facial-recognition">Facial Recognition</a>
-        <a href="/voice-authentication" class="button voice-authentication">Voice Recognition</a>
-        <a href="/behavioral-biometrics" class="button behavioral-biometrics">Behavioral Biometrics</a>
+        <a href="/facial-recognition" class="button facial-recognition" data-i18n="Facial_Recognition"></a>
+        <a href="/voice-authentication" class="button voice-authentication" data-i18n="Voice_Recognition"></a>
+        <a href="/behavioral-biometrics" class="button behavioral-biometrics" data-i18n="Behavioral_Biometrics"></a>
     </div>
 </div>
 <div class="category somewhere">
-    <h2>Somewhere You Are</h2>
+    <h2 data-i18n="Somewhere_You_Are"></h2>
     <div class="buttons">
-        <a href="/ip-address-filtering" class="button ip-address-filtering">IP Address Filtering</a>
-        <a href="/gps-verification" class="button gps-verification">Device Based Location</a>
+        <a href="/ip-address-filtering" class="button ip-address-filtering" data-i18n="IP_Address_Filtering"></a>
+        <a href="/gps-verification" class="button gps-verification" data-i18n="Device_Based_Location"></a>
     </div>
 </div>
 
+<div class="buttons">
+    <button id="DE" class="button lang" onclick="changeLanguage('de')" >Deutsch</button>
+    <button id="EN" class="button lang" onclick="changeLanguage('en')" >English</button>
+</div>
+
+</main>
 </body>
 </html>

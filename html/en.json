@@ -1,0 +1,28 @@
+{
+    "Register_new_device": "Register new device",
+    "Link_to_form": "Link to form",
+    "CLEAR_DATA": "CLEAR DATA",
+    "Authentication_Methods": "Authentication Methods",
+    "Something_You_Know": "Something You Know",
+    "Passwords": "Passwords",
+    "PINs": "PINs",
+    "Security_Questions": "Security Questions",
+    "Game_Based_Auth": "Game-Based Auth",
+    "Something_You_Have": "Something You Have",
+    "SMS": "SMS",
+    "Device_Fingerprint": "Device Fingerprint",
+    "Device_Certificates": "Device Certificates",
+    "Authenticator_Apps": "Authenticator Apps",
+    "Passkeys": "Passkeys",
+    "Smart_Cards": "Smart Cards",
+    "USB_Keys": "USB Keys",
+    "SSO": "Single-Sign-On",
+    "Something_You_Are": "Something You Are",
+    "Facial_Recognition": "Facial Recognition",
+    "Voice_Recognition": "Voice Recognition",
+    "Behavioral_Biometrics": "Behavioral Biometrics",
+    "Somewhere_You_Are": "Somewhere You Are",
+    "IP_Address_Filtering": "IP Address Filtering",
+    "Device_Based_Location": "Device Based Location"
+}
+

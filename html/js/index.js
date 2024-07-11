@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
+
+
   document.getElementById('clearData').addEventListener('click', async () => {
       try {
           const response = await fetch('/scripts/clearData', {
@@ -17,4 +19,8 @@ document.addEventListener("DOMContentLoaded", function() {
           showError('An error occurred while processing your request.');
       }
   });
+});
+
+$( document ).ready(function() {
+  setBackgroundColor();
 });

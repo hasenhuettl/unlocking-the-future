@@ -1,0 +1,16 @@
+{
+    "400_Bad_Request": "400 Bad Request",
+    "Server_cannot_process_request": "Server cannot process the request.",
+    "Go_Back_to_Home": "Go Back to Home",
+    "495_SSL_Certificate_Error": "495 SSL Certificate Error",
+    "Client_certificate_invalid": "Client certificate is invalid. Try to import the certificate again, then re-open your browser and press try again.",
+    "Try_again": "Try again",
+    "Back": "Back",
+    "496_SSL_Certificate_Required": "496 SSL Certificate Required",
+    "No_client_certificate_submitted": "No client certificate has been submitted. If you have already added the certificate, try re-opening your browser and press try again.",
+    "Device_Certificates": "Device Certificates",
+    "Username": "Username",
+    "Sign_Up": "Sign Up",
+    "Login": "Login"
+}
+

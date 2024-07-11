@@ -1,0 +1,15 @@
+{
+    "400_Bad_Request": "400 Schlechte Anfrage",
+    "Server_cannot_process_request": "Der Server kann die Anfrage nicht verarbeiten.",
+    "Go_Back_to_Home": "Zurück zur Startseite",
+    "495_SSL_Certificate_Error": "495 SSL-Zertifikatsfehler",
+    "Client_certificate_invalid": "Das Client-Zertifikat ist ungültig. Versuchen Sie das Zertifikat erneut zu importieren, öffnen Sie dann Ihren Browser erneut und drücken Sie erneut versuchen.",
+    "Try_again": "Erneut versuchen",
+    "Back": "Zurück",
+    "496_SSL_Certificate_Required": "496 SSL-Zertifikat erforderlich",
+    "No_client_certificate_submitted": "Es wurde kein Client-Zertifikat übermittelt. Wenn Sie das Zertifikat bereits hinzugefügt haben, versuchen Sie, Ihren Browser zu schließen und erneut zu versuchen.",
+    "Device_Certificates": "Geräte-Zertifikat",
+    "Sign_Up": "Registrieren",
+    "Login": "Einloggen"
+}
+

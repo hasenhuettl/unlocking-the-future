@@ -1,4 +1,3 @@
-<!-- /var/www/html/403.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +6,8 @@
     <title>400 Bad Request</title>
     <link rel="stylesheet" href="/css/dark.css">
     <link rel="stylesheet" href="/css/funcs.css">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/funcs.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -29,9 +30,16 @@
     </style>
 </head>
 <body>
+    <div class="center">
+        <a href="/"><img id="home" src="/favicon.ico"></a>
+    </div>
     <h1>400 Bad Request</h1>
-    <p>Server cannot process the request.</p>
-    <p><a href="/">Go Back to Home</a></p>
+    <p data-i18n="Server_cannot_process_request">Server cannot process the request.</p>
+    <div class="center">
+      <button class="button-primary center" onclick="location.href='https://device-certificates.hasenhuettl.cc/index.html';" data-i18n="Try_again">Try again</button>
+    </div>
+    <div class="center">
+      <button class="button-secondary center" onclick="location.href='/device-certificates';" data-i18n="Back">Back</button>
+    </div>
 </body>
 </html>
-

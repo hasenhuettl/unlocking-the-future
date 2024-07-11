@@ -9,17 +9,21 @@ $( document ).ready(function() {
     startTime = new Date().getTime();
 
     const category = "";
-    $.ajax({
-        method: 'GET',
-        url: '/random-quote?' + category,
-        contentType: 'application/json',
-        success: function(result) {
-            $('#quote').text(result[0].content);
-        },
-        error: function ajaxError(jqXHR) {
-            console.error('Error: ', jqXHR.responseText);
-        }
-    });
+    if (localStorage.getItem('language') === 'de') {
+        $('#quote').text("Gib jedem Tag die Chance, der schönste deines Lebens zu werden.");
+    } else {
+        $.ajax({
+            method: 'GET',
+            url: '/random-quote?' + category,
+            contentType: 'application/json',
+            success: function(result) {
+                $('#quote').text(result[0].content);
+            },
+            error: function ajaxError(jqXHR) {
+                console.error('Error: ', jqXHR.responseText);
+            }
+        });
+    }
 
     $( "#signup" ).on( "click", function() {
         const action = 'signup';

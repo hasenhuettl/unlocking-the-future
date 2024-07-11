@@ -1,0 +1,15 @@
+{
+    "Password_Authentication": "Password Authentication",
+    "Sign_Up": "Sign Up",
+    "Login": "Login",
+    "Password_Authentication": "Password Authentication",
+    "Username": "Username",
+    "Password": "Password",
+    "Requires": "Requires",
+    "Lowercase_Letter": "Lower case letter",
+    "Uppercase_Letter": "Upper case letter",
+    "Number": "Number",
+    "Special_Character": "Special character",
+    "Characters_10_Plus": "10+ characters",
+}
+
