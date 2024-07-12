@@ -154,9 +154,9 @@ app.get('/auth/google/callback',
     res.redirect(redirectTo);
   }
 );
- 
+
 // Logout route
-app.get('/logout', (req, res) => {
+app.get('/logout', (req, res, next) => {
   req.logout(function(err) {
     if (err) { return next(err); }
     userProfile = null;  // Clear userProfile
@@ -164,7 +164,12 @@ app.get('/logout', (req, res) => {
       if (err) {
         return next(err);
       }
-      res.redirect('/');
+      const lang = req.query.language;
+      if (lang) {
+        res.redirect(`/?language=${lang}`);
+      } else {
+        res.redirect('/');
+      }
     });
   });
 });

@@ -23,4 +23,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
 $( document ).ready(function() {
   setBackgroundColor();
+
+  var userPreferredLanguage = localStorage.getItem('language');
+
+  $('a[data-i18n="Smart_Cards"], a[data-i18n="USB_Keys"], a[data-i18n="SSO"]').each(function() {
+      var currentHref = $(this).attr('href');
+      var newHref = currentHref + "?language=" + userPreferredLanguage;
+      $(this).attr('href', newHref);
+  });
+
 });

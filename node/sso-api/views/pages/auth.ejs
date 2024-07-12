@@ -27,17 +27,17 @@
       </div>
 
       <div class="center">
-          <button class="button-primary button" id="button-register">Sign Up</button>
+          <button class="button-primary button" id="button-register" data-i18n="Sign_Up">Sign Up</button>
       </div>
       <div class="center">
-          <button class="button-secondary button" id="button-login">Login</button>
+          <button class="button-secondary button" id="button-login" data-i18n="Login">Login</button>
       </div>
 
     </main>
   </body>
 <script>
     const authMethod = document.title;
-    let startTime = new Date().getTime();
+    let startTime;
 
     window.onload = function(){
         $("#button-register").on("click", function(){ redirectToAuth('signup'); });
@@ -45,6 +45,7 @@
     }
 
     function redirectToAuth(endpoint) {
+        startTime = new Date().getTime();
         const params = new URLSearchParams({
             redirect: '/' + endpoint,
             action: endpoint,

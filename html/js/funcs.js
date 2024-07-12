@@ -1,6 +1,11 @@
 var userPreferredLanguage;
 
 window.addEventListener('DOMContentLoaded', async () => {
+
+    const urlParams = new URLSearchParams(window.location.search);
+    userPreferredLanguage = urlParams.get('language');
+    if (userPreferredLanguage) { localStorage.setItem('language', userPreferredLanguage) }
+
     userPreferredLanguage = localStorage.getItem('language') || 'en';
     const langData = await fetchLanguageData(userPreferredLanguage);
     updateContent(langData);
