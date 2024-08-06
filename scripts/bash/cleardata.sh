@@ -3,6 +3,9 @@
 # Exit on error
 set -e
 
+# Reset IP addresses
+curl -X POST -H 'Content-Type: application/json' https://authenticate.hasenhuettl.cc/ip-address-filtering-api/reset
+
 rm -f /var/www/node/passkeys/.data/db.json
 rm -f /var/www/node/usb-keys/.data/db.json
 rm -f /var/www/node/smart-cards/.data/db.json

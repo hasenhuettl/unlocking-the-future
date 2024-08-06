@@ -3,7 +3,7 @@
 set -e
 
 sudo apt update
-sudo apt install nginx postgresql
+sudo apt install nginx postgresql curl
 pip install deepface tf-keras TensorRT flask librosa numpy scipy scikit-learn
 
 DIR="$(dirname "$(realpath "$0")")"
