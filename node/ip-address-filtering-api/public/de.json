@@ -1,0 +1,12 @@
+{
+    "IPAddressFilteringTitle": "IP-Adressfilterung",
+    "Home": "Home",
+    "SignUp": "Registrieren",
+    "AddCurrentIP": "Aktuelle IP hinzufügen",
+    "Add": "Hinzufügen",
+    "AddAnotherIP": "Eine benutzerdefinierte IP-Adresse hinzufügen",
+    "EnterIPAddress": "IP-Adresse eingeben",
+    "AllowedIPAddresses": "Derzeit zugelassene IP-Adressen",
+    "RemoveIPAddresses": "Alle IP-Adressen entfernen"
+}
+

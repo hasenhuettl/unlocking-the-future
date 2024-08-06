@@ -21,6 +21,7 @@ app.set('view engine', 'ejs');
 app.set('trust proxy', true); // Return real remote IP (behind proxy)
 
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static(__dirname + '/public/'));
 
 function readAllowedIps() {
     const data = fs.readFileSync(configFilePath, 'utf-8');
@@ -36,7 +37,7 @@ function readAllowedIps() {
 
 function writeAllowedIps(ips) {
     const newConfig = [
-        'location /ip-address-filtering/login {',
+        'location /ip-address-filtering/login/index.html {',
         '    error_page 403 /ip-address-filtering/403.html;'
     ];
     ips.forEach(ip => {

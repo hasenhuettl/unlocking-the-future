@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IP Address Filtering</title>
+    <title data-i18n="IPAddressFilteringTitle">IP Address Filtering</title>
     <link rel="stylesheet" href="/css/dark.css">
     <link rel="stylesheet" href="/css/funcs.css">
     <link rel="stylesheet" href="/ip-address-filtering/css/ip-address-filtering.css">
@@ -12,26 +12,26 @@
 </head>
 <body>
     <div class="center">
-        <a href="/"><img id="home" src="/favicon.ico"></a>
+        <a href="/"><img id="home" src="/favicon.ico" data-i18n="Home"></a>
     </div>
 
     <div class="center">
-        <h1>Sign Up</h1>
+        <h1 data-i18n="SignUp">Sign Up</h1>
     </div>
 
     <form class="center-table">
-        <h2>Add current IP</h2>
-        <button class="button-primary" type="button" id="current-ip">Add</button>
+        <h2 data-i18n="AddCurrentIP">Add current IP</h2>
+        <button class="button-primary" type="button" id="current-ip" data-i18n="Add">Add</button>
     </form>
 
     <form class="center-table">
-        <h2>Add another IP Address</h2>
-        <input type="text" name="add_ip" placeholder="Enter IP address">
-        <button class="button-primary" type="button" id="update">Add</button>
+        <h2 data-i18n="AddAnotherIP">Add another IP Address</h2>
+        <input type="text" name="add_ip" placeholder="Enter IP address" data-i18n="[placeholder]EnterIPAddress">
+        <button class="button-primary" type="button" id="update" data-i18n="Add">Add</button>
     </form>
 
     <div class="center">
-        <h2>Currently Allowed IP Addresses</h2>
+        <h2 data-i18n="AllowedIPAddresses">Currently Allowed IP Addresses</h2>
     </div>
 
     <div class="center">
@@ -41,7 +41,7 @@
     </div>
 
     <form class="center-table" action="/ip-address-filtering-api/reset" method="post">
-        <button class="button-secondary" type="submit">Remove IP adresses</button>
+        <button class="button-secondary" type="submit" data-i18n="RemoveIPAddresses">Remove IP addresses</button>
     </form>
 <script>
 
@@ -99,7 +99,6 @@
       showError('Network error');
     }
   }
-
 </script>
 </body>
 </html>

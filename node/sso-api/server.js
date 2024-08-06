@@ -37,7 +37,7 @@ app.use(session({
   secret: 'silly egg' 
 }));
 
-app.get('/success', (req, res) => res.send(userProfile));
+app.get('/success', (req, res) => res.send(debugProfile));
 
 app.get('/', function(req, res) {
     res.render('pages/auth');
@@ -103,6 +103,7 @@ app.get('/login', (req, res) => {
 
 const passport = require('passport');
 var userProfile;
+var debugProfile;
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -127,6 +128,7 @@ passport.use(new GoogleStrategy({
     callbackURL: REDIRECT_URI
   },
   function(accessToken, refreshToken, profile, done) {
+      debugProfile=profile;
       userProfile=profile.id;
       return done(null, profile);
   }

@@ -1,0 +1,12 @@
+{
+    "IPAddressFilteringTitle": "IP Address Filtering",
+    "Home": "Home",
+    "SignUp": "Sign Up",
+    "AddCurrentIP": "Add current IP",
+    "Add": "Add",
+    "AddAnotherIP": "Add another IP Address",
+    "EnterIPAddress": "Enter IP address",
+    "AllowedIPAddresses": "Currently Allowed IP Addresses",
+    "RemoveIPAddresses": "Remove IP addresses"
+}
+
