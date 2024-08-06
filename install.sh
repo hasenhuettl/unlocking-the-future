@@ -19,6 +19,9 @@ done
 cd /var/www/scripts
 npm install
 
+# Disable nginx default conf
+rm /etc/nginx/sites-enabled/default
+
 ln -s /var/www/html/gps-verification/gps-verification.conf /etc/nginx/sites-available/gps-verification.conf
 ln -s /var/www/html/device-fingerprint/device-fingerprint.conf /etc/nginx/sites-available/device-fingerprint.conf
 ln -s /var/www/html/device-certificates/device-certificates.conf /etc/nginx/sites-available/device-certificates.conf
