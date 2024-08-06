@@ -10,7 +10,7 @@ const pokemons = [
     ["chespin.png",   "fennekin.png",   "froakie.png"]   // Generation 6
 ]
 
-const apiUrl = 'https://authenticate.hasenhuettl.cc/game-based-authentication-api';
+const apiUrl = '/game-based-authentication-api';
 let currentStep = 0;
 var myVal = "";
 

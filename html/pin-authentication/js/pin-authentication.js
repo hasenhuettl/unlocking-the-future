@@ -1,4 +1,4 @@
-const apiUrl = 'https://authenticate.hasenhuettl.cc/pin-authentication-api';
+const apiUrl = '/pin-authentication-api';
 const authMethod = document.title;
 let startTime;
 

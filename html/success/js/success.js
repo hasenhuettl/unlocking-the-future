@@ -1,4 +1,4 @@
-const apiUrl = 'https://authenticate.hasenhuettl.cc/scripts';
+const apiUrl = '/scripts';
 
 $(document).ready(function() {
     saveMeasurement();
@@ -17,7 +17,15 @@ function saveMeasurement() {
     const timeMs = urlParams.get('timeMs');
 
     if (!visitorId) {
-        showError("Please first register this device at https://authenticate.hasenhuettl.cc/register-device/");
+        let message = "Please first register this device ";
+        $('#message').remove();
+        $( "body" ).append(
+          $('<div>').attr('id', 'message').fadeIn(0).delay(6000).fadeOut(4000).append(
+            $('<span>').attr('id', 'messagetext').css('background-color', 'red').text(message).append(
+              $('<a>').attr('href', '/register-device/index.html').text("via this link")
+            )
+          )
+        );
     } else if (!authMethod) {
         showError("authMethod is empty");
     } else if (!action) {

@@ -1,4 +1,4 @@
-const apiUrl = 'https://authenticate.hasenhuettl.cc/sms-authentication-api';
+const apiUrl = '/sms-authentication-api';
 const authMethod = document.title;
 let startTime;
 

@@ -1,4 +1,4 @@
-const apiUrl = 'https://authenticate.hasenhuettl.cc/security-question-authentication-api';
+const apiUrl = '/security-question-authentication-api';
 
 const authMethod = document.title;
 let startTime;

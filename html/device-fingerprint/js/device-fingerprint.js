@@ -1,4 +1,4 @@
-const apiUrl = 'https://authenticate.hasenhuettl.cc/device-fingerprint-api';
+const apiUrl = '/device-fingerprint-api';
 const authMethod = document.title;
 let startTime;
 

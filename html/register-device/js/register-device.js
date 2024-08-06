@@ -1,4 +1,4 @@
-const apiUrl = 'https://authenticate.hasenhuettl.cc/scripts';
+const apiUrl = '/scripts';
 const authMethod = document.title;
 let latency;
 

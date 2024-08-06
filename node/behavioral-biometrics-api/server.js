@@ -48,7 +48,8 @@ function calculateMeanDifference(signupTimes, loginTimes) {
 
 function validateTimes(password, keyPressTimes) {
     if (password.length !== keyPressTimes.length + 1) {
-        return 'Key press times do not match password length';
+        // return 'Key press times do not match password length';
+        return 'Expected transmitted timings to be ' + (password.length - 1) + ', but received ' + keyPressTimes.length;
     }
     return null;
 }

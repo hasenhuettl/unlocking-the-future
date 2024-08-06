@@ -1,4 +1,4 @@
-const apiUrl = 'https://authenticate.hasenhuettl.cc/password-authentication-api';
+const apiUrl = '/password-authentication-api';
 const authMethod = document.title;
 let startTime;
 

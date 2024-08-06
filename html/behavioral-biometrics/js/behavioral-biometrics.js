@@ -3,7 +3,7 @@ let startTime;
 let keyPressTimes = [];
 let lastKeyPressTime = null;
 
-const apiUrl = 'https://authenticate.hasenhuettl.cc/behavioral-biometrics-api';
+const apiUrl = '/behavioral-biometrics-api';
 
 window.onload = function(){
     startTime = new Date().getTime();
@@ -22,18 +22,16 @@ window.onload = function(){
     });
 
     $('#password').on('keydown', function(event) {
-        const validKeys = /^[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]$/;
+        // const validKeys = /^[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]$/;
         const currentTime = Date.now();
 
-        if (event.key.match(validKeys)) {
+        if (event.key === 'Backspace' || event.key === 'Delete') {
+            resetInput();
+        } else {
             if (lastKeyPressTime) {
                 keyPressTimes.push(currentTime - lastKeyPressTime);
             }
-
             lastKeyPressTime = currentTime;
-
-        } else if (event.key === 'Backspace' || event.key === 'Delete') {
-            resetInput();
         }
 
         validatePassword();
@@ -49,8 +47,9 @@ function resetInput() {
 
 function validatePassword() {
   const password = $("#password").val();
+  
   const requirements = {
-      characters: { element: $('#requirement-characters'), regex: /.{6,}/ },
+      characters: { element: $('#requirement-characters'), regex: /.{5,}/ } // Has 6 or more characters
   };
   for (const key in requirements) {
     const requirement = requirements[key];
