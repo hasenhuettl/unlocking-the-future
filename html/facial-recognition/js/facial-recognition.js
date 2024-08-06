@@ -10,7 +10,7 @@ window.onload = function(){
     startTime = new Date().getTime();
 
     document.getElementById('registerBtn').addEventListener('click', () => {
-        captureAndUpload('/facial-recognition-api/upload', 'img1.jpg');
+        captureAndUpload('/facial-recognition-api/signup', 'img1.jpg');
     });
  
     document.getElementById('loginBtn').addEventListener('click', () => {

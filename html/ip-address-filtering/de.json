@@ -1,5 +1,8 @@
 {
     "Ip_Adress_Filtering": "IP Adressfiltering",
+    "403_Forbidden": "403 Forbidden",
+    "Not_Allowed": "Ihre IP-Adresse ist für den Zugriff auf diese Seite nicht zugelassen",
+    "Go_Back_to_Home": "Zurück zur Startseite",
     "Username": "Benutzername",
     "Sign_Up": "Registrieren",
     "Login": "Einloggen"
