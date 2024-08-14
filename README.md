@@ -53,8 +53,8 @@ Create an account and copy keys from <https://fingerprint.com/>, <https://consol
  * Replace API key in `/var/www/node/sms-verification-api/.env`
  * Replace API key in `/var/www/node/sso-api/.env`
 
-### Set
- * Replace environment vars in `/var/www/.credentials.env` (can be any string)
+### Replace vars in .credentials.env
+ * Replace environment vars in `/var/www/.credentials.env` (can be any string, for example generate passwords via <https://www.random.org/strings/>)
 
 ### Download dependencies and start services
 Run the installation script
