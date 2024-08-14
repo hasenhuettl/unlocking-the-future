@@ -102,11 +102,16 @@ button:hover {
 }
 
 .button:disabled,
-.button[disabled]{
+.button[disabled] {
   border: 1px solid #999999;
   background-color: #cccccc;
   color: #666666;
   cursor: auto;
+}
+
+.button:disabled:hover,
+.button[disabled]:hover {
+  box-shadow: none;
 }
 
 .password				{ background-image: url('/img/passwords.png'); }
@@ -126,6 +131,8 @@ button:hover {
 .behavioral-biometrics	{ background-image: url('/img/behavioral_recognition.png'); }
 .ip-address-filtering	{ background-image: url('/img/ip-address.png'); }
 .gps-verification		{ background-image: url('/img/location-pointer.png'); }
+.de 					{ background-image: url('/img/de.png'); }
+.en 					{ background-image: url('/img/usa.png'); }
 
 .references {
   max-width: 300px;
