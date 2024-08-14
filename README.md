@@ -14,6 +14,7 @@ curl -sL https://deb.nodesource.com/setup_22.x | sudo -E bash -\nsudo apt-get in
 ## Installation
 
 * Clone repo content to /var/www/
+
 ___Attention: Because of the punctuation at the end (clone into current dir), directory has to be empty or command will fail!___
 ```
 cd /var/www
@@ -23,9 +24,9 @@ git clone https://github.com/hasenhuettl/authenticate.hasenhuettl.cc .
 ### Change domain address
  * Change domain name to your personally owned domain, for example: contoso.com
 
-**Warning! This command will replace all occurences of string 1 (hasenhuettl.cc) with string 2 (contoso.com) IN ALL FILES IN THE SAME FOLDER OR ANY SUBFOLDER OF THE SCRIPT (In this example: /var/www/..)!**
+___**Attention: This command will replace all occurences of string 1 (hasenhuettl.cc) with string 2 (contoso.com) IN ALL FILES IN THE SAME FOLDER OR ANY SUBFOLDER OF THE SCRIPT (In this example: /var/www/..)!**___
 
-**Do NOT move this command to any location with files other than this project!**
+___**Do NOT move this command to any location with files other than this project!**___
 ```
 bash /var/www/replace_domain.sh hasenhuettl.cc contoso.com
 ```
@@ -38,18 +39,21 @@ Choose one of the following options to install SSL certificates:
 bash /var/www/certificates_install.sh contoso.com
 ```
 
- * Option B: Copy certificate to the server and replace file path in the following files:
+ * Option B: Copy wildcard cert or individual subdomain certs to the server and replace the file path in the following files to refer to your files:
 ```
 /var/www/auth.conf
 /var/www/html/device-certificates/device-certificates.conf
 /var/www/html/device-fingerprint/device-fingerprint.conf
 ```
 
-Get API keys from <https://fingerprint.com/>, <https://console.cloud.google.com/> and <https://twilio.com/>
+### Get API keys
+Create an account and copy keys from <https://fingerprint.com/>, <https://console.cloud.google.com/> and <https://twilio.com/>.
 
  * Replace API key in `/var/www/html/device-fingerprint/device-fingerprint.conf`
  * Replace API key in `/var/www/node/sms-verification-api/.env`
  * Replace API key in `/var/www/node/sso-api/.env`
+
+### Set
  * Replace environment vars in `/var/www/.credentials.env` (can be any string)
 
 ### Download dependencies and start services
@@ -57,5 +61,3 @@ Run the installation script
 ```
 bash /var/www/install.sh
 ```
-
-
