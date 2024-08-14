@@ -16,7 +16,7 @@ new_domain=$2
 scriptroot=$(dirname "$0")
 
 # Find and replace occurrences of old_domain with new_domain
-find "$scriptroot" -type f -exec sed -i "s/$old_domain/$new_domain/g" {} +
+find "$scriptroot" -type f -not -path "$scriptroot/.git/*" -exec sed -i "s/$old_domain/$new_domain/g" {} +
 
 echo "Replaced all occurrences of $old_domain with $new_domain in all files under $scriptroot."
 
