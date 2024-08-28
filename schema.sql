@@ -3,14 +3,22 @@
 -- Create users table
 CREATE TABLE users (
     user_id SERIAL PRIMARY KEY,
-    username VARCHAR(50) NOT NULL UNIQUE
+    username VARCHAR(50) NOT NULL UNIQUE,
+    age INT,
+    gender VARCHAR(50),
+    it_competence VARCHAR(50),
+    professional_experience VARCHAR(50),
+    area_of_expertise VARCHAR(50),
+    encounter_frequency VARCHAR(50),
+    security_importance VARCHAR(50),
+    convenience_importance VARCHAR(50)
 );
 
 -- Create devices table
 CREATE TABLE devices (
     device_id SERIAL PRIMARY KEY,
     user_id INT NOT NULL,
-    visitor_id VARCHAR(50) NOT NULL,
+    visitor_id VARCHAR(50) NOT NULL, -- id from fingerprint.com
     os VARCHAR(50) NOT NULL,
     browser VARCHAR(50) NOT NULL,
     latency INT NOT NULL,
@@ -39,12 +47,58 @@ CREATE INDEX idx_devices_user_id ON devices(user_id);
 CREATE INDEX idx_measurements_device_id ON measurements(device_id);
 CREATE INDEX idx_measurements_auth_method_action ON measurements(auth_method_name, action);
 
-CREATE VIEW user_device_measurements AS
+CREATE VIEW all_data AS
+SELECT 
+    u.username,
+    u.age,
+    u.gender,
+    u.it_competence,
+    u.professional_experience,
+    u.area_of_expertise,
+    u.encounter_frequency,
+    u.security_importance,
+    u.convenience_importance,
+    d.visitor_id,
+    d.os,
+    d.browser,
+    d.latency,
+    m.auth_method_name,
+    m.action,
+    m.time_ms,
+    m.timestamp
+FROM 
+    users u
+JOIN 
+    devices d ON u.user_id = d.user_id
+JOIN 
+    measurements m ON d.device_id = m.device_id;
+
+CREATE VIEW user_insights AS
+SELECT 
+    u.age,
+    u.gender,
+    u.it_competence,
+    u.professional_experience,
+    u.area_of_expertise,
+    u.encounter_frequency,
+    u.security_importance,
+    u.convenience_importance,
+    m.time_ms,
+    m.timestamp
+FROM 
+    users u
+JOIN 
+    devices d ON u.user_id = d.user_id
+JOIN 
+    measurements m ON d.device_id = m.device_id;
+
+CREATE VIEW measurement_insights AS
 SELECT 
     u.username,
     d.visitor_id,
     d.os,
     d.browser,
+    d.latency,
     m.auth_method_name,
     m.action,
     m.time_ms,
