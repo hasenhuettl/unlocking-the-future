@@ -15,11 +15,11 @@ const options = {
 
 // Database configuration
 const pool = new Pool({
-//  user: 'authenticate',
-  user: 'postgres',
+  user: 'authenticate',
+//  user: 'postgres',
   host: 'localhost',
   database: 'auth_methods',
-  password: process.env.POSTGRES,
+  password: process.env.AUTHENTICATE,
   port: 5432,
 });
 
@@ -80,7 +80,7 @@ app.post('/saveDevice', async (req, res) => {
     return res.status(200).json({ message: 'Device saved successfully' });
   } catch (err) {
     console.error(err);
-    return res.status(500).json({ message: err.detail });
+    return res.status(500).json({ message: err.message });
   }
 });
 
@@ -97,6 +97,10 @@ app.post('/saveMeasurement', async (req, res) => {
       return res.status(400).json({ message: "Please first register your device at https://authenticate.hasenhuettl.cc/register-device/" });
     } else {
       deviceId = result.rows[0].device_id;
+    }
+
+    if (authMethod == "Device Register") {
+      return res.status(200).json({ message: 'Device registered' });
     }
 
     // Insert measurement

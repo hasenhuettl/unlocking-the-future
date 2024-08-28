@@ -32,4 +32,4 @@ ln -s /etc/nginx/sites-available/auth.conf /etc/nginx/sites-enabled/auth.conf
 source ${DIR}/setup_services.sh
 source ${DIR}/setup_rootca.sh
 source ${DIR}/setup_postgres.sh
-
+source ${DIR}/setup_grafana.sh
