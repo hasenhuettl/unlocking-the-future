@@ -16,4 +16,9 @@ sudo certbot certonly --standalone -d device-certificates.$new_domain
 sudo certbot certonly --standalone -d usb-keys.$new_domain
 sudo certbot certonly --standalone -d smart-cards.$new_domain
 sudo certbot certonly --standalone -d sso.$new_domain
+sudo certbot certonly --standalone -d grafana.$new_domain
+
+# Give grafana read permissions
+sudo chgrp -R grafana /etc/letsencrypt/*
+sudo chgrp -R grafana /etc/letsencrypt/*
 
