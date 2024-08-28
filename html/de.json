@@ -1,6 +1,7 @@
 {
     "Register_new_device": "Neues Gerät registrieren",
     "Link_to_form": "Link zum Formular",
+    "Link_to_grafana": "Link zu Grafana",
     "CLEAR_DATA": "DATEN LÖSCHEN",
     "Authentication_Methods": "Authentifizierungsmethoden",
     "Something_You_Know": "Etwas, das Sie wissen",
@@ -15,7 +16,7 @@
     "Authenticator_Apps": "Authentifikator-App",
     "Passkeys": "Passkey",
     "Smart_Cards": "Smartcard",
-    "USB_Keys": "USB-Schlüssel",
+    "USB_Keys": "USB-Stick",
     "SSO": "Single-Sign-On",
     "Something_You_Are": "Etwas, das Sie sind",
     "Facial_Recognition": "Gesichtserkennung",

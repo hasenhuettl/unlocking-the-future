@@ -22,12 +22,21 @@ window.onload = function(){
     });
 
     $('#password').on('keydown', function(event) {
-        // const validKeys = /^[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]$/;
-        const currentTime = Date.now();
+        // List of keys that should not trigger a time record
+        const ignoredKeys = [
+            'Shift', 'Control', 'Alt', 'Meta', 'Tab', 'CapsLock',
+            'Escape', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight',
+            'Insert', 'Home', 'End', 'PageUp', 'PageDown', 'Enter'
+        ];
+
+        if (ignoredKeys.includes(event.key)) {
+            return; // Ignore this key
+        }
 
         if (event.key === 'Backspace' || event.key === 'Delete') {
             resetInput();
         } else {
+            const currentTime = Date.now();
             if (lastKeyPressTime) {
                 keyPressTimes.push(currentTime - lastKeyPressTime);
             }
