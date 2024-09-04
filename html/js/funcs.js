@@ -35,7 +35,7 @@ function updateContent(langData) {
     });
 }
 
-function setBackgroundColor() {
+function displayLanguageButtons() {
     if (userPreferredLanguage == 'en') {
         $('#EN').prop( "disabled", true );
         $('#DE').prop( "disabled", false );
