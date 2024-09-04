@@ -11,7 +11,8 @@ CREATE TABLE users (
     area_of_expertise VARCHAR(50),
     encounter_frequency VARCHAR(50),
     security_importance VARCHAR(50),
-    convenience_importance VARCHAR(50)
+    convenience_importance VARCHAR(50),
+    CHECK (username <> '')
 );
 
 -- Create devices table
