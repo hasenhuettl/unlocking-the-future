@@ -96,10 +96,10 @@ def login():
 
         score = model.score(features)
 
-        if score > -50: # Adjust threshold according to tests
+        if score > -80: # Adjust threshold according to tests
             return jsonify({"message": "Login successful"}), 200
         else:
-            return jsonify({"message": "Login failed, Score: " + str(score) + " out of -50"}), 401
+            return jsonify({"message": "Login failed, Score: " + str(score) + " out of -80"}), 401
 
     except ValueError as e:
         return jsonify({"message": str(e)}), 400
