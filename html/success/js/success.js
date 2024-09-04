@@ -7,7 +7,7 @@ $(document).ready(function() {
 function saveMeasurement() {
     const url = apiUrl + '/saveMeasurement';
 
-    const visitorId = getCookie("visitorId");
+    const deviceId = getCookie("deviceId");
 
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
@@ -16,7 +16,7 @@ function saveMeasurement() {
     const action = urlParams.get('action');
     const timeMs = urlParams.get('timeMs');
 
-    if (!visitorId) {
+    if (!deviceId) {
         let message = "Please first register this device ";
         $('#message').remove();
         $( "body" ).append(
@@ -33,7 +33,7 @@ function saveMeasurement() {
     } else if (!timeMs) {
         showError("timeMs is empty");
     } else {
-        const body = JSON.stringify({ visitorId, authMethod, action, timeMs });
+        const body = JSON.stringify({ deviceId, authMethod, action, timeMs });
 
         post_request(url, body);
     }

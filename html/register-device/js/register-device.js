@@ -9,6 +9,7 @@ window.onload = function(){
     $('#junk').on('error', function (e) {
         const now = new Date().getTime();
         latency = now - start;
+        console.log("Latency: " + latency);
     }).attr('src', '/invalid.jpg?d=' + new Date().getTime());
 
     $("#register").on("click", function(){ get_fingerprint( register ); });
@@ -36,25 +37,21 @@ function get_fingerprint(callback) {
 function register(fingerprint) {
     const url = apiUrl + '/saveDevice';
     const username = $('#username').val();
-    const redirect = true;
-
     const os = fingerprint.os;
     const browser = fingerprint.browserName;
     const visitorId = fingerprint.visitorId;
 
-    // Set new cookie with infinite expiration date (year 9999), browsers usually reduce this to 400 days or lower
-    document.cookie = `visitorId=${visitorId}; expires=Sun, 1 Jan 9999 00:00:00 UTC; path=/`
-console.log(latency);
     const body = JSON.stringify({ username, visitorId, os, browser, latency });
 
-    post_request(url, body, redirect);
+    post_request(url, body);
 }
 
-async function post_request(url, body, redirect) {
+async function post_request(url, body) {
     const parts = url.split('/');
-    const action = parts[parts.length - 1]; // returns /login or /signup
+    const action = parts[parts.length - 1]; // returns /register-device
     const readyTime = new Date().getTime();
     const timeMs = readyTime - startTime;
+
     try {
         const response = await fetch(url, {
             method: 'POST',
@@ -63,12 +60,10 @@ async function post_request(url, body, redirect) {
         });
         const result = await response.json();
         if (response.ok) {
-            if (redirect) {
-                const params = new URLSearchParams({ authMethod, action, timeMs }).toString();
-                window.location.href = '/success?' + params;
-            } else {
-                showSuccess('Request successful');
-            }
+            // Set new cookie with infinite expiration date (year 9999), browsers usually reduce this to 400 days or lower
+            document.cookie = `deviceId=${result.deviceId}; expires=Sun, 1 Jan 9999 00:00:00 UTC; path=/`
+            const params = new URLSearchParams({ authMethod, action, timeMs }).toString();
+            window.location.href = '/success?' + params;
         } else {
             showMain();
             showError(result.message);
