@@ -71,6 +71,7 @@ $( document ).ready(function() {
             stream.getTracks().forEach(track => track.stop());
             isRecording = false;
             $('#recordVoice').text('Record Voice').removeClass("recording");
+            $('#signup').prop("disabled", false);
         }
     });
 
