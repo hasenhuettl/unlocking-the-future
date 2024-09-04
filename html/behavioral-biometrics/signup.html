@@ -18,9 +18,9 @@
     <div class="center">
         <h1 data-i18n="Behavioral_Biometrics">Behavioral Biometrics</h1>
     </div>
-    <form id="login-form">
+    <form id="login-form" autocomplete="off" action="">
         <input value="12345678" class="center" type="text" id="username" placeholder="Username" required>
-        <input class="center" type="password" id="password" placeholder="Password" required>
+        <input autocomplete="one-time-code" type="text" class="center" id="password" placeholder="Password" required>
         <div class="requirements">
             <strong><u data-i18n="Requires">Requires:</u></strong>
             <p id="requirement-characters" status="fail" class="requires" data-i18n="Characters">6+ characters</p>
