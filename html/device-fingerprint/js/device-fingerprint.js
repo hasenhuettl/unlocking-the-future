@@ -68,6 +68,7 @@ async function post_request(url, body, redirect) {
             }
         } else {
             showError(result.error);
+            showMain();
         }
     } catch (error) {
         showMain();
