@@ -1,11 +1,10 @@
 {
     "Install_Certificate": "Zertifikat installieren",
     "Download_certificate": "Zertifikat herunterladen",
-    "Password": "Passwort",
+    "Password": "Gehen Sie die Anweisungen durch, und geben Sie das folgende Passwort ein:",
     "Instructions": "Anweisungen",
     "Download_certificate_instruction": "Laden Sie das Zertifikat herunter",
-    "Open_certificate_instruction": "Doppelklicken Sie auf die heruntergeladene Datei, um sie zu öffnen",
-    "Install_certificate_instruction": "Folgen Sie den Anweisungen, um das Zertifikat zu installieren",
+    "Open_certificate_instruction": "Öffnen Sie das heruntergeladene Zertifikat",
     "Continue": "Fortsetzen"
 }
 

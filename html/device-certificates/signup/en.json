@@ -1,11 +1,10 @@
 {
     "Install_Certificate": "Install Certificate",
     "Download_certificate": "Download certificate",
-    "Password": "Password",
+    "Password": "Follow the instructions, and insert the following password:",
     "Instructions": "Instructions",
     "Download_certificate_instruction": "Download the certificate",
-    "Open_certificate_instruction": "Double-click the downloaded file to open it",
-    "Install_certificate_instruction": "Follow the prompts to install the certificate",
+    "Open_certificate_instruction": "Open the downloaded certificate",
     "Continue": "Continue"
 }
 

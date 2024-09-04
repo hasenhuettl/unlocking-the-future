@@ -13,5 +13,6 @@ function login() {
     const action = 'login';
     const params = new URLSearchParams({ action, startTime }).toString();
     window.location.href = "https://device-certificates.hasenhuettl.cc/index.html?" + params;
+    // window.open("https://device-certificates.hasenhuettl.cc/index.html?" + params, '_blank', 'incognito=yes');
 }
 
