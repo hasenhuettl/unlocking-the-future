@@ -39,7 +39,7 @@ function validatePassword(password) {
     const hasLowerCase = /[a-z]/.test(password);
     const hasUpperCase = /[A-Z]/.test(password);
     const hasNumber = /\d/.test(password);
-    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+    const hasSpecialChar = /[^A-Za-z0-9]/.test(password);
 
     if (password.length < minLength || !hasLowerCase || !hasUpperCase || !hasNumber || !hasSpecialChar) {
         return 'Password must be at least 10 characters long and include at least one lower case letter, one upper case letter, one number, and one special character.';
