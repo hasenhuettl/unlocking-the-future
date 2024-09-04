@@ -182,6 +182,10 @@ main {
   bottom: 50px;
 }
 
+header {
+    max-height: 150px;
+}
+
 header nav ul,
 footer {
   list-style: none;
