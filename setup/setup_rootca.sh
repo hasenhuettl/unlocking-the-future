@@ -11,7 +11,7 @@ dns="device-certificates.hasenhuettl.cc"
 __dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source ${__dir}/.credentials.env
 
-ip=`dig +short $dns @resolver1.opendns.com`
+ip=`dig +short $dns`
 
 cd /var/www
 mkdir -p $ROOTCA

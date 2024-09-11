@@ -25,8 +25,19 @@ sudo apt-get install -y grafana
 
 # Move old grafana config (if exists), then symlink to project config
 sudo [ -f /etc/grafana/grafana.ini ] && sudo mv /etc/grafana/grafana.ini /etc/grafana/grafana.ini.old
-sudo ln -s ${__dir}/grafana.ini /etc/grafana/grafana.ini
-sudo chgrp grafana ${__dir}/grafana.ini
+sudo ln -s ${__dir}/config/grafana/grafana.ini /etc/grafana/grafana.ini
+sudo chgrp grafana ${__dir}/config/grafana/grafana.ini
+
+sudo mkdir -p /etc/grafana/dashboards
+sudo mkdir -p /etc/grafana/provisioning/datasources
+sudo mkdir -p /etc/grafana/provisioning/dashboards
+
+sudo cp ${__dir}/config/grafana/provisioning/datasources/datasource.yaml /etc/grafana/provisioning/datasources/datasource.yaml
+sudo cp ${__dir}/config/grafana/provisioning/dashboards/dashboard.yaml /etc/grafana/provisioning/dashboards/dashboard.yaml
+sudo cp ${__dir}/config/grafana/dashboards/dashboard.json /etc/grafana/dashboards/dashboard.json
+
+# Replace placeholder with specified password
+sed -i "s|\$GRAFANA|$GRAFANA|g" /etc/grafana/provisioning/datasources/datasource.yaml
 
 sudo systemctl daemon-reload
 sudo systemctl enable grafana-server

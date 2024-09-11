@@ -32,5 +32,5 @@ sudo -u postgres psql -d $database_name -c "ALTER DEFAULT PRIVILEGES FOR ROLE po
 sudo -u postgres psql -d $database_name -c "ALTER DEFAULT PRIVILEGES FOR ROLE postgres GRANT SELECT, USAGE ON SEQUENCES TO grafana;"
 
 # Setup db schema
-sudo -u postgres psql -d $database_name -f ${__dir}/schema.sql
+sudo -u postgres psql -d $database_name -f ${__dir}/config/schema.sql
 

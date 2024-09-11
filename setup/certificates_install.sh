@@ -11,6 +11,10 @@ fi
 new_domain=$1
 
 apt install certbot
+
+# Only needed for redirect, can be commented out (Also, remember to remove corresponding config in auth.conf if removing)
+sudo certbot certonly --standalone -d $new_domain
+
 sudo certbot certonly --standalone -d authenticate.$new_domain
 sudo certbot certonly --standalone -d device-certificates.$new_domain
 sudo certbot certonly --standalone -d usb-keys.$new_domain

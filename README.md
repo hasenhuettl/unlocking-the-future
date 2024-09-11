@@ -40,14 +40,15 @@ bash /var/www/replace_domain.sh hasenhuettl.cc contoso.com
 Choose one of the following options to install SSL certificates:
 
 ### Option A: Install certificates via certbot
- * Add either a wildcard record in your domain for `*.your.domain`, or multiple records for each subdomain defined in `/var/www/certificates_install.sh`
+ * Add either a wildcard A record in your domain for `*.your.domain`, or multiple records for each subdomain defined in `/var/www/setup/certificates_install.sh`
+ * Add an A record for root domain `your.domain`, OR comment/remove config in `/var/www/setup/certificates_install.sh` and `/var/www/config/auth.conf`
 ```
-bash /var/www/certificates_install.sh contoso.com
+bash /var/www/setup/certificates_install.sh contoso.com
 ```
 
 ### Option B: Copy wildcard cert or individual subdomain certs to the server and replace the file path in the following files to refer to your files:
 ```
-/var/www/auth.conf
+/var/www/config/auth.conf
 /var/www/html/device-certificates/device-certificates.conf
 /var/www/html/device-fingerprint/device-fingerprint.conf
 ```
@@ -63,11 +64,11 @@ bash /var/www/certificates_install.sh contoso.com
  * Replace API key in `/var/www/node/sso-api/.env` (from console.cloud.google.com)
 
 ## Replace vars in .credentials.env
- * Replace environment vars in `/var/www/.credentials.env` (can be any string, for example generate passwords via <https://www.random.org/strings/>)
+ * Replace environment vars in `/var/www/setup/.credentials.env` (can be any string, for example generate passwords via <https://www.random.org/strings/>)
 
 ## Download dependencies and start services
 Run the installation script
 ```
-bash /var/www/install.sh
+bash /var/www/setup/install.sh
 ```
 
