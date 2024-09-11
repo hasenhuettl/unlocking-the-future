@@ -1,0 +1,15 @@
+apiVersion: 1
+
+datasources:
+  - name: grafana-postgresql-datasource
+    type: postgres
+    access: proxy
+    url: "localhost:5432"
+    database: "auth_methods"
+    user: "grafana"
+    secureJsonData:
+      password: "$GRAFANA"
+    jsonData:
+      sslmode: "require"
+    isDefault: true
+
