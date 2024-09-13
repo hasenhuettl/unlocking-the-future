@@ -20,8 +20,9 @@ sudo apt-get install -y nodejs
 
 * Clone repo content to /var/www/
 
-___Attention: Because of the punctuation at the end (clone into current dir), directory has to be empty or command will fail!___
+___Attention: Directory has to be empty or command will fail! Do NOT setup this project on an already running webserver!___
 ```
+mkdir /var/www
 cd /var/www
 git clone https://github.com/hasenhuettl/unlocking-the-future .
 ```
@@ -29,11 +30,10 @@ git clone https://github.com/hasenhuettl/unlocking-the-future .
 ## Change domain address
  * Change domain name to your personally owned domain, for example: contoso.com
 
-___**Attention: This command will replace all occurences of string 1 (hasenhuettl.cc) with string 2 (contoso.com) IN ALL FILES IN THE SAME FOLDER OR ANY SUBFOLDER OF THE SCRIPT (In this example: /var/www/..)!**___
+___**Attention: This command will replace all occurences of string 1 (hasenhuettl.cc) with string 2 (contoso.com) IN ALL FILES OF THIS PROJECT (In this example: /var/www/..)!**___
 
-___**Do NOT move this command to any location with files other than this project!**___
 ```
-bash /var/www/replace_domain.sh hasenhuettl.cc contoso.com
+bash /var/www/scripts/bash/replace_domain.sh hasenhuettl.cc contoso.com
 ```
 
 ## Get SSL certificates

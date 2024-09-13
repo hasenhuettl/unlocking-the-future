@@ -41,21 +41,27 @@ const executeCommand = (cmd, res) => {
   });
 };
 
+const getCommand = (cmd, res) => {
+  exec(cmd, (error, stdout, stderr) => {
+    if (error) {
+      console.error(`Error executing script: ${error}`);
+      res.statusCode = 500;
+      res.end(error.toString());
+    } else {
+      res.end(stdout);
+    }
+  });
+};
+
+// Endpoint for /clearData
 app.post('/clearData', (req, res) => {
-  const cmd = 'bash /var/www/scripts/bash/cleardata.sh';
+  const cmd = 'bash /var/www/scripts/bash/clear_data.sh';
   executeCommand(cmd, res);
 });
 
-
-app.post('/saveData', (req, res) => {
-  const cmd = 'bash /var/www/scripts/bash/savedata.sh';
-  executeCommand(cmd, res);
-});
-
-// Endpoint for /saveData
-app.post('/saveData', (req, res) => {
-  const cmd = 'bash /var/www/scripts/bash/savedata.sh';
-  executeCommand(cmd, res);
+app.get('/countLineNumbers', (req, res) => {
+  const cmd = 'bash /var/www/scripts/bash/count_line_numbers.sh';
+  getCommand(cmd, res);
 });
 
 app.post('/saveDevice', async (req, res) => {
