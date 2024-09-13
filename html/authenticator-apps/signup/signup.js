@@ -29,6 +29,8 @@ $( document ).ready(function() {
                 $('#qr-code').html(`<img src="${qrCodeUrl}" alt="QR Code">`);
                 $('#manual-code').html(`<p>Manual Code: ${secret}</p>`);
 
+                $('#signup').prop("disabled", false);
+
             },
             error: function(xhr, ajaxOptions, error) {
                 showError(error);
