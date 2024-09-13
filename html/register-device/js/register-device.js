@@ -62,6 +62,7 @@ async function post_request(url, body) {
         if (response.ok) {
             // Set new cookie with infinite expiration date (year 9999), browsers usually reduce this to 400 days or lower
             document.cookie = `deviceId=${result.deviceId}; expires=Sun, 1 Jan 9999 00:00:00 UTC; path=/`
+            document.cookie = `username=${ $('#username').val() }; expires=Sun, 1 Jan 9999 00:00:00 UTC; path=/`
             const params = new URLSearchParams({ authMethod, action, timeMs }).toString();
             window.location.href = '/success?' + params;
         } else {

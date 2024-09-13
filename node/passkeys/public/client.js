@@ -14,6 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License
  */
+
+
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
+}
+
+window.onload = function() {
+  let username = getCookie("username");
+  document.getElementById('username').value = username;
+};
+
 export const $ = document.querySelector.bind(document);
 
 export async function _fetch(path, payload = '') {
