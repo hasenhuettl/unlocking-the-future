@@ -22,7 +22,8 @@ sudo apt-get install -y nodejs
 
 ___Attention: Directory has to be empty or command will fail! Do NOT setup this project on an already running webserver!___
 ```
-mkdir /var/www
+sudo mkdir /var/www
+sudo chown -R $USER: /var/www
 cd /var/www
 git clone https://github.com/hasenhuettl/unlocking-the-future .
 ```
