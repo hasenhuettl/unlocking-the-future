@@ -41,6 +41,8 @@ function send_sms() {
 
     const body = JSON.stringify({ username });
 
+    $('#login').prop("disabled", false);
+
     post_request(url, body, redirect);
 }
 
