@@ -1,6 +1,10 @@
 {
     "Authenticator_Apps": "Authenticator Apps",
     "Username": "Benutzername",
+    "Instructions": "Anweisungen",
+    "Open_auth_app": "Öffnen Sie eine Authentifizierungs-App auf Ihrem Smartphone (Google Authenticator, Microsoft Authenticator, Authy, ...)",
+    "Create_account": "Erstellen Sie ein neues Konto in Ihrer App (normalerweise: '+', 'Konto hinzufügen', 'QR-Code scannen', ...)",
+    "Create_code": "Klicken Sie auf die Schaltfläche unten, um einen neuen QR-Code zu erstellen",
     "Get_new_QR_code": "Neuen QR-Code erhalten",
     "Fill_in_token": "Geben Sie das von Ihrer Authentifikator-App generierte Token ein",
     "Token_placeholder": "000 000",
