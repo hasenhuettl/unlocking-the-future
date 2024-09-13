@@ -18,11 +18,11 @@ SETUP_DIR="$PROJECT_ROOT/setup"
 # Function to count lines of specific file extensions in a directory
 count_lines() {
     local dir=$1
-    local ext=$2
+    local lang=$2
     local total_lines=0
 
     if [ -d "$dir" ]; then
-        for file in $(git ls-files "$dir" | grep -E "$ext$"); do
+        for file in $(git ls-files "$dir" | grep -E "$lang$"); do
             if [ -f "$file" ]; then
                 lines=$(wc -l < "$file")
                 total_lines=$((total_lines + lines))
@@ -39,25 +39,38 @@ echo "Displaying line numbers in project"
 
 echo ""
 echo 'Folder "html":'
-echo "  html:   $(count_lines "$HTML_DIR" "\.html")"
-echo "  js:     $(count_lines "$HTML_DIR" "\.js")"
-echo "  css:    $(count_lines "$HTML_DIR" "\.css")"
+echo "  html:   $(count_lines "$HTML_DIR" "html")"
+echo "  js:     $(count_lines "$HTML_DIR" "js")"
+echo "  css:    $(count_lines "$HTML_DIR" "css")"
 
 echo ""
 echo 'Folder "node":'
-echo "  html:   $(count_lines "$NODE_DIR" "\.html")"
-echo "  js:     $(count_lines "$NODE_DIR" "\.js")"
-echo "  css:    $(count_lines "$NODE_DIR" "\.css")"
+echo "  html:   $(count_lines "$NODE_DIR" "html")"
+echo "  js:     $(count_lines "$NODE_DIR" "js")"
+echo "  css:    $(count_lines "$NODE_DIR" "css")"
 
 echo ""
 echo 'Folder "scripts":'
-echo "  sh:     $(count_lines "$SCRIPTS_DIR" "\.sh")"
+echo "  sh:     $(count_lines "$SCRIPTS_DIR" "sh")"
 
 echo ""
 echo 'Folder "setup":'
-echo "  sh:     $(count_lines "$SETUP_DIR" "\.sh")"
+echo "  sh:     $(count_lines "$SETUP_DIR" "sh")"
 
 echo ""
 echo 'Folder "systemd":'
-echo "  service: $(count_lines "$SYSTEMD_DIR" "\.service")"
+echo "  service: $(count_lines "$SYSTEMD_DIR" "service")"
+
+echo ""
+echo "----------------------------------"
+echo ""
+echo 'All Folders:'
+echo "  html:    $(count_lines "$PROJECT_ROOT" "html")"
+echo "  js:      $(count_lines "$PROJECT_ROOT" "js")"
+echo "  css:     $(count_lines "$PROJECT_ROOT" "css")"
+echo "  sh:      $(count_lines "$PROJECT_ROOT" "sh")"
+echo "  service: $(count_lines "$PROJECT_ROOT" "service")"
+
+echo ""
+echo "  ALL: $(count_lines "$PROJECT_ROOT" "(html|js|css|sh|service)")"
 
