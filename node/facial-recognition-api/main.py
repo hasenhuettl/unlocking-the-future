@@ -8,7 +8,7 @@ os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 # Set a custom threshold for the distance metric (default is 0.4 for cosine distance)
-custom_threshold = 0.7  # Increase the threshold to make passing easier
+custom_threshold = 0.8  # Increase the threshold to make passing easier
 
 def get_script_path():
     return os.path.dirname(os.path.realpath(sys.argv[0]))

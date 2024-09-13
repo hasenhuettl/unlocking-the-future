@@ -98,6 +98,7 @@ const captureAndUpload = async (endpoint, filename) => {
                         $('#container').hide();
                         $('main').show();
                         stream.getTracks().forEach(track => track.stop()); // Stop all video streams
+                        $('#message').remove();
                         showLoad();
         
                         canvas.toBlob(async (blob) => {
@@ -137,7 +138,7 @@ const captureAndUpload = async (endpoint, filename) => {
                     showSuccess("Please move closer to the camera.");
                 }
             } else {
-                showError("No face detected.");
+                showSuccess("No face detected.");
             }
             // Restart face detection after a short delay
             setTimeout(detectFace, 500);
