@@ -26,6 +26,22 @@
     "IP_Address_Filtering": "IP-Adressfilterung",
     "Device_Based_Location": "Gerätebasierte Ortung",
     "Line_numbers": "Anzahl an Codezeilen",
-    "References": "Quellenangaben für verwendete Bilder"
+    "References": "Quellenangaben für verwendete Bilder",
+    "Passwords_Title": "Verwenden Sie ein geheimes Passwort, das nur dem Benutzer bekannt ist.",
+    "PINs_Title": "Verwenden Sie eine persönliche Identifikationsnummer (PIN) als Sicherheitsmaßnahme.",
+    "Security_Questions_Title": "Beantworten Sie eine vordefinierte Sicherheitsfrage zur Verifizierung der Identität.",
+    "Game_Based_Auth_Title": "Authentifizieren Sie sich mit interaktiven oder spielbasierten Herausforderungen.",
+    "SMS_Title": "Erhalten Sie einen einmaligen Code per SMS zur Authentifizierung.",
+    "Device_Fingerprint_Title": "Authentifizieren Sie sich anhand der vorhandenen Hardware.",
+    "Device_Certificates_Title": "Verwenden Sie digitale Zertifikate, die auf einem Gerät installiert sind, zur Authentifizierung.",
+    "Authenticator_Apps_Title": "Generieren Sie zeitbasierte Codes mit einer Authentifizierungs-App.",
+    "Passkeys_Title": "Authentifizieren Sie sich mit kryptografischen Schlüsseln, die mit Ihrem Gerät verknüpft sind.",
+    "Smart_Cards_Title": "Verwenden Sie eine physische Smartcard zur Authentifizierung.",
+    "USB_Keys_Title": "Authentifizieren Sie sich mit einem physischen USB-Sicherheitsschlüssel.",
+    "SSO_Title": "Melden Sie sich über ihren Google Account an.",
+    "Facial_Recognition_Title": "Authentifizieren Sie sich mit Gesichtserkennungstechnologie.",
+    "Voice_Recognition_Title": "Verwenden Sie die Stimmerkennung zur Verifizierung der Identität.",
+    "Behavioral_Biometrics_Title": "Authentifizieren Sie sich basierend auf Benutzerverhalten, wie z. B. Tippmustern.",
+    "IP_Address_Filtering_Title": "Beschränken Sie den Zugriff basierend auf der IP-Adresse des Benutzers.",
+    "Device_Based_Location_Title": "Authentifizieren Sie sich mit der GPS-Position des Geräts."
 }
-

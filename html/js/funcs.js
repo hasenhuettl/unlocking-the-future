@@ -1,19 +1,19 @@
 var userPreferredLanguage;
 
 window.addEventListener('DOMContentLoaded', async () => {
-
     const urlParams = new URLSearchParams(window.location.search);
     userPreferredLanguage = urlParams.get('language');
-    if (userPreferredLanguage) { localStorage.setItem('language', userPreferredLanguage) }
+    if (userPreferredLanguage) {
+        localStorage.setItem('language', userPreferredLanguage);
+    }
 
-    userPreferredLanguage = localStorage.getItem('language') || 'en';
+    userPreferredLanguage = localStorage.getItem('language') || 'en'; // Default to 'en' if no preference
     const langData = await fetchLanguageData(userPreferredLanguage);
     updateContent(langData);
 });
 
 async function changeLanguage(lang) {
     await setLanguagePreference(lang);
-    
     const langData = await fetchLanguageData(lang);
     updateContent(langData);
 }
@@ -30,8 +30,17 @@ function setLanguagePreference(lang) {
 
 function updateContent(langData) {
     document.querySelectorAll('[data-i18n]').forEach(element => {
-      const key = element.getAttribute('data-i18n');
-      element.textContent = langData[key];
+        const key = element.getAttribute('data-i18n');
+
+        if (langData[key]) {
+            element.textContent = langData[key];
+        }
+
+        // Update title attribute if it exists in the language data
+        const titleKey = `${key}_Title`;
+        if (langData[titleKey] && element.hasAttribute('title')) {
+            element.setAttribute('title', langData[titleKey]);
+        }
     });
 }
 
@@ -67,6 +76,6 @@ function showMain() {
 }
 
 function showLoad() {
-    $(".loader").show(); // show loading
+    $(".loader").show();
     $("main").hide();
 }
