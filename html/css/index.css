@@ -119,6 +119,7 @@ button:hover {
 .security-question		{ background-image: url('/img/security_questions.png'); }
 .game-based-auth		{ background-image: url('/img/gamebased.png'); }
 .sms					{ background-image: url('/img/sms.png'); }
+.e-mail					{ background-image: url('/img/e-mail.png'); }
 .device-fingerprint		{ background-image: url('/img/device_fingerprint.png'); }
 .device-certificates	{ background-image: url('/img/device_certificate.png'); }
 .authenticator-apps		{ background-image: url('/img/auth_apps.png'); }

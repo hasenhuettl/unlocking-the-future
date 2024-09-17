@@ -63,6 +63,7 @@ bash /var/www/setup/certificates_install.sh contoso.com
  * Replace API key in `/var/www/html/device-fingerprint/device-fingerprint.conf` (from fingerprint.com)
  * Replace API key in `/var/www/node/sms-verification-api/.env` (from twilio.com)
  * Replace API key in `/var/www/node/sso-api/.env` (from console.cloud.google.com)
+ * Replace your credentials in `/var/www/node/-api/.env` (from console.cloud.google.com)
 
 ## Replace vars in .credentials.env
  * Replace environment vars in `/var/www/setup/.credentials.env` (can be any string, for example generate passwords via <https://www.random.org/strings/>)
