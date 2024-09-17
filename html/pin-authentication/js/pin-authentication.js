@@ -21,6 +21,7 @@ async function login() {
             window.location.href = '/success?' + params;
         } else {
             showError(result.error);
+            $("#pin").val("");
         }
     } catch (error) {
         showError('Network error');
@@ -47,6 +48,7 @@ async function signup() {
             window.location.href = '/success?' + params;
         } else {
             showError(result.error);
+            $("#pin").val("");
         }
     } catch (error) {
         showError('Network error');
@@ -68,6 +70,7 @@ $(document).ready(function(){
 
   $("#pin").on('keypress', function(e) {
     if (e.which === 13) { // Enter key pressed
+      document.activeElement.blur();
       if ($("#login").length) {
         $("#login").click();
       } else if ($("#signup").length) {
