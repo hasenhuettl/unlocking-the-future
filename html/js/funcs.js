@@ -1,12 +1,21 @@
 var userPreferredLanguage;
 
-window.addEventListener('DOMContentLoaded', async () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    userPreferredLanguage = urlParams.get('language');
-    if (userPreferredLanguage) {
-        localStorage.setItem('language', userPreferredLanguage);
-    }
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+}
 
+window.addEventListener('DOMContentLoaded', async () => {
+    let username = getCookie("username");
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlUsername = urlParams.get('username');
+    userPreferredLanguage = urlParams.get('language');
+
+    if (urlUsername) { username = urlUsername; }
+    if( $('#username').length ) { document.getElementById('username').value = username; };
+
+    if (userPreferredLanguage) { localStorage.setItem('language', userPreferredLanguage); }
     userPreferredLanguage = localStorage.getItem('language') || 'en'; // Default to 'en' if no preference
     const langData = await fetchLanguageData(userPreferredLanguage);
     updateContent(langData);

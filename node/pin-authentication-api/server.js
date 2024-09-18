@@ -44,9 +44,9 @@ function validatePin(pin) {
 }
 
 function validateUsername(username) {
-    const minLength = 8;
+    const minLength = 1;
     if (username.length < minLength) {
-        return 'Username must be at least 8 characters long.';
+        return 'Username must be at least 1 character long.';
     }
     return null;
 }

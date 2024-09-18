@@ -30,9 +30,9 @@ https.createServer(options, app).listen(PORT, () => {
 const SECRET_KEY = 'lazy dog'; // Change to a secure key
 
 function validateUsername(username) {
-    const minLength = 8;
+    const minLength = 1;
     if (username.length < minLength) {
-        return 'Username must be at least 8 characters long.';
+        return 'Username must be at least 1 character long.';
     }
     return null;
 }
