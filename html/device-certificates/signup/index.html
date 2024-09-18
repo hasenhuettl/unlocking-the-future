@@ -28,7 +28,7 @@
 
 
     <div class="center">
-      <button class="button-secondary center" id="continue" type="button" data-i18n="Continue">Continue</button>
+      <button disabled="disabled" class="button-secondary center" id="continue" type="button" data-i18n="Continue">Continue</button>
     </div>
   </main>
   <div class="loader"></div>
@@ -49,6 +49,7 @@
           a.href = url;
           a.download = certFile;
           a.click();
+          $("#continue").prop('disabled', false);
         }
       };
       xhr.send();
