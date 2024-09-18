@@ -47,32 +47,39 @@ const saveUserData = () => {
 loadUserData();
 
 app.post('/signup', (req, res) => {
-    const { lat, lon } = req.body;
+    const { username, lat, lon } = req.body;
     const roundedLat = parseFloat(lat).toFixed(3);
     const roundedLon = parseFloat(lon).toFixed(3);
-    const key = `${roundedLat},${roundedLon}`;
 
-    if (users[key]) {
-        return res.status(400).json({ message: 'User already exists at this location.' });
+    if (!username) {
+        return res.status(400).json({ message: 'Username has to be at least 1 character' });
     }
 
-    users[key] = { lat: roundedLat, lon: roundedLon };
+    users[username] = { lat: roundedLat, lon: roundedLon };
     saveUserData();
 
-    res.json({ message: 'User created successfully' });
+    res.json({ message: 'Location saved successfully' });
 });
 
 app.post('/login', (req, res) => {
-    const { lat, lon } = req.body;
+    const { username, lat, lon } = req.body;
     const roundedLat = parseFloat(lat).toFixed(3);
     const roundedLon = parseFloat(lon).toFixed(3);
-    const key = `${roundedLat},${roundedLon}`;
 
-    if (users[key]) {
-        return res.status(200).json({ message: 'Login successful.' });
+    if (!username) {
+        return res.status(400).json({ message: 'Username has to be at least 1 character' });
     }
 
-    return res.status(400).json({ message: 'User not found.' });
+    if (!users[username]) {
+        return res.status(400).json({ message: 'User has not signed up' });
+    }
+
+    if (users[username].lat == roundedLat && users[username].lon == roundedLon) {
+        return res.status(200).json({ message: 'Login successful.' });
+    } else {
+        return res.status(400).json({ message: 'User has logged in from unknown location' });
+    }
+
 });
 
 

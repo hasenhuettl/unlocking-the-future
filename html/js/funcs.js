@@ -13,7 +13,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     userPreferredLanguage = urlParams.get('language');
 
     if (urlUsername) { username = urlUsername; }
-    if( $('#username').length ) { document.getElementById('username').value = username; };
+    if( $('#username').length && username ) { document.getElementById('username').value = username; };
 
     if (userPreferredLanguage) { localStorage.setItem('language', userPreferredLanguage); }
     userPreferredLanguage = localStorage.getItem('language') || 'en'; // Default to 'en' if no preference

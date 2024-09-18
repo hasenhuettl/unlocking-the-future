@@ -28,13 +28,16 @@ async function signup() {
   const readyTime = new Date().getTime();
   const timeMs = readyTime - startTime;
   try {
+    const username = document.getElementById('username').value;
     const coords = await getCoords();
+    const lat = coords.lat;
+    const lon = coords.lon;
     const response = await fetch('/gps-verification-api/signup', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(coords)
+      body: JSON.stringify({username, lat, lon})
     });
     if ( response.ok ) {
       const params = new URLSearchParams({ authMethod, action, timeMs }).toString();
@@ -57,13 +60,16 @@ async function login() {
   const readyTime = new Date().getTime();
   const timeMs = readyTime - startTime;
   try {
+    const username = document.getElementById('username').value;
     const coords = await getCoords();
+    const lat = coords.lat;
+    const lon = coords.lon;
     const response = await fetch('/gps-verification-api/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(coords)
+      body: JSON.stringify({username, lat, lon})
     });
     if ( response.ok ) {
       const params = new URLSearchParams({ authMethod, action, timeMs }).toString();

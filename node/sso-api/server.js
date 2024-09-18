@@ -79,7 +79,7 @@ app.get('/signup', (req, res) => {
         return res.redirect('/400.html?message=User already exists.');
     }
 
-    users[userProfile] = {};
+    users[userProfile] = debugProfile;
     saveUserData();
 
     const readyTime = new Date().getTime();
