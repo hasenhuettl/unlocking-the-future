@@ -95,6 +95,7 @@ app.post('/email', async (req, res) => {
 
     // Edit credentials in .env
     const transporter = nodemailer.createTransport({
+        name: process.env.MAILPROVIDER,
         service: process.env.MAILPROVIDER,
         host: process.env.MAILHOST,
         port: process.env.MAILPORT,
@@ -118,13 +119,13 @@ app.post('/email', async (req, res) => {
     const from    = 'authenticate.hasenhuettl.cc@gmail.com';
     const to      = user.email;
     const subject = 'Login code'
-    const text    = 'Your login code for authenticate.hasenhuettl.cc is: ' + newCode;
+    const text    = '<html><body>Your login code for authenticate.hasenhuettl.cc is: ' + newCode; + '</body></html>'
 
     let mailOptions = {
         from: from,
         to: to,
         subject: subject,
-        text: text
+        html: text
     };
 
     transporter.sendMail(mailOptions, function(err, info){
@@ -133,7 +134,7 @@ app.post('/email', async (req, res) => {
             return res.status(400).json({ error: error });
         } else {
             usernames[username] = { email: to, code: newCode };
-            return res.json({ message: 'E-Mail send' });
+            return res.json({ message: 'E-Mail send to ' + to });
         }
     });
 

@@ -45,8 +45,8 @@ function setData(data) {
 function register(fingerprint) {
     const url = apiUrl + '/saveDevice';
     const username = $('#username').val();
-    const os = $('#OS').val();
-    const browser = $('#Browser').val();
+    const os = $('#os').val();
+    const browser = $('#browser').val();
     const visitorId = $('#visitorId').val();
 
     const body = JSON.stringify({ username, visitorId, os, browser, latency });

@@ -137,6 +137,9 @@ button:hover {
 
 .references {
   max-width: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .know {
@@ -153,6 +156,12 @@ button:hover {
 
 .somewhere {
   background-color: #48cfad;
+}
+
+.github {
+  width: 40px;
+  height: 40px;
+  background: white;
 }
 
 section {
