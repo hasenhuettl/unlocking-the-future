@@ -78,6 +78,7 @@ async function login() {
     const username = $("#username").val();
     const password = $("#password").val();
     try {
+        showLoad();
         const response = await fetch(apiUrl + '/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -88,10 +89,12 @@ async function login() {
             const params = new URLSearchParams({ authMethod, action, timeMs }).toString();
             window.location.href = '/success?' + params;
         } else {
+            showMain();
             showError(result.error);
             resetInput();
         }
     } catch (error) {
+        showMain();
         showError('Network error');
         resetInput();
     }
@@ -104,6 +107,7 @@ async function signup() {
     const username = $("#username").val();
     const password = $("#password").val();
     try {
+        showLoad();
         const response = await fetch(apiUrl + '/signup', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -114,10 +118,12 @@ async function signup() {
             const params = new URLSearchParams({ authMethod, action, timeMs }).toString();
             window.location.href = '/success?' + params;
         } else {
+            showMain();
             showError(result.error);
             resetInput();
         }
     } catch (error) {
+        showMain();
         showError('Network error');
         resetInput();
     }

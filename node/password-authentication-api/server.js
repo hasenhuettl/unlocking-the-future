@@ -80,6 +80,10 @@ loadUserData();
 app.post('/signup', async (req, res) => {
     const { username, password } = req.body;
     
+    if (username == "12345678") {
+        return res.status(400).json({ error: 'Please first register this device <a href="/register-device/index.html">via this link</a>' });
+    }
+
     const usernameError = validateUsername(username);
     if (usernameError) {
         return res.status(400).json({ error: usernameError });
@@ -100,14 +104,21 @@ app.post('/signup', async (req, res) => {
 
 app.post('/login', async (req, res) => {
     const { username, password } = req.body;
+
+    if (username == "12345678") {
+        return res.status(400).json({ error: 'Please first register this device <a href="/register-device/index.html">via this link</a>' });
+    }
+
     const user = users[username];
     if (!user) {
         return res.status(400).json({ error: 'User could not be found' });
     }
+
     const validPassword = await bcrypt.compare(password, user.password);
     if (!validPassword) {
         return res.status(400).json({ error: 'Invalid password' });
     }
+
     const token = jwt.sign({ username }, SECRET_KEY, { expiresIn: '1h' });
     res.cookie('auth', token);
     res.json({ message: 'Login successful' });

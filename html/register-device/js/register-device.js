@@ -1,6 +1,7 @@
 const apiUrl = '/scripts';
 const authMethod = document.title;
 let latency;
+let fingerprint;
 
 window.onload = function(){
     startTime = new Date().getTime();
@@ -12,34 +13,41 @@ window.onload = function(){
         console.log("Latency: " + latency);
     }).attr('src', '/invalid.jpg?d=' + new Date().getTime());
 
-    $("#register").on("click", function(){ get_fingerprint( register ); });
+    getFingerprint();
+
+    $("#register").on("click", function(){ register() });
 }
 
-function get_fingerprint(callback) {
-    showLoad();
-
+function getFingerprint() {
     import('/device-fingerprint/api')
         .then(FingerprintJS => FingerprintJS.load())
         .then(fp => fp.get({
           extendedResult: true
         }))
         .then(result => {
-            callback(result);
+            setData(result);
         })
         .catch(error => {
             console.error(error);
             showError(error);
-            showMain();
         });
+}
+
+function setData(data) {
+    fingerprint = data;
+    console.log(fingerprint);
+    $('#os').val(fingerprint.os);
+    $('#browser').val(fingerprint.browserName);
+    $('#visitorId').val(fingerprint.visitorId);
 }
 
 
 function register(fingerprint) {
     const url = apiUrl + '/saveDevice';
     const username = $('#username').val();
-    const os = fingerprint.os;
-    const browser = fingerprint.browserName;
-    const visitorId = fingerprint.visitorId;
+    const os = $('#OS').val();
+    const browser = $('#Browser').val();
+    const visitorId = $('#visitorId').val();
 
     const body = JSON.stringify({ username, visitorId, os, browser, latency });
 
@@ -53,6 +61,7 @@ async function post_request(url, body) {
     const timeMs = readyTime - startTime;
 
     try {
+        showLoad();
         const response = await fetch(url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

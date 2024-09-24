@@ -123,6 +123,8 @@ $( document ).ready(function() {
         formData.append('userId', username);
         formData.append('voice', file);
 
+        showLoad();
+
         $.ajax({
             url: '/voice-authentication-api/signup',
             method: 'POST',
@@ -136,6 +138,7 @@ $( document ).ready(function() {
                 // showSuccess(response.message);
             },
             error: function(xhr, ajaxOptions, error) {
+                showMain();
                 showError( xhr.responseText );
             }
         });

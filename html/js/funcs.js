@@ -68,6 +68,8 @@ function displayLanguageButtons() {
     }
 }
 
+const delay = ms => new Promise(res => setTimeout(res, ms));
+
 // show success message
 function showSuccess( message ) {
     $('#message').remove();
