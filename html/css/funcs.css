@@ -52,6 +52,10 @@ body {
   justify-content: center;
 }
 
+a {
+  color: #0000ee;
+}
+
 .center {
   margin-top: 10px;
   display: flex;
