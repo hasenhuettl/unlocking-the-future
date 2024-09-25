@@ -11,10 +11,10 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 custom_threshold = 0.8  # Increase the threshold to make passing easier
 
 def get_script_path():
-    return os.path.dirname(os.path.realpath(sys.argv[0]))
+    return os.path.dirname(os.path.realpath(sys.argv[0])) + sys.argv[1]
 
-img1_path = get_script_path() + "/uploads/img1.jpg"
-img2_path = get_script_path() + "/uploads/img2.jpg"
+img1_path = get_script_path() + "/img1.jpg"
+img2_path = get_script_path() + "/img2.jpg"
 
 # Perform face verification with custom threshold
 result = DeepFace.verify(

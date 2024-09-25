@@ -121,9 +121,13 @@ const captureAndUpload = async (endpoint, filename) => {
                                     showError(result.message);
                                 }
                             } else {
-                                const result = await response.json();
                                 showMain();
-                                showError(result.message);
+                                try {
+                                    const result = await response.json();
+                                    showError(result.message);
+                                } catch (error) {
+                                    showError(error);
+                                }
                             }
                         }, 'image/jpeg');
                         return;

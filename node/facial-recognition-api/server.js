@@ -5,6 +5,8 @@ const fs = require("fs");
 const { exec } = require('child_process');
 const express = require('express');
 const multer = require('multer');
+const path = require('path');
+const cookieParser = require('cookie-parser');
 
 const options = {
     key: fs.readFileSync('/etc/letsencrypt/live/authenticate.hasenhuettl.cc/privkey.pem'),
@@ -13,9 +15,24 @@ const options = {
 
 const app = express();
 
-var storage = multer.diskStorage({
-  destination: function (req, file, cb) { cb(null, './uploads/') },
-  filename: function (req, file, cb) { cb(null,  file.originalname ); }
+app.use(cookieParser());
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        const username = req.cookies.username;
+        const userDir = `./uploads/${username}`;
+
+        fs.mkdir(userDir, { recursive: true }, (err) => {
+            if (err) {
+                console.error('Error creating directory:', err);
+                return cb(err, userDir);
+            }
+            cb(null, userDir);
+        });
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname);
+    }
 });
 
 const upload = multer({ storage: storage });
@@ -30,9 +47,10 @@ app.post('/signup', upload.single('file'), (req, res) => {
 });
 
 app.post('/login', upload.single('file'), (req, res) => {
+    const username = req.cookies.username; // Get username from cookie
     if (req.file) {
         console.log(`Uploaded file: ${req.file.filename}`);
-        const cmd = 'python3 /var/www/node/facial-recognition-api/main.py';
+        const cmd = `python3 /var/www/node/facial-recognition-api/main.py /uploads/${username}/`;
         exec(cmd, (error, stdout, stderr) => {
             if (error) {
                 console.error(`Error executing script: ${error}`);

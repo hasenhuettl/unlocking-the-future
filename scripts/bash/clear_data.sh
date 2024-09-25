@@ -11,27 +11,34 @@ if [[ ! -f $PROJECT_ROOT/.path_verify ]] ; then
     exit
 fi
 
-rm -f $PROJECT_ROOT/node/passkeys/.data/db.json
-rm -f $PROJECT_ROOT/node/usb-keys/.data/db.json
-rm -f $PROJECT_ROOT/node/smart-cards/.data/db.json
-rm -f $PROJECT_ROOT/node/password-authentication-api/myDatabase.json
-rm -f $PROJECT_ROOT/node/pin-authentication-api/myDatabase.json
-rm -f $PROJECT_ROOT/node/security-question-authentication-api/myDatabase.json
-rm -f $PROJECT_ROOT/node/sms-authentication-api/myDatabase.json
-rm -f $PROJECT_ROOT/node/device-fingerprint-api/myDatabase.json
-rm -f $PROJECT_ROOT/node/gps-verification-api/myDatabase.json
-rm -f $PROJECT_ROOT/node/authenticator-apps-api/myDatabase.json
-rm -f $PROJECT_ROOT/node/sso-api/myDatabase.json
-rm -f $PROJECT_ROOT/node/behavioral-biometrics-api/myDatabase.json
-rm -f $PROJECT_ROOT/node/game-based-authentication-api/myDatabase.json
+# Do not exit if file does not exit
+set +e
 
-rm -f $PROJECT_ROOT/node/facial-recognition-api/uploads/*
-rm -f $PROJECT_ROOT/node/voice-authentication-api/uploads/*
-rm -f $PROJECT_ROOT/node/voice-authentication-api/models/*
+rm $PROJECT_ROOT/node/passkeys/.data/db.json
+rm $PROJECT_ROOT/node/usb-keys/.data/db.json
+rm $PROJECT_ROOT/node/smart-cards/.data/db.json
+rm $PROJECT_ROOT/node/password-authentication-api/myDatabase.json
+rm $PROJECT_ROOT/node/pin-authentication-api/myDatabase.json
+rm $PROJECT_ROOT/node/security-question-authentication-api/myDatabase.json
+rm $PROJECT_ROOT/node/sms-authentication-api/myDatabase.json
+rm $PROJECT_ROOT/node/device-fingerprint-api/myDatabase.json
+rm $PROJECT_ROOT/node/gps-verification-api/myDatabase.json
+rm $PROJECT_ROOT/node/authenticator-apps-api/myDatabase.json
+rm $PROJECT_ROOT/node/sso-api/myDatabase.json
+rm $PROJECT_ROOT/node/behavioral-biometrics-api/myDatabase.json
+rm $PROJECT_ROOT/node/game-based-authentication-api/myDatabase.json
+
+rm $PROJECT_ROOT/node/voice-authentication-api/uploads/*
+rm $PROJECT_ROOT/node/voice-authentication-api/models/*
+
+rm -r $PROJECT_ROOT/node/facial-recognition-api/uploads/*
 
 touch $PROJECT_ROOT/node/facial-recognition-api/uploads/.gitkeep
 touch $PROJECT_ROOT/node/voice-authentication-api/uploads/.gitkeep
 touch $PROJECT_ROOT/node/voice-authentication-api/models/.gitkeep
+
+# Exit on error
+set -e
 
 # Reset IP addresses
 curl -X POST -H 'Content-Type: application/json' https://authenticate.hasenhuettl.cc/ip-address-filtering-api/reset
