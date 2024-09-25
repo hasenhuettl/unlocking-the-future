@@ -260,6 +260,15 @@ header nav .button {
   height: -webkit-fill-available; /* Match height of biggest element */
   margin-right: 0px;
   margin-left: 0px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+.lang {
+  align-items: center;
+  justify-content: center;
+  display: flex;
 }
 
 #separator {

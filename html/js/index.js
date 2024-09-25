@@ -70,5 +70,6 @@ function uncheckAll() {
     document.querySelectorAll('.save-state').forEach(function(checkbox) {
         eraseCookie(checkbox.dataset.id);
     });
+    showSuccess("Unchecked all checkboxes");
 }
 
