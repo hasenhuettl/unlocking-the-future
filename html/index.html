@@ -25,42 +25,100 @@
 
 <body>
 <main id="indexmain">
+
 <div class="category know">
-    <h2 data-i18n="Something_You_Know"></h2>
+    <h2 data-i18n="Something_You_Know">Something You Know</h2>
     <div class="buttons">
-        <a href="/password-authentication" class="button password" data-i18n="Passwords" title="Use a secret password known only to the user."></a>
-        <a href="/pin-authentication" class="button pin" data-i18n="PINs" title="Use a personal identification number (PIN) as a form of security."></a>
-        <a href="/security-question-authentication" class="button security-question" data-i18n="Security_Questions" title="Answer a predefined security question to verify identity."></a>
-        <a href="/game-based-authentication" class="button game-based-auth" data-i18n="Game_Based_Auth" title="Authenticate using interactive or game-based challenges."></a>
+        <a class="button password" href="/password-authentication" title="Use a secret password known only to the user.">
+            <div class="description" data-i18n="Passwords">Passwords</div>
+            <input type="checkbox" class="save-state" data-id="password">
+        </a>
+        <a class="button pin" href="/pin-authentication" title="Use a personal identification number (PIN) as a form of security.">
+            <div class="description" data-i18n="PINs">PINs</div>
+            <input type="checkbox" class="save-state" data-id="pin">
+        </a>
+        <a class="button security-question" href="/security-question-authentication" title="Answer a predefined security question to verify identity.">
+            <div class="description" data-i18n="Security_Questions">Security Questions</div>
+            <input type="checkbox" class="save-state" data-id="security-question">
+        </a>
+        <a class="button game-based-auth" href="/game-based-authentication" title="Authenticate using interactive or game-based challenges.">
+            <div class="description" data-i18n="Game_Based_Auth">Game Based Auth</div>
+            <input type="checkbox" class="save-state" data-id="game-based-auth">
+        </a>
     </div>
 </div>
+
 <div class="category have">
-    <h2 data-i18n="Something_You_Have"></h2>
+    <h2 data-i18n="Something_You_Have">Something You Have</h2>
     <div class="buttons">
-        <a href="/sms-authentication" class="button sms" data-i18n="SMS" title="Receive a one-time code via SMS to authenticate."></a>
-        <a href="/email-authentication" class="button e-mail" data-i18n="E_MAIL" title="Receive a one-time code via E-MAIL to authenticate."></a>
-        <a href="/device-fingerprint" class="button device-fingerprint" data-i18n="Device_Fingerprint" title="Authenticate using a unique identifier of the user's device."></a>
-        <a href="/device-certificates" class="button device-certificates" data-i18n="Device_Certificates" title="Use digital certificates installed on a device for authentication."></a>
-        <a href="/authenticator-apps" class="button authenticator-apps" data-i18n="Authenticator_Apps" title="Generate time-based codes from an authenticator app."></a>
-        <a href="/passkeys" class="button passkeys" data-i18n="Passkeys" title="Authenticate using cryptographic keys linked to your device."></a>
-        <a href="https://smart-cards.hasenhuettl.cc/" class="button smart-cards" data-i18n="Smart_Cards" title="Use a physical smart card for authentication."></a>
-        <a href="https://usb-keys.hasenhuettl.cc/" class="button usb-keys" data-i18n="USB_Keys" title="Authenticate with a physical USB security key."></a>
-        <a href="https://sso.hasenhuettl.cc/logout" class="button sso" data-i18n="SSO" title="Log in using Single Sign-On (SSO) for centralized authentication."></a>
+        <a class="button sms" href="/sms-authentication" title="Receive a one-time code via SMS to authenticate.">
+            <div class="description" data-i18n="SMS">SMS</div>
+            <input type="checkbox" class="save-state" data-id="sms">
+        </a>
+        <a class="button e-mail" href="/email-authentication" title="Receive a one-time code via E-MAIL to authenticate.">
+            <div class="description" data-i18n="E_MAIL">E-Mail</div>
+            <input type="checkbox" class="save-state" data-id="e-mail">
+        </a>
+        <a class="button device-fingerprint" href="/device-fingerprint" title="Authenticate using a unique identifier of the user's device.">
+            <div class="description" data-i18n="Device_Fingerprint">Device Fingerprint</div>
+            <input type="checkbox" class="save-state" data-id="device-fingerprint">
+        </a>
+        <a class="button device-certificates" href="/device-certificates" title="Use digital certificates installed on a device for authentication.">
+            <div class="description" data-i18n="Device_Certificates">Device Certificates</div>
+            <input type="checkbox" class="save-state" data-id="device-certificates">
+        </a>
+        <a class="button authenticator-apps" href="/authenticator-apps" title="Generate time-based codes from an authenticator app.">
+            <div class="description" data-i18n="Authenticator_Apps">Authenticator Apps</div>
+            <input type="checkbox" class="save-state" data-id="authenticator-apps">
+        </a>
+        <a class="button passkeys" href="/passkeys" title="Authenticate using cryptographic keys linked to your device.">
+            <div class="description" data-i18n="Passkeys">Passkeys</div>
+            <input type="checkbox" class="save-state" data-id="passkeys">
+        </a>
+        <a class="button smart-cards" href="https://smart-cards.hasenhuettl.cc/" title="Use a physical smart card for authentication.">
+            <div class="description" data-i18n="Smart_Cards">Smart Cards</div>
+            <input type="checkbox" class="save-state" data-id="smart-cards">
+        </a>
+        <a class="button usb-keys" href="https://usb-keys.hasenhuettl.cc/" title="Authenticate with a physical USB security key.">
+            <div class="description" data-i18n="USB_Keys">USB Keys</div>
+            <input type="checkbox" class="save-state" data-id="usb-keys">
+        </a>
+        <a class="button sso" href="https://sso.hasenhuettl.cc/logout" title="Log in using Single Sign-On (SSO) for centralized authentication.">
+            <div class="description" data-i18n="SSO">SSO</div>
+            <input type="checkbox" class="save-state" data-id="sso">
+        </a>
     </div>
 </div>
+
 <div class="category are">
-    <h2 data-i18n="Something_You_Are"></h2>
+    <h2 data-i18n="Something_You_Are">Something You Are</h2>
     <div class="buttons">
-        <a href="/facial-recognition" class="button facial-recognition" data-i18n="Facial_Recognition" title="Authenticate using facial recognition technology."></a>
-        <a href="/voice-authentication" class="button voice-authentication" data-i18n="Voice_Recognition" title="Use voice recognition to verify identity."></a>
-        <a href="/behavioral-biometrics" class="button behavioral-biometrics" data-i18n="Behavioral_Biometrics" title="Authenticate based on user behavior, such as typing patterns."></a>
+        <a class="button facial-recognition" href="/facial-recognition" title="Authenticate using facial recognition technology.">
+            <div class="description" data-i18n="Facial_Recognition">Facial Recognition</div>
+            <input type="checkbox" class="save-state" data-id="facial-recognition">
+        </a>
+        <a class="button voice-authentication" href="/voice-authentication" title="Use voice recognition to verify identity.">
+            <div class="description" data-i18n="Voice_Recognition">Voice Authentication</div>
+            <input type="checkbox" class="save-state" data-id="voice-authentication">
+        </a>
+        <a class="button behavioral-biometrics" href="/behavioral-biometrics" title="Authenticate based on user behavior, such as typing patterns.">
+            <div class="description" data-i18n="Behavioral_Biometrics">Behavioral Biometrics</div>
+            <input type="checkbox" class="save-state" data-id="behavioral-biometrics">
+        </a>
     </div>
 </div>
+
 <div class="category somewhere">
-    <h2 data-i18n="Somewhere_You_Are"></h2>
+    <h2 data-i18n="Somewhere_You_Are">Somewhere You Are</h2>
     <div class="buttons">
-        <a href="/ip-address-filtering" class="button ip-address-filtering" data-i18n="IP_Address_Filtering" title="Restrict access based on the user's IP address."></a>
-        <a href="/gps-verification" class="button gps-verification" data-i18n="Device_Based_Location" title="Authenticate using the GPS location of the device."></a>
+        <a class="button ip-address-filtering" href="/ip-address-filtering" title="Restrict access based on the user's IP address.">
+            <div class="description" data-i18n="IP_Address_Filtering">IP Address Filtering</div>
+            <input type="checkbox" class="save-state" data-id="ip-address-filtering">
+        </a>
+        <a class="button gps-verification" href="/gps-verification" title="Authenticate using the GPS location of the device.">
+            <div class="description" data-i18n="Device_Based_Location">GPS Verification</div>
+            <input type="checkbox" class="save-state" data-id="gps-verification">
+        </a>
     </div>
 </div>
 
@@ -72,10 +130,11 @@
 </main>
 
 <footer>
+    <button id="Uncheck" class="button checkbox" onclick="uncheckAll()" >Uncheck all checkboxes</button>
     <a href="https://grafana.hasenhuettl.cc" target="_blank" class="button references" data-i18n="Link_to_grafana">Link to grafana</a>
     <a href="/count-line-numbers" class="button references" data-i18n="Line_numbers">Show line numbers in project</a>
     <a href="/references" class="button references" data-i18n="References">Sources for images used</a>
-    <a href="https://github.com/hasenhuettl/unlocking-the-future" target="_blank" class="button references">
+    <a href="https://github.com/hasenhuettl/unlocking-the-future" target="_blank" class="button references">Github Repository
       <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" class="github"</img>
     </a>
 </footer>

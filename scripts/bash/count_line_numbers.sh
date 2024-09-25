@@ -34,6 +34,15 @@ count_lines() {
     echo "$total_lines ($file_count Files)"
 }
 
+count_changes() {
+    local dir=$1
+    local lang=$2
+
+    if [ -d "$dir" ]; then
+        git log --stat --pretty=tformat: --numstat -- "${dir}/*${lang}" | awk '{add+=$1; del+=$2} END {print "Additions:", add, "Deletions:", del}'
+    fi
+}
+
 # Count lines for different file types in the respective directories
 
 echo "Displaying current line numbers in project"
@@ -50,6 +59,7 @@ echo ""
 echo "Folder "node":"
 echo "  html:   $(count_lines "$NODE_DIR" "html")"
 echo "  js:     $(count_lines "$NODE_DIR" "js")"
+echo "  py:     $(count_lines "$NODE_DIR" "py")"
 echo "  css:    $(count_lines "$NODE_DIR" "css")"
 echo ""
 echo "  ALL:    $(count_lines "$NODE_DIR" "(html|js|css|sh|service)")"
@@ -72,10 +82,23 @@ echo ""
 echo "All Folders:"
 echo "  html:    $(count_lines "$PROJECT_ROOT" "html")"
 echo "  js:      $(count_lines "$PROJECT_ROOT" "js")"
+echo "  py:      $(count_lines "$PROJECT_ROOT" "py")"
 echo "  css:     $(count_lines "$PROJECT_ROOT" "css")"
 echo "  sh:      $(count_lines "$PROJECT_ROOT" "sh")"
 echo "  service: $(count_lines "$PROJECT_ROOT" "service")"
 
 echo ""
-echo "  ALL:    $(count_lines "$PROJECT_ROOT" "(html|js|css|sh|service)")"
+echo "  ALL:    $(count_lines "$PROJECT_ROOT" "(html|js|py|css|sh|service)")"
+
+echo ""
+echo "Displaying Additions and Deletions of Code (data from git history)"
+
+echo ""
+echo "All Folders:"
+echo "  html:    $(count_changes "$PROJECT_ROOT" "html")"
+echo "  js:      $(count_changes "$PROJECT_ROOT" "js")"
+echo "  py:      $(count_changes "$PROJECT_ROOT" "py")"
+echo "  css:     $(count_changes "$PROJECT_ROOT" "css")"
+echo "  sh:      $(count_changes "$PROJECT_ROOT" "sh")"
+echo "  service: $(count_changes "$PROJECT_ROOT" "service")"
 

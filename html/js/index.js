@@ -31,9 +31,44 @@ $( document ).ready(function() {
       }
     }
   });
+
+  document.querySelectorAll('.save-state').forEach(function(checkbox) {
+      checkbox.addEventListener('change', saveCheckboxState);
+  });
+
+  loadCheckboxState();
 });
 
 $( function() {
-  $( document ).tooltip();
+  $( document ).tooltip({
+        position: {
+            my: "center bottom-10",
+            at: "center top",
+        }
+  });
 } );
+
+function saveCheckboxState() {
+    document.querySelectorAll('.save-state').forEach(function(checkbox) {
+        setCookie(checkbox.dataset.id, checkbox.checked ? 'checked' : '', 7);
+    });
+}
+
+function loadCheckboxState() {
+    document.querySelectorAll('.save-state').forEach(function(checkbox) {
+        const state = getCookie(checkbox.dataset.id);
+        if (state === 'checked') {
+            checkbox.checked = true;
+        }
+    });
+}
+
+function uncheckAll() {
+    document.querySelectorAll('.save-state').forEach(function(checkbox) {
+        checkbox.checked = false;
+    });
+    document.querySelectorAll('.save-state').forEach(function(checkbox) {
+        eraseCookie(checkbox.dataset.id);
+    });
+}
 

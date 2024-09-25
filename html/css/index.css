@@ -78,6 +78,9 @@ button:hover {
   background-position: 5% 50%;
   background-size: 30px 30px;
   /* flex: 0 20%; */
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 .button:hover {
@@ -134,6 +137,32 @@ button:hover {
 .gps-verification		{ background-image: url('/img/location-pointer.png'); }
 .de 					{ background-image: url('/img/de.png'); }
 .en 					{ background-image: url('/img/usa.png'); }
+.checkbox       		{ background-image: url('/img/checkbox.png'); }
+
+.description {
+	text-decoration: none;
+	font-size: 16px;
+	color: white;
+	word-wrap: break-word;
+	vertical-align: middle;
+	display: flex;
+	flex-grow: 1;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
+	max-width: 125px;
+}
+
+input.save-state {
+  width: 25px;
+  height: 25px;
+  /* margin: -10px; */
+  padding-right: 0;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: row;
+}
 
 .references {
   max-width: 300px;
@@ -159,6 +188,7 @@ button:hover {
 }
 
 .github {
+  margin-left: 10px;
   width: 40px;
   height: 40px;
   background: white;
@@ -207,6 +237,11 @@ footer {
   overflow: hidden;
   background-color: #1b2e2b;
   justify-content: center;
+}
+
+footer {
+  display: flex;
+  flex-wrap: wrap;
 }
 
 header nav li {
