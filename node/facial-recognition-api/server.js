@@ -52,11 +52,15 @@ app.post('/signup', upload.single('file'), (req, res) => {
 });
 
 app.post('/login', upload.single('file'), (req, res) => {
+    const { execFile } = require('child_process');
     const username = sanitizeUsername(req.cookies.username);
     if (req.file) {
         console.log(`Uploaded file: ${req.file.filename}`);
-        const cmd = `python3 /var/www/node/facial-recognition-api/main.py /uploads/${username}/`;
-        exec(cmd, (error, stdout, stderr) => {
+
+        const pythonScript = '/var/www/node/facial-recognition-api/main.py';
+        const filePath = `/uploads/${username}/`;
+
+        execFile('python3', [pythonScript, filePath, username], (error, stdout, stderr) => {
             if (error) {
                 console.error(`Error executing script: ${error}`);
                 res.status(500).json({ success: false, message: 'Face did not match the recorded image' });
