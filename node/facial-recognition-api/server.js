@@ -17,9 +17,14 @@ const app = express();
 
 app.use(cookieParser());
 
+// Only allow alphanumeric characters, dashes, and underscores
+const sanitizeUsername = (username) => {
+    return username.replace(/[^a-zA-Z0-9_-]/g, '');
+};
+
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        const username = req.cookies.username;
+        const username = sanitizeUsername(req.cookies.username);
         const userDir = `./uploads/${username}`;
 
         fs.mkdir(userDir, { recursive: true }, (err) => {
@@ -47,7 +52,7 @@ app.post('/signup', upload.single('file'), (req, res) => {
 });
 
 app.post('/login', upload.single('file'), (req, res) => {
-    const username = req.cookies.username; // Get username from cookie
+    const username = sanitizeUsername(req.cookies.username);
     if (req.file) {
         console.log(`Uploaded file: ${req.file.filename}`);
         const cmd = `python3 /var/www/node/facial-recognition-api/main.py /uploads/${username}/`;
