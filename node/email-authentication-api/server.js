@@ -119,13 +119,13 @@ app.post('/email', async (req, res) => {
     const from    = 'authenticate.hasenhuettl.cc@gmail.com';
     const to      = user.email;
     const subject = 'Login code'
-    const text    = '<html><body>Your login code for authenticate.hasenhuettl.cc is: ' + newCode; + '</body></html>'
+    const text    = 'Your login code for authenticate.hasenhuettl.cc is: ' + newCode;
 
     let mailOptions = {
         from: from,
         to: to,
         subject: subject,
-        html: text
+        text: text
     };
 
     transporter.sendMail(mailOptions, function(err, info){
