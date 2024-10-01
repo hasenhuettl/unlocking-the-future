@@ -31,8 +31,10 @@ rm $PROJECT_ROOT/node/game-based-authentication-api/myDatabase.json
 rm $PROJECT_ROOT/node/voice-authentication-api/uploads/*
 rm $PROJECT_ROOT/node/voice-authentication-api/models/*
 
+rm -r $PROJECT_ROOT/html/device-certificates/certs/*
 rm -r $PROJECT_ROOT/node/facial-recognition-api/uploads/*
 
+touch $PROJECT_ROOT/html/device-certificates/certs/.gitkeep
 touch $PROJECT_ROOT/node/facial-recognition-api/uploads/.gitkeep
 touch $PROJECT_ROOT/node/voice-authentication-api/uploads/.gitkeep
 touch $PROJECT_ROOT/node/voice-authentication-api/models/.gitkeep

@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/device-certificates/css/device-certificates.css">
     <script src="/js/jquery.min.js"></script>
     <script src="/js/funcs.js"></script>
+    <script src="signup.js"></script>
 </head>
 <body>
   <main>
@@ -16,6 +17,11 @@
         <a href="/"><img id="home" src="/favicon.ico"></a>
     </div>
     <h1 class="center" data-i18n="Install_Certificate">Install Certificate</h1>
+
+    <div class="center">
+        <input value="12345678" class="center" type="text" id="username" placeholder="Username" required data-i18n-placeholder="Username">
+    </div>
+
     <div class="center">
       <button class="button-primary center" id="download" type="button" data-i18n="Download_certificate">Download certificate</button>
     </div>
@@ -24,40 +30,13 @@
     <li data-i18n="Download_certificate_instruction">Download the certificate</li>
     <li data-i18n="Open_certificate_instruction">Open the downloaded certificate</li>
     <li data-i18n="Password">Follow the instructions, and insert the following password:</li>
-    <li>piu7kD40V5x957KZAIbB</li>
-
+    <li>jbowGQbuMDWMCqSS4G64</li>
 
     <div class="center">
       <button disabled="disabled" class="button-secondary center" id="continue" type="button" data-i18n="Continue">Continue</button>
     </div>
   </main>
   <div class="loader"></div>
-<script>
-  let startTime = new Date().getTime();
-  const action = 'signup';
-  const params = new URLSearchParams({ action, startTime }).toString();
-  const certFile = "client.p12";
-  window.onload = function() {
-    $("#download").on("click", function(){ 
-      var xhr = new XMLHttpRequest();
-      xhr.open('GET', '/device-certificates/signup/' + certFile, true);
-      xhr.responseType = 'blob';
-      xhr.onload = function() {
-        if (xhr.status === 200) {
-          var url = window.URL.createObjectURL(xhr.response);
-          var a = document.createElement('a');
-          a.href = url;
-          a.download = certFile;
-          a.click();
-          $("#continue").prop('disabled', false);
-        }
-      };
-      xhr.send();
-    });
-
-    $("#continue").on("click", function(){ window.location.href = "https://device-certificates.hasenhuettl.cc/index.html?" + params; });
-  };
-</script>
 </body>
 </html>
 

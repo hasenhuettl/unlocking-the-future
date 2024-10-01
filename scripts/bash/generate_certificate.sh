@@ -2,51 +2,32 @@
 
 set -e
 
-###### Refer to https://arminreiter.com/2022/01/create-your-own-certificate-authority-ca-using-openssl/ ######
-ROOTCA=RootCA
-CLIENT=client
 dns="device-certificates.hasenhuettl.cc"
-
-# Get $PASSWORD
-__dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source ${__dir}/.credentials.env
-
 ip=`dig +short $dns`
 
-cd /var/www
-mkdir -p $ROOTCA
-cd $ROOTCA
+if [ $1 ]
+then
+  CLIENT=$1
+else
+  echo ERROR: Please pass your username as an argument: ./script mmustermann
+  exit 1
+fi
 
-sudo apt install -y ca-certificates
+# ../.. of ScriptRoot
+PROJECT_ROOT=$(dirname $(dirname $(dirname $(readlink -f "${BASH_SOURCE[0]}"))))
 
-# Generate RSA encrypted root private key
-openssl genrsa \
-  -aes256 \
-  -out $ROOTCA.key \
-  -passout pass:$PASSWORD \
-  4096
+if [[ ! -f $PROJECT_ROOT/.path_verify ]] ; then
+    echo ´Could find file ".path_verify" in $PROJECT_ROOT!´
+    exit
+fi
 
-# Create root certificate
-openssl req \
-  -x509 \
-  -new \
-  -nodes \
-  -key $ROOTCA.key \
-  -sha256 \
-  -days 3650 \
-  -out $ROOTCA.crt \
-  -passin pass:$PASSWORD \
-  -subj "/CN=$dns/C=AT/ST=Styria/L=Graz/O=hasenhuettl"
+ROOTCA=$PROJECT_ROOT/RootCA/RootCA
 
-sudo cp $ROOTCA.crt /usr/local/share/ca-certificates
-sudo update-ca-certificates
+# Get $PASSWORD
+source $PROJECT_ROOT/setup/.credentials.env
 
-# Fedora/CentOS
-# sudo cp $ROOTCA.crt /etc/pki/ca-trust/source/anchors/$ROOTCA.crt
-# sudo update-ca-trust
+cd $PROJECT_ROOT/html/device-certificates/certs
 
-#---- Intermediate CA Setup ----#
-# Generate RSA encrypted private key
 openssl genrsa \
   -aes256 \
   -out $CLIENT.key \
@@ -91,14 +72,14 @@ openssl x509 \
 # Convert Client Key to PKCS so that it may be installed in most browsers
 openssl pkcs12 \
   -export \
-  -in client.crt \
-  -inkey client.key \
-  -out client.p12 \
+  -in $CLIENT.crt \
+  -inkey $CLIENT.key \
+  -out $CLIENT.p12 \
   -passin pass:$PASSWORD \
   -passout pass:$PASSWORD
 
 # TODO: To be able to install on MacOS, add the -legacy flag to the command above.
-# However, current openssl have legacy disabled, so to enable legacy follow this: https://help.heroku.com/88GYDTB2/how-do-i-configure-openssl-to-allow-the-use-of-legacy-cryptographic-algorithms
+# However, current openssl versions have legacy mode disabled, so to enable legacy follow this: https://help.heroku.com/88GYDTB2/how-do-i-configure-openssl-to-allow-the-use-of-legacy-cryptographic-algorithms
 
 # Convert Client Key to (combined) PEM
 openssl pkcs12 \
@@ -108,6 +89,5 @@ openssl pkcs12 \
   -out $CLIENT.pem \
   -clcerts
 
-sudo cp $CLIENT.p12 /var/www/html/device-certificates/signup/$CLIENT.p12
-sudo chmod +r /var/www/html/device-certificates/signup/$CLIENT.p12
+chmod +r $CLIENT.p12
 

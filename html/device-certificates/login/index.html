@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://authenticate.hasenhuettl.cc/css/dark.css">
     <link rel="stylesheet" href="https://authenticate.hasenhuettl.cc/css/funcs.css">
     <link rel="stylesheet" href="css/device-certificates.css">
+    <script src="login.js"></script>
 </head>
 <body>
   <main>
@@ -14,19 +15,5 @@
   </main>
   <div class="loader"></div>
 </body>
-<script>
-
-    const urlParams = new URLSearchParams(window.location.search);
-
-    const authMethod = document.title;
-    const startTime = urlParams.get('startTime');
-    const action = urlParams.get('action');
-    const readyTime = new Date().getTime();
-    const timeMs = readyTime - startTime;
-
-    const params = new URLSearchParams({ authMethod, action, timeMs }).toString();
-    window.location.href = 'https://authenticate.hasenhuettl.cc/success?' + params;
-
-</script>
 </html>
 

@@ -1,0 +1,15 @@
+[Unit]
+Description=Device Certificates
+
+[Service]
+ExecStart=/usr/bin/node /var/www/node/device-certificates-api/server.js
+Restart=always
+# Note Debian/Ubuntu uses 'nogroup', RHEL/Fedora uses 'nobody'
+Group=nogroup
+Environment=PATH=/usr/bin:/usr/local/bin
+Environment=NODE_ENV=production
+WorkingDirectory=/var/www/node/device-certificates-api
+
+[Install]
+WantedBy=multi-user.target
+
