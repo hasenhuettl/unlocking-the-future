@@ -72,6 +72,7 @@ openssl x509 \
 # Convert Client Key to PKCS so that it may be installed in most browsers
 openssl pkcs12 \
   -export \
+  -legacy \
   -in $CLIENT.crt \
   -inkey $CLIENT.key \
   -out $CLIENT.p12 \

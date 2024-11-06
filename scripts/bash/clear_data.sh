@@ -21,6 +21,7 @@ rm $PROJECT_ROOT/node/password-authentication-api/myDatabase.json
 rm $PROJECT_ROOT/node/pin-authentication-api/myDatabase.json
 rm $PROJECT_ROOT/node/security-question-authentication-api/myDatabase.json
 rm $PROJECT_ROOT/node/sms-authentication-api/myDatabase.json
+rm $PROJECT_ROOT/node/email-authentication-api/myDatabase.json
 rm $PROJECT_ROOT/node/device-fingerprint-api/myDatabase.json
 rm $PROJECT_ROOT/node/gps-verification-api/myDatabase.json
 rm $PROJECT_ROOT/node/authenticator-apps-api/myDatabase.json
@@ -63,6 +64,8 @@ systemctl restart voice-authentication-python
 systemctl restart sso
 systemctl restart behavioral-biometrics
 systemctl restart game-based-authentication
+systemctl restart email-authentication
+systemctl restart device-certificates
 
 # Restarting the following services would result in
 # no possible way to return 200 success to client,

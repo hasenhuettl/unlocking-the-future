@@ -26,6 +26,8 @@ function saveMeasurement() {
             )
           )
         );
+        $('#back').show();
+        $('#home').hide();
     } else if (!authMethod) {
         showError("authMethod is empty");
     } else if (!action) {

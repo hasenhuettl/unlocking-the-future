@@ -39,7 +39,7 @@ count_changes() {
     local lang=$2
 
     if [ -d "$dir" ]; then
-        git log --stat --pretty=tformat: --numstat -- "${dir}/*${lang}" | awk '{add+=$1; del+=$2} END {print "Additions:", add, "Deletions:", del}'
+        git log --stat --pretty=tformat: --numstat -- "${dir}/*${lang}" ":(exclude)${PROJECT_ROOT}/html/jquery-ui-1.14.0.custom/*" | awk '{add+=$1; del+=$2} END {print "Additions:", add, "Deletions:", del}'
     fi
 }
 
