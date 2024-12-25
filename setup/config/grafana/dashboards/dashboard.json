@@ -1,5 +1,5 @@
-{
-  "annotations": {
+
+tations": {
     "list": [
       {
         "builtIn": 1,
@@ -29,9 +29,9 @@
         "x": 0,
         "y": 0
       },
-      "id": 6,
+      "id": 92,
       "panels": [],
-      "title": "User information",
+      "title": "Per User",
       "type": "row"
     },
     {
@@ -257,7 +257,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT\r\n  username,\r\n  COUNT(DISTINCT ROW(auth_method_name, action, visitor_id)) AS unique_count\r\nFROM\r\n  measurement_insights\r\nWHERE\r\n  NOT (action = 'signup' AND os IN ('Android', 'iOS'))\r\nGROUP BY\r\n  username\r\nORDER BY\r\n  unique_count DESC;\r\n",
+          "rawSql": "SELECT\r\n  username,\r\n  COUNT(DISTINCT ROW(auth_method_name, action, visitor_id)) AS unique_count\r\nFROM\r\n  measurement_insights\r\nGROUP BY\r\n  username\r\nORDER BY\r\n  unique_count DESC;\r\n",
           "refId": "A",
           "sql": {
             "columns": [
@@ -304,6 +304,19 @@
       ],
       "title": "Count of successful signups or logins",
       "type": "barchart"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 17
+      },
+      "id": 6,
+      "panels": [],
+      "title": "User information",
+      "type": "row"
     },
     {
       "datasource": {
@@ -355,7 +368,7 @@
         "h": 10,
         "w": 12,
         "x": 6,
-        "y": 17
+        "y": 18
       },
       "id": 69,
       "options": {
@@ -445,7 +458,7 @@
             "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
-            "axisLabel": "",
+            "axisLabel": "Participants (count)",
             "axisPlacement": "auto",
             "fillOpacity": 80,
             "gradientMode": "none",
@@ -482,7 +495,7 @@
         "h": 8,
         "w": 12,
         "x": 6,
-        "y": 27
+        "y": 28
       },
       "id": 45,
       "options": {
@@ -500,7 +513,7 @@
         "showValue": "always",
         "stacking": "none",
         "text": {
-          "valueSize": 20
+          "valueSize": 11
         },
         "tooltip": {
           "mode": "single",
@@ -518,7 +531,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT \r\n    encounter_frequency,\r\n    COUNT(user_id) AS \"Encounter Frequency\"\r\nFROM public.users\r\nGROUP BY \r\n    encounter_frequency\r\nORDER BY \r\n    \"Encounter Frequency\" ASC;\r\n",
+          "rawSql": "SELECT \r\n    encounter_frequency,\r\n    COUNT(user_id) AS \"Encounter Frequency\"\r\nFROM public.users\r\nGROUP BY \r\n    encounter_frequency\r\nORDER BY\r\n    CASE \r\n        WHEN encounter_frequency = 'Rarely' THEN 1\r\n        WHEN encounter_frequency = 'Occasionally' THEN 2\r\n        WHEN encounter_frequency = 'Frequently' THEN 3\r\n        WHEN encounter_frequency = 'Very Frequently' THEN 4\r\n        ELSE 5  -- Any other values will come last\r\n    END ASC;",
           "refId": "A",
           "sql": {
             "columns": [
@@ -548,6 +561,7 @@
         "type": "grafana-postgresql-datasource",
         "uid": "ddvba5h2t260we"
       },
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -557,8 +571,9 @@
             "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
-            "axisLabel": "",
+            "axisLabel": "Completed steps per user",
             "axisPlacement": "auto",
+            "axisSoftMax": 100,
             "fillOpacity": 80,
             "gradientMode": "none",
             "hideFrom": {
@@ -586,15 +601,16 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "percent"
         },
         "overrides": []
       },
       "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 35
+        "h": 10,
+        "w": 9,
+        "x": 2,
+        "y": 36
       },
       "id": 22,
       "options": {
@@ -606,11 +622,14 @@
           "calcs": [],
           "displayMode": "list",
           "placement": "bottom",
-          "showLegend": true
+          "showLegend": false
         },
         "orientation": "auto",
         "showValue": "always",
         "stacking": "none",
+        "text": {
+          "valueSize": 12
+        },
         "tooltip": {
           "mode": "single",
           "sort": "none"
@@ -627,7 +646,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT \r\n    encounter_frequency,\r\n    AVG(auth_count_per_user) AS avg_auth_count_per_user\r\nFROM (\r\n    SELECT \r\n        u.user_id,\r\n        u.encounter_frequency,\r\n        COUNT(m.id) AS auth_count_per_user  -- Count of completed auth methods per user\r\n    FROM \r\n        public.users AS u\r\n    JOIN \r\n        public.devices AS d ON u.user_id = d.user_id\r\n    JOIN \r\n        public.measurements AS m ON d.device_id = m.device_id\r\n    GROUP BY \r\n        u.user_id, u.encounter_frequency\r\n) AS user_auth_counts\r\nGROUP BY \r\n    encounter_frequency\r\nORDER BY \r\n    avg_auth_count_per_user ASC;\r\n",
+          "rawSql": "SELECT \r\n    encounter_frequency,\r\n    AVG(auth_count_per_user) / 0.54 AS avg_auth_count_per_user\r\nFROM (\r\n    SELECT \r\n        u.user_id,\r\n        u.encounter_frequency,\r\n        COUNT(m.id) AS auth_count_per_user  -- Count of completed auth methods per user\r\n    FROM \r\n        public.users AS u\r\n    JOIN \r\n        public.devices AS d ON u.user_id = d.user_id\r\n    JOIN \r\n        public.measurements AS m ON d.device_id = m.device_id\r\n    GROUP BY \r\n        u.user_id, u.encounter_frequency\r\n) AS user_auth_counts\r\nGROUP BY \r\n    encounter_frequency\r\nORDER BY\r\n    CASE \r\n        WHEN encounter_frequency = 'Rarely' THEN 1\r\n        WHEN encounter_frequency = 'Occasionally' THEN 2\r\n        WHEN encounter_frequency = 'Frequently' THEN 3\r\n        WHEN encounter_frequency = 'Very Frequently' THEN 4\r\n        ELSE 5  -- Any other values will come last\r\n    END ASC;\r\n",
           "refId": "A",
           "sql": {
             "columns": [
@@ -648,7 +667,7 @@
           }
         }
       ],
-      "title": "Average of completed authentications by User Encounter Frequency",
+      "title": "Average of completed authentication processes by encounter frequency",
       "type": "barchart"
     },
     {
@@ -666,7 +685,7 @@
             "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
-            "axisLabel": "",
+            "axisLabel": "Average time per user",
             "axisPlacement": "auto",
             "fillOpacity": 80,
             "gradientMode": "none",
@@ -701,10 +720,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 35
+        "h": 10,
+        "w": 9,
+        "x": 11,
+        "y": 36
       },
       "id": 24,
       "options": {
@@ -716,11 +735,14 @@
           "calcs": [],
           "displayMode": "list",
           "placement": "bottom",
-          "showLegend": true
+          "showLegend": false
         },
         "orientation": "auto",
         "showValue": "always",
         "stacking": "none",
+        "text": {
+          "valueSize": 12
+        },
         "tooltip": {
           "mode": "single",
           "sort": "none"
@@ -737,7 +759,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT \r\n    u.encounter_frequency,\r\n    AVG(m.time_ms) AS avg_time_ms\r\nFROM \r\n    public.users u\r\nJOIN \r\n    public.devices d ON u.user_id = d.user_id\r\nJOIN \r\n    public.measurements m ON d.device_id = m.device_id\r\nGROUP BY \r\n    u.encounter_frequency\r\nORDER BY \r\n    avg_time_ms DESC;\r\n",
+          "rawSql": "SELECT \r\n    u.encounter_frequency,\r\n    AVG(m.time_ms) AS avg_time_ms\r\nFROM \r\n    public.users u\r\nJOIN \r\n    public.devices d ON u.user_id = d.user_id\r\nJOIN \r\n    public.measurements m ON d.device_id = m.device_id\r\nGROUP BY \r\n    u.encounter_frequency\r\nORDER BY\r\n    CASE \r\n        WHEN encounter_frequency = 'Rarely' THEN 1\r\n        WHEN encounter_frequency = 'Occasionally' THEN 2\r\n        WHEN encounter_frequency = 'Frequently' THEN 3\r\n        WHEN encounter_frequency = 'Very Frequently' THEN 4\r\n        ELSE 5  -- Any other values will come last\r\n    END ASC;\r\n",
           "refId": "A",
           "sql": {
             "columns": [
@@ -758,7 +780,7 @@
           }
         }
       ],
-      "title": "Average Time by Encounter Frequency",
+      "title": "Average time by encounter frequency",
       "type": "barchart"
     },
     {
@@ -777,7 +799,7 @@
             "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
-            "axisLabel": "",
+            "axisLabel": "Participants (count)",
             "axisPlacement": "auto",
             "fillOpacity": 80,
             "gradientMode": "none",
@@ -814,7 +836,7 @@
         "h": 8,
         "w": 12,
         "x": 6,
-        "y": 43
+        "y": 46
       },
       "id": 46,
       "options": {
@@ -832,7 +854,7 @@
         "showValue": "auto",
         "stacking": "none",
         "text": {
-          "valueSize": 20
+          "valueSize": 12
         },
         "tooltip": {
           "mode": "single",
@@ -880,6 +902,7 @@
         "type": "grafana-postgresql-datasource",
         "uid": "ddvba5h2t260we"
       },
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -889,7 +912,7 @@
             "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
-            "axisLabel": "",
+            "axisLabel": "Completed steps per user",
             "axisPlacement": "auto",
             "fillOpacity": 80,
             "gradientMode": "none",
@@ -926,7 +949,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 51
+        "y": 54
       },
       "id": 25,
       "options": {
@@ -959,7 +982,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT \r\n    professional_experience,\r\n    AVG(auth_count_per_user) AS avg_auth_count_per_user\r\nFROM (\r\n    SELECT \r\n        u.user_id,\r\n        u.professional_experience,\r\n        COUNT(m.id) AS auth_count_per_user  -- Count of completed auth methods per user\r\n    FROM \r\n        public.users AS u\r\n    JOIN \r\n        public.devices AS d ON u.user_id = d.user_id\r\n    JOIN \r\n        public.measurements AS m ON d.device_id = m.device_id\r\n    GROUP BY \r\n        u.user_id, u.professional_experience\r\n) AS user_auth_counts\r\nGROUP BY \r\n    professional_experience\r\nORDER BY \r\n    avg_auth_count_per_user ASC;\r\n",
+          "rawSql": "SELECT \r\n    professional_experience,\r\n    AVG(auth_count_per_user) AS avg_auth_count_per_user\r\nFROM (\r\n    SELECT \r\n        u.user_id,\r\n        u.professional_experience,\r\n        COUNT(m.id) AS auth_count_per_user  -- Count of completed auth methods per user\r\n    FROM \r\n        public.users AS u\r\n    JOIN \r\n        public.devices AS d ON u.user_id = d.user_id\r\n    JOIN \r\n        public.measurements AS m ON d.device_id = m.device_id\r\n    GROUP BY \r\n        u.user_id, u.professional_experience\r\n) AS user_auth_counts\r\nGROUP BY \r\n    professional_experience\r\nORDER BY \r\n    CASE \r\n        WHEN professional_experience = 'None' THEN 1\r\n        WHEN professional_experience = '1-3 years' THEN 2\r\n        WHEN professional_experience = '4-6 years' THEN 3\r\n        WHEN professional_experience = '7-10 years' THEN 4\r\n        WHEN professional_experience = 'More than 10 years' THEN 5\r\n        ELSE 6  -- Any other values will come last\r\n    END ASC;\r\n",
           "refId": "A",
           "sql": {
             "columns": [
@@ -980,7 +1003,7 @@
           }
         }
       ],
-      "title": "Average of completed Authentications by professional_experience",
+      "title": "Average of completed authentication processes by professional experience",
       "type": "barchart"
     },
     {
@@ -998,7 +1021,7 @@
             "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
-            "axisLabel": "",
+            "axisLabel": "Average time per user",
             "axisPlacement": "auto",
             "fillOpacity": 80,
             "gradientMode": "none",
@@ -1036,7 +1059,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 51
+        "y": 54
       },
       "id": 21,
       "options": {
@@ -1053,6 +1076,9 @@
         "orientation": "auto",
         "showValue": "always",
         "stacking": "none",
+        "text": {
+          "valueSize": 12
+        },
         "tooltip": {
           "mode": "single",
           "sort": "none"
@@ -1069,7 +1095,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT \r\n    u.professional_experience,\r\n    AVG(m.time_ms) AS avg_time_ms\r\nFROM \r\n    public.users u\r\nJOIN \r\n    public.devices d ON u.user_id = d.user_id\r\nJOIN \r\n    public.measurements m ON d.device_id = m.device_id\r\nGROUP BY \r\n    u.professional_experience\r\nORDER BY \r\n    avg_time_ms DESC;\r\n",
+          "rawSql": "SELECT \r\n    u.professional_experience,\r\n    AVG(m.time_ms) AS avg_time_ms\r\nFROM \r\n    public.users u\r\nJOIN \r\n    public.devices d ON u.user_id = d.user_id\r\nJOIN \r\n    public.measurements m ON d.device_id = m.device_id\r\nGROUP BY \r\n    u.professional_experience\r\nORDER BY \r\n    CASE \r\n        WHEN professional_experience = 'None' THEN 1\r\n        WHEN professional_experience = '1-3 years' THEN 2\r\n        WHEN professional_experience = '4-6 years' THEN 3\r\n        WHEN professional_experience = '7-10 years' THEN 4\r\n        WHEN professional_experience = 'More than 10 years' THEN 5\r\n        ELSE 6  -- Any other values will come last\r\n    END ASC;\r\n",
           "refId": "A",
           "sql": {
             "columns": [
@@ -1090,7 +1116,7 @@
           }
         }
       ],
-      "title": "Average time by professional_experience",
+      "title": "Average time by professional experience",
       "type": "barchart"
     },
     {
@@ -1109,7 +1135,7 @@
             "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
-            "axisLabel": "",
+            "axisLabel": "Participants (count)",
             "axisPlacement": "auto",
             "fillOpacity": 80,
             "gradientMode": "none",
@@ -1146,7 +1172,7 @@
         "h": 8,
         "w": 12,
         "x": 6,
-        "y": 59
+        "y": 62
       },
       "id": 47,
       "options": {
@@ -1221,7 +1247,7 @@
             "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
-            "axisLabel": "",
+            "axisLabel": "Completed steps per user",
             "axisPlacement": "auto",
             "fillOpacity": 80,
             "gradientMode": "none",
@@ -1258,7 +1284,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 67
+        "y": 70
       },
       "id": 26,
       "options": {
@@ -1291,7 +1317,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT \r\n    security_importance,\r\n    AVG(auth_count_per_user) AS avg_auth_count_per_user\r\nFROM (\r\n    SELECT \r\n        u.user_id,\r\n        u.security_importance,\r\n        COUNT(m.id) AS auth_count_per_user  -- Count of completed auth methods per user\r\n    FROM \r\n        public.users AS u\r\n    JOIN \r\n        public.devices AS d ON u.user_id = d.user_id\r\n    JOIN \r\n        public.measurements AS m ON d.device_id = m.device_id\r\n    GROUP BY \r\n        u.user_id, u.security_importance\r\n) AS user_auth_counts\r\nGROUP BY \r\n    security_importance\r\nORDER BY \r\n    avg_auth_count_per_user ASC;\r\n",
+          "rawSql": "SELECT \r\n    security_importance,\r\n    AVG(auth_count_per_user) AS avg_auth_count_per_user\r\nFROM (\r\n    SELECT \r\n        u.user_id,\r\n        u.security_importance,\r\n        COUNT(m.id) AS auth_count_per_user  -- Count of completed auth methods per user\r\n    FROM \r\n        public.users AS u\r\n    JOIN \r\n        public.devices AS d ON u.user_id = d.user_id\r\n    JOIN \r\n        public.measurements AS m ON d.device_id = m.device_id\r\n    GROUP BY \r\n        u.user_id, u.security_importance\r\n) AS user_auth_counts\r\nGROUP BY \r\n    security_importance\r\nORDER BY \r\n    CASE \r\n        WHEN security_importance = 'Not important' THEN 1\r\n        WHEN security_importance = 'Slightly important' THEN 2\r\n        WHEN security_importance = 'Moderately important' THEN 3\r\n        WHEN security_importance = 'Very important' THEN 4\r\n        WHEN security_importance = 'Extremely important' THEN 5\r\n        ELSE 6  -- Any other values will come last\r\n    END ASC;\r\n",
           "refId": "A",
           "sql": {
             "columns": [
@@ -1312,7 +1338,7 @@
           }
         }
       ],
-      "title": "Average of completed Authentications by security_importance",
+      "title": "Average of completed authentication processes by security_importance",
       "type": "barchart"
     },
     {
@@ -1330,7 +1356,7 @@
             "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
-            "axisLabel": "",
+            "axisLabel": "Average time per user",
             "axisPlacement": "auto",
             "fillOpacity": 80,
             "gradientMode": "none",
@@ -1368,7 +1394,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 67
+        "y": 70
       },
       "id": 28,
       "options": {
@@ -1401,7 +1427,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT \r\n    u.security_importance,\r\n    AVG(m.time_ms) AS avg_time_ms\r\nFROM \r\n    public.users u\r\nJOIN \r\n    public.devices d ON u.user_id = d.user_id\r\nJOIN \r\n    public.measurements m ON d.device_id = m.device_id\r\nGROUP BY \r\n    u.security_importance\r\nORDER BY \r\n    avg_time_ms DESC;\r\n",
+          "rawSql": "SELECT \r\n    u.security_importance,\r\n    AVG(m.time_ms) AS avg_time_ms\r\nFROM \r\n    public.users u\r\nJOIN \r\n    public.devices d ON u.user_id = d.user_id\r\nJOIN \r\n    public.measurements m ON d.device_id = m.device_id\r\nGROUP BY \r\n    u.security_importance\r\nORDER BY \r\n    CASE \r\n        WHEN security_importance = 'Not important' THEN 1\r\n        WHEN security_importance = 'Slightly important' THEN 2\r\n        WHEN security_importance = 'Moderately important' THEN 3\r\n        WHEN security_importance = 'Very important' THEN 4\r\n        WHEN security_importance = 'Extremely important' THEN 5\r\n        ELSE 6  -- Any other values will come last\r\n    END ASC;",
           "refId": "A",
           "sql": {
             "columns": [
@@ -1441,7 +1467,7 @@
             "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
-            "axisLabel": "",
+            "axisLabel": "Participants (count)",
             "axisPlacement": "auto",
             "fillOpacity": 80,
             "gradientMode": "none",
@@ -1478,7 +1504,7 @@
         "h": 8,
         "w": 12,
         "x": 6,
-        "y": 75
+        "y": 78
       },
       "id": 48,
       "options": {
@@ -1553,7 +1579,7 @@
             "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
-            "axisLabel": "",
+            "axisLabel": "Completed steps per user",
             "axisPlacement": "auto",
             "fillOpacity": 80,
             "gradientMode": "none",
@@ -1590,7 +1616,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 83
+        "y": 86
       },
       "id": 27,
       "options": {
@@ -1623,7 +1649,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT \r\n    convenience_importance,\r\n    AVG(auth_count_per_user) AS avg_auth_count_per_user\r\nFROM (\r\n    SELECT \r\n        u.user_id,\r\n        u.convenience_importance,\r\n        COUNT(m.id) AS auth_count_per_user  -- Count of completed auth methods per user\r\n    FROM \r\n        public.users AS u\r\n    JOIN \r\n        public.devices AS d ON u.user_id = d.user_id\r\n    JOIN \r\n        public.measurements AS m ON d.device_id = m.device_id\r\n    GROUP BY \r\n        u.user_id, u.convenience_importance\r\n) AS user_auth_counts\r\nGROUP BY \r\n    convenience_importance\r\nORDER BY \r\n    avg_auth_count_per_user ASC;\r\n",
+          "rawSql": "SELECT \r\n    convenience_importance,\r\n    AVG(auth_count_per_user) AS avg_auth_count_per_user\r\nFROM (\r\n    SELECT \r\n        u.user_id,\r\n        u.convenience_importance,\r\n        COUNT(m.id) AS auth_count_per_user  -- Count of completed auth methods per user\r\n    FROM \r\n        public.users AS u\r\n    JOIN \r\n        public.devices AS d ON u.user_id = d.user_id\r\n    JOIN \r\n        public.measurements AS m ON d.device_id = m.device_id\r\n    GROUP BY \r\n        u.user_id, u.convenience_importance\r\n) AS user_auth_counts\r\nGROUP BY \r\n    convenience_importance\r\nORDER BY \r\n    CASE \r\n        WHEN convenience_importance = 'Not important' THEN 1\r\n        WHEN convenience_importance = 'Slightly important' THEN 2\r\n        WHEN convenience_importance = 'Moderately important' THEN 3\r\n        WHEN convenience_importance = 'Very important' THEN 4\r\n        WHEN convenience_importance = 'Extremely important' THEN 5\r\n        ELSE 6  -- Any other values will come last\r\n    END ASC;\r\n",
           "refId": "A",
           "sql": {
             "columns": [
@@ -1644,7 +1670,7 @@
           }
         }
       ],
-      "title": "Average of completed Authentications by convenience_importance",
+      "title": "Average of completed authentication processes by convenience_importance",
       "type": "barchart"
     },
     {
@@ -1662,7 +1688,7 @@
             "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
-            "axisLabel": "",
+            "axisLabel": "Average time per user",
             "axisPlacement": "auto",
             "fillOpacity": 80,
             "gradientMode": "none",
@@ -1700,7 +1726,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 83
+        "y": 86
       },
       "id": 29,
       "options": {
@@ -1733,7 +1759,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT \r\n    u.convenience_importance,\r\n    AVG(m.time_ms) AS avg_time_ms\r\nFROM \r\n    public.users u\r\nJOIN \r\n    public.devices d ON u.user_id = d.user_id\r\nJOIN \r\n    public.measurements m ON d.device_id = m.device_id\r\nGROUP BY \r\n    u.convenience_importance\r\nORDER BY \r\n    avg_time_ms DESC;\r\n",
+          "rawSql": "SELECT \r\n    u.convenience_importance,\r\n    AVG(m.time_ms) AS avg_time_ms\r\nFROM \r\n    public.users u\r\nJOIN \r\n    public.devices d ON u.user_id = d.user_id\r\nJOIN \r\n    public.measurements m ON d.device_id = m.device_id\r\nGROUP BY \r\n    u.convenience_importance\r\nORDER BY \r\n    CASE \r\n        WHEN convenience_importance = 'Not important' THEN 1\r\n        WHEN convenience_importance = 'Slightly important' THEN 2\r\n        WHEN convenience_importance = 'Moderately important' THEN 3\r\n        WHEN convenience_importance = 'Very important' THEN 4\r\n        WHEN convenience_importance = 'Extremely important' THEN 5\r\n        ELSE 6  -- Any other values will come last\r\n    END ASC;",
           "refId": "A",
           "sql": {
             "columns": [
@@ -1773,7 +1799,7 @@
             "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
-            "axisLabel": "",
+            "axisLabel": "Participants (count)",
             "axisPlacement": "auto",
             "fillOpacity": 80,
             "gradientMode": "none",
@@ -1810,7 +1836,7 @@
         "h": 8,
         "w": 12,
         "x": 6,
-        "y": 91
+        "y": 94
       },
       "id": 49,
       "options": {
@@ -1828,7 +1854,7 @@
         "showValue": "always",
         "stacking": "none",
         "text": {
-          "valueSize": 20
+          "valueSize": 12
         },
         "tooltip": {
           "mode": "single",
@@ -1846,7 +1872,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT \r\n    area_of_expertise,\r\n    COUNT(user_id) AS my_count\r\nFROM public.users\r\nGROUP BY \r\n    area_of_expertise\r\nORDER BY \r\n    my_count ASC;\r\n",
+          "rawSql": "SELECT \r\n    area_of_expertise,\r\n    COUNT(user_id) AS my_count\r\nFROM public.users\r\nGROUP BY \r\n    area_of_expertise\r\nORDER BY\r\n    CASE \r\n        WHEN area_of_expertise = '' THEN 1\r\n        WHEN area_of_expertise = 'Cybersecurity' THEN 2\r\n        WHEN area_of_expertise = 'Network Administration' THEN 3\r\n        WHEN area_of_expertise = 'Software Development' THEN 4\r\n        WHEN area_of_expertise = 'System Administration' THEN 5\r\n        ELSE 6  -- Any other values will come last\r\n    END ASC;\r\n",
           "refId": "A",
           "sql": {
             "columns": [
@@ -1885,7 +1911,7 @@
             "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
-            "axisLabel": "",
+            "axisLabel": "Completed steps per user",
             "axisPlacement": "auto",
             "fillOpacity": 80,
             "gradientMode": "none",
@@ -1922,7 +1948,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 99
+        "y": 102
       },
       "id": 30,
       "options": {
@@ -1939,6 +1965,9 @@
         "orientation": "auto",
         "showValue": "always",
         "stacking": "none",
+        "text": {
+          "valueSize": 12
+        },
         "tooltip": {
           "mode": "single",
           "sort": "none"
@@ -1955,7 +1984,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT \r\n    area_of_expertise,\r\n    AVG(auth_count_per_user) AS avg_auth_count_per_user\r\nFROM (\r\n    SELECT \r\n        u.user_id,\r\n        u.area_of_expertise,\r\n        COUNT(m.id) AS auth_count_per_user  -- Count of completed auth methods per user\r\n    FROM \r\n        public.users AS u\r\n    JOIN \r\n        public.devices AS d ON u.user_id = d.user_id\r\n    JOIN \r\n        public.measurements AS m ON d.device_id = m.device_id\r\n    GROUP BY \r\n        u.user_id, u.area_of_expertise\r\n) AS user_auth_counts\r\nGROUP BY \r\n    area_of_expertise\r\nORDER BY \r\n    avg_auth_count_per_user ASC;\r\n",
+          "rawSql": "SELECT \r\n    area_of_expertise,\r\n    AVG(auth_count_per_user) AS avg_auth_count_per_user\r\nFROM (\r\n    SELECT \r\n        u.user_id,\r\n        u.area_of_expertise,\r\n        COUNT(m.id) AS auth_count_per_user  -- Count of completed auth methods per user\r\n    FROM \r\n        public.users AS u\r\n    JOIN \r\n        public.devices AS d ON u.user_id = d.user_id\r\n    JOIN \r\n        public.measurements AS m ON d.device_id = m.device_id\r\n    GROUP BY \r\n        u.user_id, u.area_of_expertise\r\n) AS user_auth_counts\r\nGROUP BY \r\n    area_of_expertise\r\nORDER BY\r\n    CASE \r\n        WHEN area_of_expertise = '' THEN 1\r\n        WHEN area_of_expertise = 'Cybersecurity' THEN 2\r\n        WHEN area_of_expertise = 'Network Administration' THEN 3\r\n        WHEN area_of_expertise = 'Software Development' THEN 4\r\n        WHEN area_of_expertise = 'System Administration' THEN 5\r\n        ELSE 6  -- Any other values will come last\r\n    END ASC;\r\n",
           "refId": "A",
           "sql": {
             "columns": [
@@ -1976,7 +2005,7 @@
           }
         }
       ],
-      "title": "Average of completed Authentications by area_of_expertise",
+      "title": "Average of completed authentication processes by area_of_expertise",
       "type": "barchart"
     },
     {
@@ -1994,7 +2023,7 @@
             "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
-            "axisLabel": "",
+            "axisLabel": "Average time per user",
             "axisPlacement": "auto",
             "fillOpacity": 80,
             "gradientMode": "none",
@@ -2032,7 +2061,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 99
+        "y": 102
       },
       "id": 31,
       "options": {
@@ -2049,6 +2078,9 @@
         "orientation": "auto",
         "showValue": "always",
         "stacking": "none",
+        "text": {
+          "valueSize": 12
+        },
         "tooltip": {
           "mode": "single",
           "sort": "none"
@@ -2065,7 +2097,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT \r\n    u.area_of_expertise,\r\n    AVG(m.time_ms) AS avg_time_ms\r\nFROM \r\n    public.users u\r\nJOIN \r\n    public.devices d ON u.user_id = d.user_id\r\nJOIN \r\n    public.measurements m ON d.device_id = m.device_id\r\nGROUP BY \r\n    u.area_of_expertise\r\nORDER BY \r\n    avg_time_ms DESC;\r\n",
+          "rawSql": "SELECT \r\n    u.area_of_expertise,\r\n    AVG(m.time_ms) AS avg_time_ms\r\nFROM \r\n    public.users u\r\nJOIN \r\n    public.devices d ON u.user_id = d.user_id\r\nJOIN \r\n    public.measurements m ON d.device_id = m.device_id\r\nGROUP BY \r\n    u.area_of_expertise\r\nORDER BY\r\n    CASE \r\n        WHEN area_of_expertise = '' THEN 1\r\n        WHEN area_of_expertise = 'Cybersecurity' THEN 2\r\n        WHEN area_of_expertise = 'Network Administration' THEN 3\r\n        WHEN area_of_expertise = 'Software Development' THEN 4\r\n        WHEN area_of_expertise = 'System Administration' THEN 5\r\n        ELSE 6  -- Any other values will come last\r\n    END ASC;",
           "refId": "A",
           "sql": {
             "columns": [
@@ -2105,7 +2137,7 @@
             "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
-            "axisLabel": "",
+            "axisLabel": "Participants (count)",
             "axisPlacement": "auto",
             "fillOpacity": 80,
             "gradientMode": "none",
@@ -2140,9 +2172,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
-        "x": 6,
-        "y": 107
+        "w": 7,
+        "x": 8,
+        "y": 110
       },
       "id": 43,
       "options": {
@@ -2160,7 +2192,7 @@
         "showValue": "always",
         "stacking": "none",
         "text": {
-          "valueSize": 20
+          "valueSize": 12
         },
         "tooltip": {
           "mode": "single",
@@ -2199,7 +2231,7 @@
           }
         }
       ],
-      "title": "IT Competence (distribution)",
+      "title": "Cybersecurity competence (distribution)",
       "type": "barchart"
     },
     {
@@ -2217,7 +2249,7 @@
             "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
-            "axisLabel": "",
+            "axisLabel": "Completed steps per user",
             "axisPlacement": "auto",
             "fillOpacity": 80,
             "gradientMode": "none",
@@ -2246,15 +2278,16 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "percent"
         },
         "overrides": []
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 115
+        "w": 9,
+        "x": 3,
+        "y": 118
       },
       "id": 32,
       "options": {
@@ -2266,11 +2299,14 @@
           "calcs": [],
           "displayMode": "list",
           "placement": "bottom",
-          "showLegend": true
+          "showLegend": false
         },
         "orientation": "auto",
         "showValue": "always",
         "stacking": "none",
+        "text": {
+          "valueSize": 12
+        },
         "tooltip": {
           "mode": "single",
           "sort": "none"
@@ -2287,7 +2323,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT \r\n    it_competence,\r\n    AVG(auth_count_per_user) AS avg_auth_count_per_user\r\nFROM (\r\n    SELECT \r\n        u.user_id,\r\n        u.it_competence,\r\n        COUNT(m.id) AS auth_count_per_user  -- Count of completed auth methods per user\r\n    FROM \r\n        public.users AS u\r\n    JOIN \r\n        public.devices AS d ON u.user_id = d.user_id\r\n    JOIN \r\n        public.measurements AS m ON d.device_id = m.device_id\r\n    GROUP BY \r\n        u.user_id, u.it_competence\r\n) AS user_auth_counts\r\nGROUP BY \r\n    it_competence\r\nORDER BY \r\n    CASE \r\n        WHEN it_competence = 'Novice' THEN 1\r\n        WHEN it_competence = 'Beginner' THEN 2\r\n        WHEN it_competence = 'Intermediate' THEN 3\r\n        WHEN it_competence = 'Advanced' THEN 4\r\n        WHEN it_competence = 'Expert' THEN 5\r\n        ELSE 6  -- Any other values will come last\r\n    END ASC;\r\n",
+          "rawSql": "SELECT \r\n    it_competence,\r\n    AVG(auth_count_per_user) / 0.54 AS avg_auth_count_per_user\r\nFROM (\r\n    SELECT \r\n        u.user_id,\r\n        u.it_competence,\r\n        COUNT(m.id) AS auth_count_per_user  -- Count of completed auth methods per user\r\n    FROM \r\n        public.users AS u\r\n    JOIN \r\n        public.devices AS d ON u.user_id = d.user_id\r\n    JOIN \r\n        public.measurements AS m ON d.device_id = m.device_id\r\n    GROUP BY \r\n        u.user_id, u.it_competence\r\n) AS user_auth_counts\r\nGROUP BY \r\n    it_competence\r\nORDER BY \r\n    CASE \r\n        WHEN it_competence = 'Novice' THEN 1\r\n        WHEN it_competence = 'Beginner' THEN 2\r\n        WHEN it_competence = 'Intermediate' THEN 3\r\n        WHEN it_competence = 'Advanced' THEN 4\r\n        WHEN it_competence = 'Expert' THEN 5\r\n        ELSE 6  -- Any other values will come last\r\n    END ASC;\r\n",
           "refId": "A",
           "sql": {
             "columns": [
@@ -2308,7 +2344,7 @@
           }
         }
       ],
-      "title": "Average of completed Authentications by it_competence",
+      "title": "Average of completed authentication processes by cybersecurity competence",
       "type": "barchart"
     },
     {
@@ -2326,7 +2362,7 @@
             "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
-            "axisLabel": "",
+            "axisLabel": "Average time per user",
             "axisPlacement": "auto",
             "fillOpacity": 80,
             "gradientMode": "none",
@@ -2362,9 +2398,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 9,
         "x": 12,
-        "y": 115
+        "y": 118
       },
       "id": 33,
       "options": {
@@ -2376,11 +2412,14 @@
           "calcs": [],
           "displayMode": "list",
           "placement": "bottom",
-          "showLegend": true
+          "showLegend": false
         },
         "orientation": "auto",
         "showValue": "always",
         "stacking": "none",
+        "text": {
+          "valueSize": 12
+        },
         "tooltip": {
           "mode": "single",
           "sort": "none"
@@ -2418,7 +2457,7 @@
           }
         }
       ],
-      "title": "Average time by it_competence",
+      "title": "Average time by cybersecurity competence",
       "type": "barchart"
     },
     {
@@ -2437,7 +2476,7 @@
             "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
-            "axisLabel": "",
+            "axisLabel": "Participants (count)",
             "axisPlacement": "auto",
             "fillOpacity": 80,
             "gradientMode": "none",
@@ -2474,7 +2513,7 @@
         "h": 6,
         "w": 12,
         "x": 6,
-        "y": 123
+        "y": 126
       },
       "id": 44,
       "options": {
@@ -2492,7 +2531,7 @@
         "showValue": "always",
         "stacking": "none",
         "text": {
-          "valueSize": 20
+          "valueSize": 12
         },
         "tooltip": {
           "mode": "single",
@@ -2543,16 +2582,17 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "palette-classic"
+            "mode": "thresholds"
           },
           "custom": {
             "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
-            "axisLabel": "",
+            "axisLabel": "Completed steps per user",
             "axisPlacement": "auto",
+            "axisSoftMax": 45,
             "fillOpacity": 80,
-            "gradientMode": "none",
+            "gradientMode": "scheme",
             "hideFrom": {
               "legend": false,
               "tooltip": false,
@@ -2571,11 +2611,11 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "purple"
               },
               {
-                "color": "red",
-                "value": 80
+                "color": "blue",
+                "value": 40
               }
             ]
           }
@@ -2584,9 +2624,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 129
+        "w": 7,
+        "x": 5,
+        "y": 132
       },
       "id": 34,
       "options": {
@@ -2598,11 +2638,14 @@
           "calcs": [],
           "displayMode": "list",
           "placement": "bottom",
-          "showLegend": true
+          "showLegend": false
         },
         "orientation": "auto",
         "showValue": "always",
         "stacking": "none",
+        "text": {
+          "valueSize": 12
+        },
         "tooltip": {
           "mode": "single",
           "sort": "none"
@@ -2640,7 +2683,125 @@
           }
         }
       ],
-      "title": "Average of completed Authentications by gender",
+      "title": "Average of completed authentication processes by gender",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "default": true,
+        "type": "grafana-postgresql-datasource",
+        "uid": "ddvba5h2t260we"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "Average time per user",
+            "axisPlacement": "auto",
+            "axisSoftMax": 27000,
+            "fillOpacity": 80,
+            "gradientMode": "scheme",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "blue",
+                "value": 2500
+              },
+              {
+                "color": "purple",
+                "value": 21000
+              }
+            ]
+          },
+          "unit": "ms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 7,
+        "x": 12,
+        "y": 132
+      },
+      "id": 36,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "orientation": "auto",
+        "showValue": "always",
+        "stacking": "none",
+        "text": {
+          "valueSize": 12
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "ddvba5h2t260we"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT \r\n    u.gender,\r\n    AVG(m.time_ms) AS avg_time_ms\r\nFROM \r\n    public.users u\r\nJOIN \r\n    public.devices d ON u.user_id = d.user_id\r\nJOIN \r\n    public.measurements m ON d.device_id = m.device_id\r\nGROUP BY \r\n    u.gender\r\nORDER BY \r\n    avg_time_ms DESC;\r\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Average time by gender",
       "type": "barchart"
     },
     {
@@ -2687,23 +2848,53 @@
                 "value": 80
               }
             ]
-          },
-          "unit": "ms"
+          }
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Female"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "purple",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Male"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 129
+        "h": 9,
+        "w": 8,
+        "x": 2,
+        "y": 140
       },
-      "id": 36,
+      "id": 93,
       "options": {
         "barRadius": 0,
-        "barWidth": 0.97,
+        "barWidth": 0.93,
         "fullHighlight": false,
-        "groupWidth": 0.7,
+        "groupWidth": 0.93,
         "legend": {
           "calcs": [],
           "displayMode": "list",
@@ -2713,6 +2904,9 @@
         "orientation": "auto",
         "showValue": "always",
         "stacking": "none",
+        "text": {
+          "valueSize": 12
+        },
         "tooltip": {
           "mode": "single",
           "sort": "none"
@@ -2729,7 +2923,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT \r\n    u.gender,\r\n    AVG(m.time_ms) AS avg_time_ms\r\nFROM \r\n    public.users u\r\nJOIN \r\n    public.devices d ON u.user_id = d.user_id\r\nJOIN \r\n    public.measurements m ON d.device_id = m.device_id\r\nGROUP BY \r\n    u.gender\r\nORDER BY \r\n    avg_time_ms DESC;\r\n",
+          "rawSql": "SELECT \r\n    it_competence,\r\n    COUNT(CASE WHEN gender= 'Female' THEN user_id END) AS \"Female\",\r\n    COUNT(CASE WHEN gender= 'Male' THEN user_id END) AS \"Male\"\r\nFROM users\r\nGROUP BY \r\n    it_competence\r\nORDER BY \r\n    CASE \r\n        WHEN it_competence = 'Novice' THEN 1\r\n        WHEN it_competence = 'Beginner' THEN 2\r\n        WHEN it_competence = 'Intermediate' THEN 3\r\n        WHEN it_competence = 'Advanced' THEN 4\r\n        WHEN it_competence = 'Expert' THEN 5\r\n        ELSE 6  -- Any other values will come last\r\n    END ASC\r\n    ;\r\n",
           "refId": "A",
           "sql": {
             "columns": [
@@ -2750,7 +2944,124 @@
           }
         }
       ],
-      "title": "Average time by gender",
+      "title": "IT competence by gender",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "default": true,
+        "type": "grafana-postgresql-datasource",
+        "uid": "ddvba5h2t260we"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 80,
+            "gradientMode": "scheme",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "blue",
+                "value": 2500
+              },
+              {
+                "color": "purple",
+                "value": 21000
+              }
+            ]
+          },
+          "unit": "ms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 140
+      },
+      "id": 94,
+      "options": {
+        "barRadius": 0,
+        "barWidth": 0.97,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "orientation": "auto",
+        "showValue": "always",
+        "stacking": "none",
+        "text": {
+          "valueSize": 12
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "ddvba5h2t260we"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT \r\n    u.gender,\r\n    AVG(u.age) AS avg_time_ms\r\nFROM \r\n    public.users u\r\nJOIN \r\n    public.devices d ON u.user_id = d.user_id\r\nJOIN \r\n    public.measurements m ON d.device_id = m.device_id\r\nGROUP BY \r\n    u.gender\r\nORDER BY \r\n    avg_time_ms DESC;\r\n",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Average age by gender",
       "type": "barchart"
     },
     {
@@ -2816,7 +3127,7 @@
         "h": 8,
         "w": 12,
         "x": 5,
-        "y": 137
+        "y": 149
       },
       "id": 37,
       "options": {
@@ -2834,6 +3145,9 @@
         "orientation": "auto",
         "showValue": "always",
         "stacking": "none",
+        "text": {
+          "valueSize": 12
+        },
         "tooltip": {
           "mode": "single",
           "sort": "none"
@@ -2952,7 +3266,7 @@
         "h": 8,
         "w": 12,
         "x": 5,
-        "y": 145
+        "y": 157
       },
       "id": 70,
       "options": {
@@ -2970,6 +3284,9 @@
         "orientation": "auto",
         "showValue": "always",
         "stacking": "none",
+        "text": {
+          "valueSize": 12
+        },
         "tooltip": {
           "mode": "single",
           "sort": "none"
@@ -3096,7 +3413,7 @@
         "h": 23,
         "w": 12,
         "x": 0,
-        "y": 153
+        "y": 165
       },
       "id": 23,
       "options": {
@@ -3246,7 +3563,7 @@
         "h": 23,
         "w": 12,
         "x": 12,
-        "y": 153
+        "y": 165
       },
       "id": 73,
       "options": {
@@ -3318,7 +3635,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 176
+        "y": 188
       },
       "id": 39,
       "panels": [],
@@ -3409,7 +3726,7 @@
         "h": 34,
         "w": 12,
         "x": 0,
-        "y": 177
+        "y": 189
       },
       "id": 38,
       "options": {
@@ -3451,7 +3768,7 @@
           "format": "table",
           "hide": false,
           "rawQuery": true,
-          "rawSql": "SELECT\r\n  m.auth_method_name,\r\n  AVG(CASE WHEN m.it_competence = 'Novice' THEN m.time_ms END) AS \"Novice\",\r\n  AVG(CASE WHEN m.it_competence = 'Beginner' THEN m.time_ms END) AS \"Beginner\",\r\n  AVG(CASE WHEN m.it_competence = 'Intermediate' THEN m.time_ms END) AS \"Intermediate\",\r\n  AVG(CASE WHEN m.it_competence = 'Advanced' THEN m.time_ms END) AS \"Advanced\"\r\nFROM\r\n  public.all_data AS m\r\nGROUP BY\r\n  m.auth_method_name\r\nORDER BY\r\n  m.auth_method_name ASC;\r\n",
+          "rawSql": "SELECT\r\n  m.auth_method_name,\r\n  AVG(CASE WHEN m.it_competence = 'Novice' THEN m.time_ms END) AS \"Novice\",\r\n  AVG(CASE WHEN m.it_competence = 'Beginner' THEN m.time_ms END) AS \"Beginner\",\r\n  AVG(CASE WHEN m.it_competence = 'Intermediate' THEN m.time_ms END) AS \"Intermediate\",\r\n  AVG(CASE WHEN m.it_competence = 'Advanced' THEN m.time_ms END) AS \"Advanced\",\r\n  AVG(CASE WHEN m.it_competence = 'Expert' THEN m.time_ms END) AS \"Expert\"\r\nFROM\r\n  public.all_data AS m\r\nGROUP BY\r\n  m.auth_method_name\r\nORDER BY\r\n  m.auth_method_name ASC;\r\n",
           "refId": "B",
           "sql": {
             "columns": [
@@ -3605,7 +3922,7 @@
         "h": 34,
         "w": 12,
         "x": 12,
-        "y": 177
+        "y": 189
       },
       "id": 42,
       "options": {
@@ -3647,7 +3964,7 @@
           "format": "table",
           "hide": false,
           "rawQuery": true,
-          "rawSql": "SELECT\r\n  m.auth_method_name,\r\n  COUNT(CASE WHEN m.it_competence = 'Novice' THEN m.time_ms END) AS \"Novice\",\r\n  COUNT(CASE WHEN m.it_competence = 'Beginner' THEN m.time_ms END) AS \"Beginner\",\r\n  COUNT(CASE WHEN m.it_competence = 'Intermediate' THEN m.time_ms END) AS \"Intermediate\",\r\n  COUNT(CASE WHEN m.it_competence = 'Advanced' THEN m.time_ms END) AS \"Advanced\"\r\nFROM\r\n  public.all_data AS m\r\nGROUP BY\r\n  m.auth_method_name\r\nORDER BY\r\n  m.auth_method_name ASC;\r\n",
+          "rawSql": "SELECT\r\n  m.auth_method_name,\r\n  COUNT(CASE WHEN m.it_competence = 'Novice' THEN m.time_ms END) AS \"Novice\",\r\n  COUNT(CASE WHEN m.it_competence = 'Beginner' THEN m.time_ms END) AS \"Beginner\",\r\n  COUNT(CASE WHEN m.it_competence = 'Intermediate' THEN m.time_ms END) AS \"Intermediate\",\r\n  COUNT(CASE WHEN m.it_competence = 'Advanced' THEN m.time_ms END) AS \"Advanced\",\r\n  COUNT(CASE WHEN m.it_competence = 'Expert' THEN m.time_ms END) AS \"Expert\"\r\nFROM\r\n  public.all_data AS m\r\nGROUP BY\r\n  m.auth_method_name\r\nORDER BY\r\n  m.auth_method_name ASC;\r\n",
           "refId": "B",
           "sql": {
             "columns": [
@@ -3724,6 +4041,7 @@
         "type": "grafana-postgresql-datasource",
         "uid": "ddvba5h2t260we"
       },
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -3735,8 +4053,9 @@
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisGridShow": true,
-            "axisLabel": "Time taken",
+            "axisLabel": "Successful authentication processes",
             "axisPlacement": "auto",
+            "axisSoftMax": 105,
             "fillOpacity": 80,
             "gradientMode": "none",
             "hideFrom": {
@@ -3763,19 +4082,19 @@
               }
             ]
           },
-          "unit": "short"
+          "unit": "percent"
         },
         "overrides": [
           {
             "matcher": {
               "id": "byName",
-              "options": "Signup count"
+              "options": "Novice"
             },
             "properties": [
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "blue",
+                  "fixedColor": "dark-blue",
                   "mode": "fixed"
                 }
               }
@@ -3784,13 +4103,13 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Login count"
+              "options": "Advanced"
             },
             "properties": [
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "#d0a6ff",
+                  "fixedColor": "super-light-purple",
                   "mode": "fixed"
                 }
               }
@@ -3799,10 +4118,10 @@
         ]
       },
       "gridPos": {
-        "h": 19,
+        "h": 21,
         "w": 12,
-        "x": 0,
-        "y": 211
+        "x": 6,
+        "y": 223
       },
       "id": 40,
       "options": {
@@ -3825,6 +4144,9 @@
         "orientation": "horizontal",
         "showValue": "always",
         "stacking": "none",
+        "text": {
+          "valueSize": 12
+        },
         "tooltip": {
           "mode": "single",
           "sort": "none"
@@ -3844,7 +4166,7 @@
           "format": "table",
           "hide": false,
           "rawQuery": true,
-          "rawSql": "SELECT\r\n  m.auth_method_name,\r\n  COUNT(CASE WHEN m.it_competence = 'Novice' THEN m.time_ms END) AS \"Novice\"\r\nFROM\r\n  public.all_data AS m\r\nGROUP BY\r\n  m.auth_method_name\r\nORDER BY\r\n  m.auth_method_name ASC;\r\n",
+          "rawSql": "SELECT\r\n  m.auth_method_name,\r\n  COUNT(CASE WHEN m.it_competence = 'Novice' THEN m.time_ms END) / 0.12 AS \"Novice\",\r\n  COUNT(CASE WHEN m.it_competence = 'Advanced' THEN m.time_ms END) / 0.21 AS \"Advanced\"\r\nFROM\r\n  public.all_data AS m\r\nGROUP BY\r\n  m.auth_method_name\r\nORDER BY\r\n  m.auth_method_name ASC;\r\n",
           "refId": "B",
           "sql": {
             "columns": [
@@ -3912,7 +4234,7 @@
           "table": "measurement_insights"
         }
       ],
-      "title": "Successful auth for IT Competence = Novice",
+      "title": "Completed Actions for Cybersecurity Competence \"Novice\" and \"Advanced\"",
       "type": "barchart"
     },
     {
@@ -3934,203 +4256,7 @@
             "axisGridShow": true,
             "axisLabel": "Time taken",
             "axisPlacement": "auto",
-            "fillOpacity": 80,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineWidth": 1,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "decimals": 0,
-          "fieldMinMax": false,
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "blue"
-              }
-            ]
-          },
-          "unit": "short"
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Signup count"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "blue",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Login count"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "#d0a6ff",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 19,
-        "w": 12,
-        "x": 12,
-        "y": 211
-      },
-      "id": 41,
-      "options": {
-        "barRadius": 0,
-        "barWidth": 0.9,
-        "fullHighlight": false,
-        "groupWidth": 0.7,
-        "legend": {
-          "calcs": [
-            "min",
-            "p25",
-            "mean",
-            "p75",
-            "max"
-          ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "orientation": "horizontal",
-        "showValue": "always",
-        "stacking": "none",
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        },
-        "xField": "auth_method_name",
-        "xTickLabelRotation": 0,
-        "xTickLabelSpacing": 0
-      },
-      "pluginVersion": "11.1.4",
-      "targets": [
-        {
-          "datasource": {
-            "type": "grafana-postgresql-datasource",
-            "uid": "ddvba5h2t260we"
-          },
-          "editorMode": "code",
-          "format": "table",
-          "hide": false,
-          "rawQuery": true,
-          "rawSql": "SELECT\r\n  m.auth_method_name,\r\n  COUNT(CASE WHEN m.it_competence = 'Advanced' THEN m.time_ms END) AS \"Advanced\"\r\nFROM\r\n  public.all_data AS m\r\nGROUP BY\r\n  m.auth_method_name\r\nORDER BY\r\n  m.auth_method_name ASC;\r\n",
-          "refId": "B",
-          "sql": {
-            "columns": [
-              {
-                "alias": "\"Login time\"",
-                "name": "AVG",
-                "parameters": [
-                  {
-                    "name": "time_ms",
-                    "type": "functionParameter"
-                  }
-                ],
-                "type": "function"
-              },
-              {
-                "name": "AVG",
-                "parameters": [
-                  {
-                    "name": "time_ms",
-                    "type": "functionParameter"
-                  }
-                ],
-                "type": "function"
-              },
-              {
-                "parameters": [
-                  {
-                    "name": "auth_method_name",
-                    "type": "functionParameter"
-                  }
-                ],
-                "type": "function"
-              }
-            ],
-            "groupBy": [
-              {
-                "property": {
-                  "name": "auth_method_name",
-                  "type": "string"
-                },
-                "type": "groupBy"
-              },
-              {
-                "property": {
-                  "name": "action",
-                  "type": "string"
-                },
-                "type": "groupBy"
-              }
-            ],
-            "orderBy": {
-              "property": {
-                "name": "AVG(time_ms)",
-                "type": "string"
-              },
-              "type": "property"
-            },
-            "orderByDirection": "ASC",
-            "whereJsonTree": {
-              "children1": [],
-              "id": "8a8899a8-0123-4456-b89a-b19198b0bc32",
-              "type": "group"
-            }
-          },
-          "table": "measurement_insights"
-        }
-      ],
-      "title": "Successful auth for IT Competence = Advanced",
-      "type": "barchart"
-    },
-    {
-      "datasource": {
-        "default": true,
-        "type": "grafana-postgresql-datasource",
-        "uid": "ddvba5h2t260we"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "fixedColor": "#FF9830",
-            "mode": "thresholds"
-          },
-          "custom": {
-            "axisBorderShow": true,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisGridShow": true,
-            "axisLabel": "Time taken",
-            "axisPlacement": "auto",
+            "axisSoftMax": 1.05,
             "fillOpacity": 80,
             "gradientMode": "none",
             "hideFrom": {
@@ -4159,13 +4285,44 @@
           },
           "unit": "percentunit"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Under 30 years"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "dark-blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Over 50 years"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "super-light-purple",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
-        "h": 17,
+        "h": 22,
         "w": 12,
-        "x": 0,
-        "y": 230
+        "x": 6,
+        "y": 244
       },
       "id": 72,
       "options": {
@@ -4189,7 +4346,9 @@
         "orientation": "horizontal",
         "showValue": "always",
         "stacking": "none",
-        "text": {},
+        "text": {
+          "valueSize": 12
+        },
         "tooltip": {
           "mode": "single",
           "sort": "none"
@@ -4209,7 +4368,7 @@
           "format": "table",
           "hide": false,
           "rawQuery": true,
-          "rawSql": "WITH counts AS (\r\n  SELECT\r\n    m.auth_method_name,\r\n    COUNT(CASE WHEN m.age < 30 THEN m.time_ms END) AS age_30_count\r\n  FROM\r\n    public.all_data AS m\r\n  GROUP BY\r\n    m.auth_method_name\r\n)\r\nSELECT\r\n  auth_method_name,\r\n  age_30_count::FLOAT / MAX(age_30_count) OVER () AS \"< 30 years\"\r\nFROM\r\n  counts\r\nORDER BY\r\n  auth_method_name ASC;\r\n",
+          "rawSql": "WITH counts AS (\r\n  SELECT\r\n    m.auth_method_name,\r\n    COUNT(CASE WHEN m.age < 30 THEN m.time_ms END) AS age_30_count,\r\n    COUNT(CASE WHEN m.age > 50 THEN m.time_ms END) AS age_50_count\r\n  FROM\r\n    public.all_data AS m\r\n  GROUP BY\r\n    m.auth_method_name\r\n)\r\nSELECT\r\n  auth_method_name,\r\n  age_30_count::FLOAT / MAX(age_30_count) OVER () AS \"Under 30 years\",\r\n  age_50_count::FLOAT / MAX(age_50_count) OVER () AS \"Over 50 years\"\r\nFROM\r\n  counts\r\nORDER BY\r\n  auth_method_name ASC;\r\n",
           "refId": "B",
           "sql": {
             "columns": [
@@ -4277,205 +4436,7 @@
           "table": "measurement_insights"
         }
       ],
-      "title": "Successful auth for age below 30",
-      "type": "barchart"
-    },
-    {
-      "datasource": {
-        "default": true,
-        "type": "grafana-postgresql-datasource",
-        "uid": "ddvba5h2t260we"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "fixedColor": "#FF9830",
-            "mode": "thresholds"
-          },
-          "custom": {
-            "axisBorderShow": true,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisGridShow": true,
-            "axisLabel": "Time taken",
-            "axisPlacement": "auto",
-            "fillOpacity": 80,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineWidth": 1,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "decimals": 0,
-          "fieldMinMax": false,
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "blue"
-              }
-            ]
-          },
-          "unit": "percentunit"
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Signup count"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "blue",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Login count"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "#d0a6ff",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          }
-        ]
-      },
-      "gridPos": {
-        "h": 17,
-        "w": 12,
-        "x": 12,
-        "y": 230
-      },
-      "id": 71,
-      "options": {
-        "barRadius": 0,
-        "barWidth": 0.9,
-        "fullHighlight": false,
-        "groupWidth": 0.7,
-        "legend": {
-          "calcs": [
-            "mean",
-            "min",
-            "p25",
-            "p50",
-            "p75",
-            "max"
-          ],
-          "displayMode": "table",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "orientation": "horizontal",
-        "showValue": "always",
-        "stacking": "none",
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        },
-        "xField": "auth_method_name",
-        "xTickLabelRotation": 0,
-        "xTickLabelSpacing": 200
-      },
-      "pluginVersion": "11.1.4",
-      "targets": [
-        {
-          "datasource": {
-            "type": "grafana-postgresql-datasource",
-            "uid": "ddvba5h2t260we"
-          },
-          "editorMode": "code",
-          "format": "table",
-          "hide": false,
-          "rawQuery": true,
-          "rawSql": "WITH counts AS (\r\n  SELECT\r\n    m.auth_method_name,\r\n    COUNT(CASE WHEN m.age > 50 THEN m.time_ms END) AS age_50_count\r\n  FROM\r\n    public.all_data AS m\r\n  GROUP BY\r\n    m.auth_method_name\r\n)\r\nSELECT\r\n  auth_method_name,\r\n  age_50_count::FLOAT / MAX(age_50_count) OVER () AS \"> 50 years\"\r\nFROM\r\n  counts\r\nORDER BY\r\n  auth_method_name ASC;\r\n",
-          "refId": "B",
-          "sql": {
-            "columns": [
-              {
-                "alias": "\"Login time\"",
-                "name": "AVG",
-                "parameters": [
-                  {
-                    "name": "time_ms",
-                    "type": "functionParameter"
-                  }
-                ],
-                "type": "function"
-              },
-              {
-                "name": "AVG",
-                "parameters": [
-                  {
-                    "name": "time_ms",
-                    "type": "functionParameter"
-                  }
-                ],
-                "type": "function"
-              },
-              {
-                "parameters": [
-                  {
-                    "name": "auth_method_name",
-                    "type": "functionParameter"
-                  }
-                ],
-                "type": "function"
-              }
-            ],
-            "groupBy": [
-              {
-                "property": {
-                  "name": "auth_method_name",
-                  "type": "string"
-                },
-                "type": "groupBy"
-              },
-              {
-                "property": {
-                  "name": "action",
-                  "type": "string"
-                },
-                "type": "groupBy"
-              }
-            ],
-            "orderBy": {
-              "property": {
-                "name": "AVG(time_ms)",
-                "type": "string"
-              },
-              "type": "property"
-            },
-            "orderByDirection": "ASC",
-            "whereJsonTree": {
-              "children1": [],
-              "id": "8a8899a8-0123-4456-b89a-b19198b0bc32",
-              "type": "group"
-            }
-          },
-          "table": "measurement_insights"
-        }
-      ],
-      "title": "Successful auth for age above 50",
+      "title": "Comparison of Completed Action by Age",
       "type": "barchart"
     },
     {
@@ -4484,7 +4445,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 247
+        "y": 266
       },
       "id": 3,
       "panels": [],
@@ -4570,7 +4531,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 248
+        "y": 267
       },
       "id": 1,
       "options": {
@@ -4721,7 +4682,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 248
+        "y": 267
       },
       "id": 20,
       "options": {
@@ -4885,7 +4846,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 256
+        "y": 275
       },
       "id": 12,
       "options": {
@@ -5050,7 +5011,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 256
+        "y": 275
       },
       "id": 11,
       "options": {
@@ -5214,7 +5175,7 @@
         "h": 8,
         "w": 12,
         "x": 6,
-        "y": 264
+        "y": 283
       },
       "id": 10,
       "options": {
@@ -5306,7 +5267,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 272
+        "y": 291
       },
       "id": 7,
       "panels": [],
@@ -5383,7 +5344,7 @@
         "h": 14,
         "w": 12,
         "x": 0,
-        "y": 273
+        "y": 292
       },
       "id": 2,
       "options": {
@@ -5609,7 +5570,7 @@
         "h": 31,
         "w": 12,
         "x": 12,
-        "y": 273
+        "y": 292
       },
       "id": 9,
       "options": {
@@ -5791,7 +5752,7 @@
         "h": 17,
         "w": 12,
         "x": 0,
-        "y": 287
+        "y": 306
       },
       "id": 18,
       "options": {
@@ -5973,7 +5934,7 @@
         "h": 17,
         "w": 12,
         "x": 0,
-        "y": 304
+        "y": 323
       },
       "id": 66,
       "options": {
@@ -6155,7 +6116,7 @@
         "h": 17,
         "w": 12,
         "x": 12,
-        "y": 304
+        "y": 323
       },
       "id": 67,
       "options": {
@@ -6324,7 +6285,7 @@
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "blue",
+                  "fixedColor": "dark-blue",
                   "mode": "fixed"
                 }
               }
@@ -6339,7 +6300,7 @@
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "#d0a6ff",
+                  "fixedColor": "super-light-purple",
                   "mode": "fixed"
                 }
               }
@@ -6367,7 +6328,7 @@
         "h": 18,
         "w": 12,
         "x": 0,
-        "y": 321
+        "y": 340
       },
       "id": 5,
       "options": {
@@ -6536,7 +6497,7 @@
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "blue",
+                  "fixedColor": "dark-blue",
                   "mode": "fixed"
                 }
               }
@@ -6551,25 +6512,9 @@
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "#d0a6ff",
+                  "fixedColor": "super-light-purple",
                   "mode": "fixed"
                 }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Total"
-            },
-            "properties": [
-              {
-                "id": "custom.fillOpacity",
-                "value": 0
-              },
-              {
-                "id": "custom.lineWidth",
-                "value": 0
               }
             ]
           }
@@ -6579,7 +6524,7 @@
         "h": 18,
         "w": 12,
         "x": 12,
-        "y": 321
+        "y": 340
       },
       "id": 8,
       "options": {
@@ -6597,7 +6542,7 @@
           ],
           "displayMode": "table",
           "placement": "bottom",
-          "showLegend": false
+          "showLegend": true
         },
         "orientation": "horizontal",
         "showValue": "never",
@@ -6608,7 +6553,7 @@
         },
         "xField": "auth_method_name",
         "xTickLabelRotation": 0,
-        "xTickLabelSpacing": 100
+        "xTickLabelSpacing": 0
       },
       "pluginVersion": "11.1.4",
       "targets": [
@@ -6689,7 +6634,7 @@
           "table": "measurement_insights"
         }
       ],
-      "title": "Login/Signup Time by Auth Method",
+      "title": "Average Login and Sign-up Time by Auth Method",
       "type": "barchart"
     },
     {
@@ -6791,7 +6736,7 @@
         "h": 18,
         "w": 12,
         "x": 0,
-        "y": 339
+        "y": 358
       },
       "id": 16,
       "options": {
@@ -6820,7 +6765,7 @@
         },
         "xField": "auth_method_name",
         "xTickLabelRotation": 0,
-        "xTickLabelSpacing": 0
+        "xTickLabelSpacing": 100
       },
       "pluginVersion": "11.1.4",
       "targets": [
@@ -7003,7 +6948,7 @@
         "h": 18,
         "w": 12,
         "x": 12,
-        "y": 339
+        "y": 358
       },
       "id": 17,
       "options": {
@@ -7122,7 +7067,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 357
+        "y": 376
       },
       "id": 15,
       "panels": [],
@@ -7172,13 +7117,13 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Signup"
+              "options": "Sign-up"
             },
             "properties": [
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "blue",
+                  "fixedColor": "dark-blue",
                   "mode": "fixed"
                 }
               }
@@ -7187,13 +7132,13 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Log-in"
+              "options": "Login"
             },
             "properties": [
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "purple",
+                  "fixedColor": "super-light-purple",
                   "mode": "fixed"
                 }
               }
@@ -7205,7 +7150,7 @@
         "h": 9,
         "w": 12,
         "x": 5,
-        "y": 358
+        "y": 377
       },
       "id": 14,
       "options": {
@@ -7239,12 +7184,12 @@
           "format": "table",
           "hide": false,
           "rawQuery": true,
-          "rawSql": "SELECT time_ms AS \"Signup\", auth_method_name FROM measurement_insights WHERE action = 'signup' ",
+          "rawSql": "SELECT time_ms AS \"Sign-up\", auth_method_name FROM measurement_insights WHERE action = 'signup' ",
           "refId": "A",
           "sql": {
             "columns": [
               {
-                "alias": "\"Signup\"",
+                "alias": "\"Sign-up\"",
                 "parameters": [
                   {
                     "name": "time_ms",
@@ -7309,12 +7254,12 @@
           "editorMode": "builder",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT time_ms AS \"Log-in\", auth_method_name FROM measurement_insights WHERE action = 'login' ",
+          "rawSql": "SELECT time_ms AS \"Login\", auth_method_name FROM measurement_insights WHERE action = 'login' ",
           "refId": "B",
           "sql": {
             "columns": [
               {
-                "alias": "\"Log-in\"",
+                "alias": "\"Login\"",
                 "parameters": [
                   {
                     "name": "time_ms",
@@ -7418,13 +7363,13 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Signup"
+              "options": "Sign-up"
             },
             "properties": [
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "blue",
+                  "fixedColor": "dark-blue",
                   "mode": "fixed"
                 }
               }
@@ -7433,13 +7378,13 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Log-in"
+              "options": "Login"
             },
             "properties": [
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "purple",
+                  "fixedColor": "super-light-purple",
                   "mode": "fixed"
                 }
               }
@@ -7451,7 +7396,7 @@
         "h": 9,
         "w": 12,
         "x": 5,
-        "y": 367
+        "y": 386
       },
       "id": 74,
       "options": {
@@ -7485,12 +7430,12 @@
           "format": "table",
           "hide": false,
           "rawQuery": true,
-          "rawSql": "SELECT time_ms AS \"Signup\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'Authenticator Apps' AND action = 'signup') ",
+          "rawSql": "SELECT time_ms AS \"Sign-up\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'Authenticator Apps' AND action = 'signup') ",
           "refId": "A",
           "sql": {
             "columns": [
               {
-                "alias": "\"Signup\"",
+                "alias": "\"Sign-up\"",
                 "parameters": [
                   {
                     "name": "time_ms",
@@ -7576,12 +7521,12 @@
           "editorMode": "builder",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT time_ms AS \"Log-in\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'Authenticator Apps' AND action = 'login') ",
+          "rawSql": "SELECT time_ms AS \"Login\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'Authenticator Apps' AND action = 'login') ",
           "refId": "B",
           "sql": {
             "columns": [
               {
-                "alias": "\"Log-in\"",
+                "alias": "\"Login\"",
                 "parameters": [
                   {
                     "name": "time_ms",
@@ -7706,13 +7651,13 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Signup"
+              "options": "Sign-up"
             },
             "properties": [
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "blue",
+                  "fixedColor": "dark-blue",
                   "mode": "fixed"
                 }
               }
@@ -7721,13 +7666,13 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Log-in"
+              "options": "Login"
             },
             "properties": [
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "purple",
+                  "fixedColor": "super-light-purple",
                   "mode": "fixed"
                 }
               }
@@ -7739,7 +7684,7 @@
         "h": 9,
         "w": 12,
         "x": 5,
-        "y": 376
+        "y": 395
       },
       "id": 91,
       "options": {
@@ -7773,12 +7718,12 @@
           "format": "table",
           "hide": false,
           "rawQuery": true,
-          "rawSql": "SELECT time_ms AS \"Signup\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'Behavioral Biometrics' AND action = 'signup') ",
+          "rawSql": "SELECT time_ms AS \"Sign-up\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'Behavioral Biometrics' AND action = 'signup') ",
           "refId": "A",
           "sql": {
             "columns": [
               {
-                "alias": "\"Signup\"",
+                "alias": "\"Sign-up\"",
                 "parameters": [
                   {
                     "name": "time_ms",
@@ -7864,12 +7809,12 @@
           "editorMode": "builder",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT time_ms AS \"Log-in\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'Behavioral Biometrics' AND action = 'login') ",
+          "rawSql": "SELECT time_ms AS \"Login\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'Behavioral Biometrics' AND action = 'login') ",
           "refId": "B",
           "sql": {
             "columns": [
               {
-                "alias": "\"Log-in\"",
+                "alias": "\"Login\"",
                 "parameters": [
                   {
                     "name": "time_ms",
@@ -7994,13 +7939,13 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Signup"
+              "options": "Sign-up"
             },
             "properties": [
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "blue",
+                  "fixedColor": "dark-blue",
                   "mode": "fixed"
                 }
               }
@@ -8009,13 +7954,13 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Log-in"
+              "options": "Login"
             },
             "properties": [
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "purple",
+                  "fixedColor": "super-light-purple",
                   "mode": "fixed"
                 }
               }
@@ -8027,7 +7972,7 @@
         "h": 9,
         "w": 12,
         "x": 5,
-        "y": 385
+        "y": 404
       },
       "id": 90,
       "options": {
@@ -8061,12 +8006,12 @@
           "format": "table",
           "hide": false,
           "rawQuery": true,
-          "rawSql": "SELECT time_ms AS \"Signup\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'Device Based Location' AND action = 'signup') ",
+          "rawSql": "SELECT time_ms AS \"Sign-up\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'Device Based Location' AND action = 'signup') ",
           "refId": "A",
           "sql": {
             "columns": [
               {
-                "alias": "\"Signup\"",
+                "alias": "\"Sign-up\"",
                 "parameters": [
                   {
                     "name": "time_ms",
@@ -8152,12 +8097,12 @@
           "editorMode": "builder",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT time_ms AS \"Log-in\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'Device Based Location' AND action = 'login') ",
+          "rawSql": "SELECT time_ms AS \"Login\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'Device Based Location' AND action = 'login') ",
           "refId": "B",
           "sql": {
             "columns": [
               {
-                "alias": "\"Log-in\"",
+                "alias": "\"Login\"",
                 "parameters": [
                   {
                     "name": "time_ms",
@@ -8282,13 +8227,13 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Signup"
+              "options": "Sign-up"
             },
             "properties": [
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "blue",
+                  "fixedColor": "dark-blue",
                   "mode": "fixed"
                 }
               }
@@ -8297,13 +8242,13 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Log-in"
+              "options": "Login"
             },
             "properties": [
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "purple",
+                  "fixedColor": "super-light-purple",
                   "mode": "fixed"
                 }
               }
@@ -8315,7 +8260,7 @@
         "h": 9,
         "w": 12,
         "x": 5,
-        "y": 394
+        "y": 413
       },
       "id": 89,
       "options": {
@@ -8349,12 +8294,12 @@
           "format": "table",
           "hide": false,
           "rawQuery": true,
-          "rawSql": "SELECT time_ms AS \"Signup\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'Device Certificates' AND action = 'signup') ",
+          "rawSql": "SELECT time_ms AS \"Sign-up\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'Device Certificates' AND action = 'signup') ",
           "refId": "A",
           "sql": {
             "columns": [
               {
-                "alias": "\"Signup\"",
+                "alias": "\"Sign-up\"",
                 "parameters": [
                   {
                     "name": "time_ms",
@@ -8440,12 +8385,12 @@
           "editorMode": "builder",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT time_ms AS \"Log-in\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'Device Certificates' AND action = 'login') ",
+          "rawSql": "SELECT time_ms AS \"Login\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'Device Certificates' AND action = 'login') ",
           "refId": "B",
           "sql": {
             "columns": [
               {
-                "alias": "\"Log-in\"",
+                "alias": "\"Login\"",
                 "parameters": [
                   {
                     "name": "time_ms",
@@ -8570,13 +8515,13 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Signup"
+              "options": "Sign-up"
             },
             "properties": [
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "blue",
+                  "fixedColor": "dark-blue",
                   "mode": "fixed"
                 }
               }
@@ -8585,13 +8530,13 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Log-in"
+              "options": "Login"
             },
             "properties": [
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "purple",
+                  "fixedColor": "super-light-purple",
                   "mode": "fixed"
                 }
               }
@@ -8603,7 +8548,7 @@
         "h": 9,
         "w": 12,
         "x": 5,
-        "y": 403
+        "y": 422
       },
       "id": 88,
       "options": {
@@ -8637,12 +8582,12 @@
           "format": "table",
           "hide": false,
           "rawQuery": true,
-          "rawSql": "SELECT time_ms AS \"Signup\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'Device Fingerprint' AND action = 'signup') ",
+          "rawSql": "SELECT time_ms AS \"Sign-up\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'Device Fingerprint' AND action = 'signup') ",
           "refId": "A",
           "sql": {
             "columns": [
               {
-                "alias": "\"Signup\"",
+                "alias": "\"Sign-up\"",
                 "parameters": [
                   {
                     "name": "time_ms",
@@ -8728,12 +8673,12 @@
           "editorMode": "builder",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT time_ms AS \"Log-in\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'Device Fingerprint' AND action = 'login') ",
+          "rawSql": "SELECT time_ms AS \"Login\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'Device Fingerprint' AND action = 'login') ",
           "refId": "B",
           "sql": {
             "columns": [
               {
-                "alias": "\"Log-in\"",
+                "alias": "\"Login\"",
                 "parameters": [
                   {
                     "name": "time_ms",
@@ -8858,13 +8803,13 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Signup"
+              "options": "Sign-up"
             },
             "properties": [
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "blue",
+                  "fixedColor": "dark-blue",
                   "mode": "fixed"
                 }
               }
@@ -8873,13 +8818,13 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Log-in"
+              "options": "Login"
             },
             "properties": [
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "purple",
+                  "fixedColor": "super-light-purple",
                   "mode": "fixed"
                 }
               }
@@ -8891,7 +8836,7 @@
         "h": 9,
         "w": 12,
         "x": 5,
-        "y": 412
+        "y": 431
       },
       "id": 87,
       "options": {
@@ -8925,12 +8870,12 @@
           "format": "table",
           "hide": false,
           "rawQuery": true,
-          "rawSql": "SELECT time_ms AS \"Signup\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'E-Mail Authentication' AND action = 'signup') ",
+          "rawSql": "SELECT time_ms AS \"Sign-up\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'E-Mail Authentication' AND action = 'signup') ",
           "refId": "A",
           "sql": {
             "columns": [
               {
-                "alias": "\"Signup\"",
+                "alias": "\"Sign-up\"",
                 "parameters": [
                   {
                     "name": "time_ms",
@@ -9016,12 +8961,12 @@
           "editorMode": "builder",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT time_ms AS \"Log-in\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'E-Mail Authentication' AND action = 'login') ",
+          "rawSql": "SELECT time_ms AS \"Login\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'E-Mail Authentication' AND action = 'login') ",
           "refId": "B",
           "sql": {
             "columns": [
               {
-                "alias": "\"Log-in\"",
+                "alias": "\"Login\"",
                 "parameters": [
                   {
                     "name": "time_ms",
@@ -9146,13 +9091,13 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Signup"
+              "options": "Sign-up"
             },
             "properties": [
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "blue",
+                  "fixedColor": "dark-blue",
                   "mode": "fixed"
                 }
               }
@@ -9161,13 +9106,13 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Log-in"
+              "options": "Login"
             },
             "properties": [
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "purple",
+                  "fixedColor": "super-light-purple",
                   "mode": "fixed"
                 }
               }
@@ -9179,7 +9124,7 @@
         "h": 9,
         "w": 12,
         "x": 5,
-        "y": 421
+        "y": 440
       },
       "id": 86,
       "options": {
@@ -9213,12 +9158,12 @@
           "format": "table",
           "hide": false,
           "rawQuery": true,
-          "rawSql": "SELECT time_ms AS \"Signup\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'Facial Recognition' AND action = 'signup') ",
+          "rawSql": "SELECT time_ms AS \"Sign-up\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'Facial Recognition' AND action = 'signup') ",
           "refId": "A",
           "sql": {
             "columns": [
               {
-                "alias": "\"Signup\"",
+                "alias": "\"Sign-up\"",
                 "parameters": [
                   {
                     "name": "time_ms",
@@ -9304,12 +9249,12 @@
           "editorMode": "builder",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT time_ms AS \"Log-in\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'Facial Recognition' AND action = 'login') ",
+          "rawSql": "SELECT time_ms AS \"Login\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'Facial Recognition' AND action = 'login') ",
           "refId": "B",
           "sql": {
             "columns": [
               {
-                "alias": "\"Log-in\"",
+                "alias": "\"Login\"",
                 "parameters": [
                   {
                     "name": "time_ms",
@@ -9434,13 +9379,13 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Signup"
+              "options": "Sign-up"
             },
             "properties": [
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "blue",
+                  "fixedColor": "dark-blue",
                   "mode": "fixed"
                 }
               }
@@ -9449,13 +9394,13 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Log-in"
+              "options": "Login"
             },
             "properties": [
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "purple",
+                  "fixedColor": "super-light-purple",
                   "mode": "fixed"
                 }
               }
@@ -9467,7 +9412,7 @@
         "h": 9,
         "w": 12,
         "x": 5,
-        "y": 430
+        "y": 449
       },
       "id": 85,
       "options": {
@@ -9501,12 +9446,12 @@
           "format": "table",
           "hide": false,
           "rawQuery": true,
-          "rawSql": "SELECT time_ms AS \"Signup\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'Game Based Auth' AND action = 'signup') ",
+          "rawSql": "SELECT time_ms AS \"Sign-up\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'Game Based Auth' AND action = 'signup') ",
           "refId": "A",
           "sql": {
             "columns": [
               {
-                "alias": "\"Signup\"",
+                "alias": "\"Sign-up\"",
                 "parameters": [
                   {
                     "name": "time_ms",
@@ -9592,12 +9537,12 @@
           "editorMode": "builder",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT time_ms AS \"Log-in\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'Game Based Auth' AND action = 'login') ",
+          "rawSql": "SELECT time_ms AS \"Login\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'Game Based Auth' AND action = 'login') ",
           "refId": "B",
           "sql": {
             "columns": [
               {
-                "alias": "\"Log-in\"",
+                "alias": "\"Login\"",
                 "parameters": [
                   {
                     "name": "time_ms",
@@ -9722,13 +9667,13 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Signup"
+              "options": "Sign-up"
             },
             "properties": [
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "blue",
+                  "fixedColor": "dark-blue",
                   "mode": "fixed"
                 }
               }
@@ -9737,13 +9682,13 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Log-in"
+              "options": "Login"
             },
             "properties": [
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "purple",
+                  "fixedColor": "super-light-purple",
                   "mode": "fixed"
                 }
               }
@@ -9755,7 +9700,7 @@
         "h": 9,
         "w": 12,
         "x": 5,
-        "y": 439
+        "y": 458
       },
       "id": 84,
       "options": {
@@ -9789,12 +9734,12 @@
           "format": "table",
           "hide": false,
           "rawQuery": true,
-          "rawSql": "SELECT time_ms AS \"Signup\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'IP Address Filtering' AND action = 'signup') ",
+          "rawSql": "SELECT time_ms AS \"Sign-up\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'IP Address Filtering' AND action = 'signup') ",
           "refId": "A",
           "sql": {
             "columns": [
               {
-                "alias": "\"Signup\"",
+                "alias": "\"Sign-up\"",
                 "parameters": [
                   {
                     "name": "time_ms",
@@ -9880,12 +9825,12 @@
           "editorMode": "builder",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT time_ms AS \"Log-in\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'IP Address Filtering' AND action = 'login') ",
+          "rawSql": "SELECT time_ms AS \"Login\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'IP Address Filtering' AND action = 'login') ",
           "refId": "B",
           "sql": {
             "columns": [
               {
-                "alias": "\"Log-in\"",
+                "alias": "\"Login\"",
                 "parameters": [
                   {
                     "name": "time_ms",
@@ -10010,13 +9955,13 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Signup"
+              "options": "Sign-up"
             },
             "properties": [
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "blue",
+                  "fixedColor": "dark-blue",
                   "mode": "fixed"
                 }
               }
@@ -10025,13 +9970,13 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Log-in"
+              "options": "Login"
             },
             "properties": [
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "purple",
+                  "fixedColor": "super-light-purple",
                   "mode": "fixed"
                 }
               }
@@ -10043,7 +9988,7 @@
         "h": 9,
         "w": 12,
         "x": 5,
-        "y": 448
+        "y": 467
       },
       "id": 83,
       "options": {
@@ -10077,12 +10022,12 @@
           "format": "table",
           "hide": false,
           "rawQuery": true,
-          "rawSql": "SELECT time_ms AS \"Signup\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'Passkeys' AND action = 'signup') ",
+          "rawSql": "SELECT time_ms AS \"Sign-up\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'Passkeys' AND action = 'signup') ",
           "refId": "A",
           "sql": {
             "columns": [
               {
-                "alias": "\"Signup\"",
+                "alias": "\"Sign-up\"",
                 "parameters": [
                   {
                     "name": "time_ms",
@@ -10168,12 +10113,12 @@
           "editorMode": "builder",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT time_ms AS \"Log-in\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'Passkeys' AND action = 'login') ",
+          "rawSql": "SELECT time_ms AS \"Login\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'Passkeys' AND action = 'login') ",
           "refId": "B",
           "sql": {
             "columns": [
               {
-                "alias": "\"Log-in\"",
+                "alias": "\"Login\"",
                 "parameters": [
                   {
                     "name": "time_ms",
@@ -10298,13 +10243,13 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Signup"
+              "options": "Sign-up"
             },
             "properties": [
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "blue",
+                  "fixedColor": "dark-blue",
                   "mode": "fixed"
                 }
               }
@@ -10313,13 +10258,13 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Log-in"
+              "options": "Login"
             },
             "properties": [
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "purple",
+                  "fixedColor": "super-light-purple",
                   "mode": "fixed"
                 }
               }
@@ -10331,7 +10276,7 @@
         "h": 9,
         "w": 12,
         "x": 5,
-        "y": 457
+        "y": 476
       },
       "id": 82,
       "options": {
@@ -10365,12 +10310,12 @@
           "format": "table",
           "hide": false,
           "rawQuery": true,
-          "rawSql": "SELECT time_ms AS \"Signup\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'Password Authentication' AND action = 'signup') ",
+          "rawSql": "SELECT time_ms AS \"Sign-up\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'Password Authentication' AND action = 'signup') ",
           "refId": "A",
           "sql": {
             "columns": [
               {
-                "alias": "\"Signup\"",
+                "alias": "\"Sign-up\"",
                 "parameters": [
                   {
                     "name": "time_ms",
@@ -10456,12 +10401,12 @@
           "editorMode": "builder",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT time_ms AS \"Log-in\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'Password Authentication' AND action = 'login') ",
+          "rawSql": "SELECT time_ms AS \"Login\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'Password Authentication' AND action = 'login') ",
           "refId": "B",
           "sql": {
             "columns": [
               {
-                "alias": "\"Log-in\"",
+                "alias": "\"Login\"",
                 "parameters": [
                   {
                     "name": "time_ms",
@@ -10586,13 +10531,13 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Signup"
+              "options": "Sign-up"
             },
             "properties": [
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "blue",
+                  "fixedColor": "dark-blue",
                   "mode": "fixed"
                 }
               }
@@ -10601,13 +10546,13 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Log-in"
+              "options": "Login"
             },
             "properties": [
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "purple",
+                  "fixedColor": "super-light-purple",
                   "mode": "fixed"
                 }
               }
@@ -10619,7 +10564,7 @@
         "h": 9,
         "w": 12,
         "x": 5,
-        "y": 466
+        "y": 485
       },
       "id": 81,
       "options": {
@@ -10653,12 +10598,12 @@
           "format": "table",
           "hide": false,
           "rawQuery": true,
-          "rawSql": "SELECT time_ms AS \"Signup\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'Pin Authentication' AND action = 'signup') ",
+          "rawSql": "SELECT time_ms AS \"Sign-up\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'Pin Authentication' AND action = 'signup') ",
           "refId": "A",
           "sql": {
             "columns": [
               {
-                "alias": "\"Signup\"",
+                "alias": "\"Sign-up\"",
                 "parameters": [
                   {
                     "name": "time_ms",
@@ -10744,12 +10689,12 @@
           "editorMode": "builder",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT time_ms AS \"Log-in\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'Pin Authentication' AND action = 'login') ",
+          "rawSql": "SELECT time_ms AS \"Login\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'Pin Authentication' AND action = 'login') ",
           "refId": "B",
           "sql": {
             "columns": [
               {
-                "alias": "\"Log-in\"",
+                "alias": "\"Login\"",
                 "parameters": [
                   {
                     "name": "time_ms",
@@ -10874,13 +10819,13 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Signup"
+              "options": "Sign-up"
             },
             "properties": [
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "blue",
+                  "fixedColor": "dark-blue",
                   "mode": "fixed"
                 }
               }
@@ -10889,13 +10834,13 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Log-in"
+              "options": "Login"
             },
             "properties": [
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "purple",
+                  "fixedColor": "super-light-purple",
                   "mode": "fixed"
                 }
               }
@@ -10907,7 +10852,7 @@
         "h": 9,
         "w": 12,
         "x": 5,
-        "y": 475
+        "y": 494
       },
       "id": 80,
       "options": {
@@ -10941,12 +10886,12 @@
           "format": "table",
           "hide": false,
           "rawQuery": true,
-          "rawSql": "SELECT time_ms AS \"Signup\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'SMS Authentication' AND action = 'signup') ",
+          "rawSql": "SELECT time_ms AS \"Sign-up\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'SMS Authentication' AND action = 'signup') ",
           "refId": "A",
           "sql": {
             "columns": [
               {
-                "alias": "\"Signup\"",
+                "alias": "\"Sign-up\"",
                 "parameters": [
                   {
                     "name": "time_ms",
@@ -11032,12 +10977,12 @@
           "editorMode": "builder",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT time_ms AS \"Log-in\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'SMS Authentication' AND action = 'login') ",
+          "rawSql": "SELECT time_ms AS \"Login\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'SMS Authentication' AND action = 'login') ",
           "refId": "B",
           "sql": {
             "columns": [
               {
-                "alias": "\"Log-in\"",
+                "alias": "\"Login\"",
                 "parameters": [
                   {
                     "name": "time_ms",
@@ -11162,13 +11107,13 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Signup"
+              "options": "Sign-up"
             },
             "properties": [
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "blue",
+                  "fixedColor": "dark-blue",
                   "mode": "fixed"
                 }
               }
@@ -11177,13 +11122,13 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Log-in"
+              "options": "Login"
             },
             "properties": [
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "purple",
+                  "fixedColor": "super-light-purple",
                   "mode": "fixed"
                 }
               }
@@ -11195,7 +11140,7 @@
         "h": 9,
         "w": 12,
         "x": 5,
-        "y": 484
+        "y": 503
       },
       "id": 79,
       "options": {
@@ -11229,12 +11174,12 @@
           "format": "table",
           "hide": false,
           "rawQuery": true,
-          "rawSql": "SELECT time_ms AS \"Signup\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'SSO' AND action = 'signup') ",
+          "rawSql": "SELECT time_ms AS \"Sign-up\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'SSO' AND action = 'signup') ",
           "refId": "A",
           "sql": {
             "columns": [
               {
-                "alias": "\"Signup\"",
+                "alias": "\"Sign-up\"",
                 "parameters": [
                   {
                     "name": "time_ms",
@@ -11320,12 +11265,12 @@
           "editorMode": "builder",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT time_ms AS \"Log-in\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'SSO' AND action = 'login') ",
+          "rawSql": "SELECT time_ms AS \"Login\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'SSO' AND action = 'login') ",
           "refId": "B",
           "sql": {
             "columns": [
               {
-                "alias": "\"Log-in\"",
+                "alias": "\"Login\"",
                 "parameters": [
                   {
                     "name": "time_ms",
@@ -11450,13 +11395,13 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Signup"
+              "options": "Sign-up"
             },
             "properties": [
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "blue",
+                  "fixedColor": "dark-blue",
                   "mode": "fixed"
                 }
               }
@@ -11465,13 +11410,13 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Log-in"
+              "options": "Login"
             },
             "properties": [
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "purple",
+                  "fixedColor": "super-light-purple",
                   "mode": "fixed"
                 }
               }
@@ -11483,7 +11428,7 @@
         "h": 9,
         "w": 12,
         "x": 5,
-        "y": 493
+        "y": 512
       },
       "id": 78,
       "options": {
@@ -11517,12 +11462,12 @@
           "format": "table",
           "hide": false,
           "rawQuery": true,
-          "rawSql": "SELECT time_ms AS \"Signup\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'Security Questions' AND action = 'signup') ",
+          "rawSql": "SELECT time_ms AS \"Sign-up\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'Security Questions' AND action = 'signup') ",
           "refId": "A",
           "sql": {
             "columns": [
               {
-                "alias": "\"Signup\"",
+                "alias": "\"Sign-up\"",
                 "parameters": [
                   {
                     "name": "time_ms",
@@ -11608,12 +11553,12 @@
           "editorMode": "builder",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT time_ms AS \"Log-in\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'Security Questions' AND action = 'login') ",
+          "rawSql": "SELECT time_ms AS \"Login\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'Security Questions' AND action = 'login') ",
           "refId": "B",
           "sql": {
             "columns": [
               {
-                "alias": "\"Log-in\"",
+                "alias": "\"Login\"",
                 "parameters": [
                   {
                     "name": "time_ms",
@@ -11738,13 +11683,13 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Signup"
+              "options": "Sign-up"
             },
             "properties": [
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "blue",
+                  "fixedColor": "dark-blue",
                   "mode": "fixed"
                 }
               }
@@ -11753,13 +11698,13 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Log-in"
+              "options": "Login"
             },
             "properties": [
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "purple",
+                  "fixedColor": "super-light-purple",
                   "mode": "fixed"
                 }
               }
@@ -11771,7 +11716,7 @@
         "h": 9,
         "w": 12,
         "x": 5,
-        "y": 502
+        "y": 521
       },
       "id": 77,
       "options": {
@@ -11805,12 +11750,12 @@
           "format": "table",
           "hide": false,
           "rawQuery": true,
-          "rawSql": "SELECT time_ms AS \"Signup\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'SmartCards' AND action = 'signup') ",
+          "rawSql": "SELECT time_ms AS \"Sign-up\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'SmartCards' AND action = 'signup') ",
           "refId": "A",
           "sql": {
             "columns": [
               {
-                "alias": "\"Signup\"",
+                "alias": "\"Sign-up\"",
                 "parameters": [
                   {
                     "name": "time_ms",
@@ -11896,12 +11841,12 @@
           "editorMode": "builder",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT time_ms AS \"Log-in\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'SmartCards' AND action = 'login') ",
+          "rawSql": "SELECT time_ms AS \"Login\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'SmartCards' AND action = 'login') ",
           "refId": "B",
           "sql": {
             "columns": [
               {
-                "alias": "\"Log-in\"",
+                "alias": "\"Login\"",
                 "parameters": [
                   {
                     "name": "time_ms",
@@ -12026,13 +11971,13 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Signup"
+              "options": "Sign-up"
             },
             "properties": [
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "blue",
+                  "fixedColor": "dark-blue",
                   "mode": "fixed"
                 }
               }
@@ -12041,13 +11986,13 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Log-in"
+              "options": "Login"
             },
             "properties": [
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "purple",
+                  "fixedColor": "super-light-purple",
                   "mode": "fixed"
                 }
               }
@@ -12059,7 +12004,7 @@
         "h": 9,
         "w": 12,
         "x": 5,
-        "y": 511
+        "y": 530
       },
       "id": 76,
       "options": {
@@ -12093,12 +12038,12 @@
           "format": "table",
           "hide": false,
           "rawQuery": true,
-          "rawSql": "SELECT time_ms AS \"Signup\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'USB Keys' AND action = 'signup') ",
+          "rawSql": "SELECT time_ms AS \"Sign-up\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'USB Keys' AND action = 'signup') ",
           "refId": "A",
           "sql": {
             "columns": [
               {
-                "alias": "\"Signup\"",
+                "alias": "\"Sign-up\"",
                 "parameters": [
                   {
                     "name": "time_ms",
@@ -12184,12 +12129,12 @@
           "editorMode": "builder",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT time_ms AS \"Log-in\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'USB Keys' AND action = 'login') ",
+          "rawSql": "SELECT time_ms AS \"Login\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'USB Keys' AND action = 'login') ",
           "refId": "B",
           "sql": {
             "columns": [
               {
-                "alias": "\"Log-in\"",
+                "alias": "\"Login\"",
                 "parameters": [
                   {
                     "name": "time_ms",
@@ -12314,13 +12259,13 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Signup"
+              "options": "Sign-up"
             },
             "properties": [
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "blue",
+                  "fixedColor": "dark-blue",
                   "mode": "fixed"
                 }
               }
@@ -12329,13 +12274,13 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Log-in"
+              "options": "Login"
             },
             "properties": [
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "purple",
+                  "fixedColor": "super-light-purple",
                   "mode": "fixed"
                 }
               }
@@ -12347,7 +12292,7 @@
         "h": 9,
         "w": 12,
         "x": 5,
-        "y": 520
+        "y": 539
       },
       "id": 75,
       "options": {
@@ -12381,12 +12326,12 @@
           "format": "table",
           "hide": false,
           "rawQuery": true,
-          "rawSql": "SELECT time_ms AS \"Signup\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'Voice Auth' AND action = 'signup') ",
+          "rawSql": "SELECT time_ms AS \"Sign-up\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'Voice Auth' AND action = 'signup') ",
           "refId": "A",
           "sql": {
             "columns": [
               {
-                "alias": "\"Signup\"",
+                "alias": "\"Sign-up\"",
                 "parameters": [
                   {
                     "name": "time_ms",
@@ -12472,12 +12417,12 @@
           "editorMode": "builder",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT time_ms AS \"Log-in\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'Voice Auth' AND action = 'login') ",
+          "rawSql": "SELECT time_ms AS \"Login\", auth_method_name FROM measurement_insights WHERE (auth_method_name = 'Voice Auth' AND action = 'login') ",
           "refId": "B",
           "sql": {
             "columns": [
               {
-                "alias": "\"Log-in\"",
+                "alias": "\"Login\"",
                 "parameters": [
                   {
                     "name": "time_ms",
@@ -12573,8 +12518,8 @@
     "hidden": false
   },
   "timezone": "browser",
-  "title": "authenticate.hasenhuettl.cc",
-  "uid": "adxklqh6257nkc",
-  "version": 67,
+  "title": "Authentication Methods - Result Evaluation",
+  "uid": "fe80ud3hqm800c",
+  "version": 106,
   "weekStart": ""
 }
